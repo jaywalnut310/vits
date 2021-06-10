@@ -54,5 +54,3 @@ python train_ms.py -c configs/vctk_base.json -m vctk_base
 
 ## Inference Example
 See [inference.ipynb](inference.ipynb)
-
-We provide [pretrained models](https://drive.google.com/drive/folders/1zdc4V0Cxt8DjqVOP5WyNBlz7TiYAdQj8?usp=sharing).
