@@ -1,6 +1,6 @@
 # VITS: Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech
 
-### Jaehyeon Kim, Jungil Kong, and Jehee Son
+### Jaehyeon Kim, Jungil Kong, and Juhee Son
 
 In our recent paper, we propose VITS: Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech.
 
