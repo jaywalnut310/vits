@@ -29,8 +29,8 @@ full = current + "/monotonic_align"
 print(full)
 os.chdir(full)
 print(os.getcwd())
-run_cmd("sudo python setup.py build_ext --inplace")
-run_cmd("sudo apt-get install espeak -y")
+run_cmd("python3 setup.py build_ext --inplace")
+run_cmd("apt-get install espeak -y")
 os.chdir("..")
 print(os.getcwd())
 
