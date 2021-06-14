@@ -22,9 +22,12 @@ def run_cmd(command):
     except KeyboardInterrupt:
         print("Process interrupted")
         sys.exit(1)
-        
-
-os.chdir("./monotonic_align")
+  
+current = os.getcwd()
+print(current)
+full = current + "/monotonic_align"
+print(full)
+os.chdir(full)
 run_cmd("sudo python setup.py build_ext --inplace")
 run_cmd("sudo apt-get install espeak -y")
 os.chdir("..")
