@@ -77,7 +77,7 @@ def inference(text):
         return "./out.wav"
 
 
-inputs = gr.inputs.Textbox(label="Input Text")
+inputs = gr.inputs.Textbox(lines=5, label="Input Text")
 outputs =  gr.outputs.File(label="Output Audio")
 
 
