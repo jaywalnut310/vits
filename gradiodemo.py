@@ -21,6 +21,25 @@ import scipy.io.wavfile
 import numpy as np
 import torchtext
 
+import sys
+from subprocess import call
+
+def run_cmd(command):
+    try:
+        print(command)
+        call(command, shell=True)
+    except KeyboardInterrupt:
+        print("Process interrupted")
+        sys.exit(1)
+        
+
+
+run_cmd("cd monotonic_align")
+run_cmd("sudo python setup.py build_ext --inplace")
+run_cmd("sudo apt-get install espeak -y")
+run_cmd("cd ..")
+
+
 torchtext.utils.download_from_url("https://drive.google.com/uc?id=1q86w74Ygw2hNzYP9cWkeClGT5X25PvBT", root=".")
 
 
