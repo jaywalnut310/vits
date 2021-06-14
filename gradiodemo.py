@@ -28,9 +28,11 @@ print(current)
 full = current + "/monotonic_align"
 print(full)
 os.chdir(full)
+print(os.getcwd())
 run_cmd("sudo python setup.py build_ext --inplace")
 run_cmd("sudo apt-get install espeak -y")
 os.chdir("..")
+print(os.getcwd())
 
 from models import SynthesizerTrn
 from text.symbols import symbols
