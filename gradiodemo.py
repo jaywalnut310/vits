@@ -82,7 +82,12 @@ outputs =  gr.outputs.File(label="Output Audio")
 
 
 title = "VITS"
-description = "demo for VITS: Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech. To use it, simply upload your text, or click one of the examples to load them. Read more at the links below."
+description = "demo for VITS: Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech. To use it, simply add your text, or click one of the examples to load them. Read more at the links below."
 article = "<p style='text-align: center'><a href='https://arxiv.org/abs/2106.06103'>Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech</a> | <a href='https://github.com/jaywalnut310/vits'>Github Repo</a></p>"
 
-gr.Interface(inference, inputs, outputs, title=title, description=description, article=article).launch(debug=True)
+examples = [
+ ["We propose VITS, Conditional Variational Autoencoder with Adversarial Learning for End-to-End Text-to-Speech."],
+ ["Our method adopts variational inference augmented with normalizing flows and an adversarial training process, which improves the expressive power of generative modeling."]   
+]
+
+gr.Interface(inference, inputs, outputs, title=title, description=description, article=article, examples=examples).launch()
