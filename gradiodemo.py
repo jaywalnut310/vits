@@ -11,15 +11,6 @@ from torch.utils.data import DataLoader
 import commons
 import utils
 from data_utils import TextAudioLoader, TextAudioCollate, TextAudioSpeakerLoader, TextAudioSpeakerCollate
-from models import SynthesizerTrn
-from text.symbols import symbols
-from text import text_to_sequence
-
-from scipy.io.wavfile import write
-import gradio as gr
-import scipy.io.wavfile
-import numpy as np
-import torchtext
 
 import sys
 from subprocess import call
@@ -36,7 +27,19 @@ def run_cmd(command):
 os.chdir("./monotonic_align")
 run_cmd("sudo python setup.py build_ext --inplace")
 run_cmd("sudo apt-get install espeak -y")
-os.chdir("../vits")
+os.chdir("..")
+
+from models import SynthesizerTrn
+from text.symbols import symbols
+from text import text_to_sequence
+
+from scipy.io.wavfile import write
+import gradio as gr
+import scipy.io.wavfile
+import numpy as np
+import torchtext
+
+
 
 
 
