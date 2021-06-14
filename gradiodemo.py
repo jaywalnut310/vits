@@ -19,6 +19,9 @@ from scipy.io.wavfile import write
 import gradio as gr
 import scipy.io.wavfile
 import numpy as np
+import torchtext
+
+torchtext.utils.download_from_url("https://drive.google.com/uc?id=1RILKwUdjjBBngB17JHwhZNBEaW4Mr-Ml", root=".")
 
 
 def get_text(text, hps):
