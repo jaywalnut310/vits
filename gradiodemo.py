@@ -33,11 +33,12 @@ def run_cmd(command):
         sys.exit(1)
         
 
-
+os.chdir("./monotonic_align")
 run_cmd("cd monotonic_align")
 run_cmd("sudo python setup.py build_ext --inplace")
 run_cmd("sudo apt-get install espeak -y")
-run_cmd("cd ..")
+os.chdir("../vits")
+
 
 
 torchtext.utils.download_from_url("https://drive.google.com/uc?id=1q86w74Ygw2hNzYP9cWkeClGT5X25PvBT", root=".")
