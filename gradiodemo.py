@@ -21,7 +21,7 @@ import scipy.io.wavfile
 import numpy as np
 import torchtext
 
-torchtext.utils.download_from_url("https://drive.google.com/uc?id=1RILKwUdjjBBngB17JHwhZNBEaW4Mr-Ml", root=".")
+torchtext.utils.download_from_url("https://drive.google.com/uc?id=1q86w74Ygw2hNzYP9cWkeClGT5X25PvBT", root=".")
 
 
 def get_text(text, hps):
