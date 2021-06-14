@@ -34,7 +34,6 @@ def run_cmd(command):
         
 
 os.chdir("./monotonic_align")
-run_cmd("cd monotonic_align")
 run_cmd("sudo python setup.py build_ext --inplace")
 run_cmd("sudo apt-get install espeak -y")
 os.chdir("../vits")
