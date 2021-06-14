@@ -10,6 +10,8 @@ Visit our [demo](https://jaywalnut310.github.io/vits-demo/index.html) for audio 
 
 We also provide the [pretrained models](https://drive.google.com/drive/folders/1ksarh-cJf3F5eKJjLVWY0X1j1qsQqiS2?usp=sharing).
 
+** Update note: [Gradio Web Demo](https://gradio.app/hub/AK391/vits)
+
 ** Update note: Thanks to [Rishikesh (ऋषिकेश)](https://github.com/jaywalnut310/vits/issues/1), our interactive TTS demo is now available on [Colab Notebook](https://colab.research.google.com/drive/1CO61pZizDj7en71NQG_aqqKdGaA_SaBf?usp=sharing).
 
 <table style="width:100%">
