@@ -3,7 +3,7 @@ from dataclasses import replace
 from phonemizer import phonemize
 
 from dataset.core import SampleEntry
-from dataset.logger import get_logger
+from logger import get_logger
 
 logger = get_logger(__name__)
 

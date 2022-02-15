@@ -4,18 +4,16 @@ import json
 import logging
 import os
 import subprocess
-import sys
 
 import numpy as np
 import torch
 from scipy.io.wavfile import read
-from dataset.logger import get_logger
+
+from logger import get_logger
 
 MATPLOTLIB_FLAG = False
 
 logger = get_logger(__name__)
-# logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-# logger = logging
 
 
 def load_checkpoint(checkpoint_path, model, optimizer=None):
@@ -148,7 +146,9 @@ def get_hparams(init=True):
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--config', type=str, default="./configs/base.json",
                         help='JSON file for configuration')
-    parser.add_argument('--model-dir', type=str, default=None)
+    parser.add_argument('--model-dir', type=str, required=False)
+    parser.add_argument('--checkpoint-d', type=str, required=False)
+    parser.add_argument('--checkpoint-g', type=str, required=False)
     parser.add_argument('-m', '--model', type=str, required=True,
                         help='Model name')
     args = parser.parse_args()
@@ -157,6 +157,11 @@ def get_hparams(init=True):
 
     if not os.path.exists(model_dir):
         os.makedirs(model_dir)
+
+    checkpoint_d = latest_checkpoint_path(model_dir, "D_*.pth") if not args.checkpoint_d else os.path.join(model_dir,
+                                                                                                           args.checkpoint_d)
+    checkpoint_g = latest_checkpoint_path(model_dir, "G_*.pth") if not args.checkpoint_d else os.path.join(model_dir,
+                                                                                                           args.checkpoint_g)
 
     config_path = args.config
     config_save_path = os.path.join(model_dir, "config.json")
@@ -172,6 +177,8 @@ def get_hparams(init=True):
 
     hparams = HParams(**config)
     hparams.model_dir = model_dir
+    hparams.checkpoint_d = checkpoint_d
+    hparams.checkpoint_g = checkpoint_g
     return hparams
 
 
@@ -215,19 +222,19 @@ def check_git_hash(model_dir):
         open(path, "w").write(cur_hash)
 
 
-def get_logger(model_dir, filename="train.log"):
-    # global logger
-    logger = logging.getLogger(os.path.basename(model_dir))
-    logger.setLevel(logging.DEBUG)
-
-    formatter = logging.Formatter("%(asctime)s\t%(name)s\t%(levelname)s\t%(message)s")
-    if not os.path.exists(model_dir):
-        os.makedirs(model_dir)
-    h = logging.FileHandler(os.path.join(model_dir, filename))
-    h.setLevel(logging.DEBUG)
-    h.setFormatter(formatter)
-    logger.addHandler(h)
-    return logger
+# def get_logger(model_dir, filename="train.log"):
+#     # global logger
+#     logger = logging.getLogger(os.path.basename(model_dir))
+#     logger.setLevel(logging.DEBUG)
+#
+#     formatter = logging.Formatter("%(asctime)s\t%(name)s\t%(levelname)s\t%(message)s")
+#     if not os.path.exists(model_dir):
+#         os.makedirs(model_dir)
+#     h = logging.FileHandler(os.path.join(model_dir, filename))
+#     h.setLevel(logging.DEBUG)
+#     h.setFormatter(formatter)
+#     logger.addHandler(h)
+#     return logger
 
 
 class HParams():

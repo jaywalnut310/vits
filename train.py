@@ -17,6 +17,7 @@ from data_utils import (
     TextAudioCollate,
     DistributedBucketSampler
 )
+from logger import get_logger
 from losses import (
     generator_loss,
     discriminator_loss,
@@ -28,12 +29,11 @@ from models import (
     SynthesizerTrn,
     MultiPeriodDiscriminator,
 )
-from text.symbols import symbols
 from text.symbols import stressed_symbols
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
-
+logger = get_logger(__name__)
 
 def main():
     """Assume Single Node Multi GPUs Training Only"""
@@ -50,7 +50,6 @@ def main():
 def run(rank, n_gpus, hps):
     global global_step
     if rank == 0:
-        logger = utils.get_logger(hps.model_dir)
         logger.info(hps)
         utils.check_git_hash(hps.model_dir)
         writer = SummaryWriter(log_dir=hps.model_dir)
@@ -98,14 +97,8 @@ def run(rank, n_gpus, hps):
     net_d = DDP(net_d, device_ids=[rank])
 
     try:
-        # _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "G_*.pth"), net_g,
-        #                                            optim_g)
-        # _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "D_*.pth"), net_d,
-        #                                            optim_d)
-        _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "G_*.pth"), net_g,
-                                                   optim_g)
-        _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "D_*.pth"), net_d,
-                                                   optim_d)
+        _, _, _, epoch_str = utils.load_checkpoint(hps.checkpoint_g, net_g, optim_g)
+        _, _, _, epoch_str = utils.load_checkpoint(hps.checkpoint_d, net_d, optim_d)
         global_step = (epoch_str - 1) * len(train_loader)
     except:
         epoch_str = 1

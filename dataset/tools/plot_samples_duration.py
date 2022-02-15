@@ -1,22 +1,14 @@
-import json
 import os
-import re
-import string
-import zipfile
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, List
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from unidecode import unidecode
 
-from dataset.logger import get_logger
+from logger import get_logger
 from dataset.read import read_zip_entries
 
 logger = get_logger(__name__)
-
 
 if __name__ == '__main__':
     input_zipped_dataset_dir = "/media/arnas/SSD Disk/inovoice/zipped/nijole_lipeikaite_voice_zips"

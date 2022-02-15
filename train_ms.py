@@ -17,6 +17,7 @@ from data_utils import (
     TextAudioSpeakerCollate,
     DistributedBucketSampler
 )
+from logger import get_logger
 from losses import (
     generator_loss,
     discriminator_loss,
@@ -32,7 +33,7 @@ from text.symbols import symbols
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
-
+logger = get_logger(__name__)
 
 def main():
     """Assume Single Node Multi GPUs Training Only"""
@@ -49,7 +50,6 @@ def main():
 def run(rank, n_gpus, hps):
     global global_step
     if rank == 0:
-        logger = utils.get_logger(hps.model_dir)
         logger.info(hps)
         utils.check_git_hash(hps.model_dir)
         writer = SummaryWriter(log_dir=hps.model_dir)

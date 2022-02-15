@@ -6,7 +6,7 @@ from pydub import AudioSegment
 
 from dataset.batch import index_entries
 from dataset.core import SampleEntry
-from dataset.logger import get_logger
+from logger import get_logger
 from dataset.phonemizer import phonemize_entry
 from dataset.pipeline import does_not_have_numbers, waveform_not_longer_than, waveform_not_shorter_than
 from dataset.read import read_dataset
