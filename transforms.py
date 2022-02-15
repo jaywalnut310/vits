@@ -1,25 +1,22 @@
+import numpy as np
 import torch
 from torch.nn import functional as F
-
-import numpy as np
-
 
 DEFAULT_MIN_BIN_WIDTH = 1e-3
 DEFAULT_MIN_BIN_HEIGHT = 1e-3
 DEFAULT_MIN_DERIVATIVE = 1e-3
 
 
-def piecewise_rational_quadratic_transform(inputs, 
+def piecewise_rational_quadratic_transform(inputs,
                                            unnormalized_widths,
                                            unnormalized_heights,
                                            unnormalized_derivatives,
                                            inverse=False,
-                                           tails=None, 
+                                           tails=None,
                                            tail_bound=1.,
                                            min_bin_width=DEFAULT_MIN_BIN_WIDTH,
                                            min_bin_height=DEFAULT_MIN_BIN_HEIGHT,
                                            min_derivative=DEFAULT_MIN_DERIVATIVE):
-
     if tails is None:
         spline_fn = rational_quadratic_spline
         spline_kwargs = {}
@@ -31,15 +28,15 @@ def piecewise_rational_quadratic_transform(inputs,
         }
 
     outputs, logabsdet = spline_fn(
-            inputs=inputs,
-            unnormalized_widths=unnormalized_widths,
-            unnormalized_heights=unnormalized_heights,
-            unnormalized_derivatives=unnormalized_derivatives,
-            inverse=inverse,
-            min_bin_width=min_bin_width,
-            min_bin_height=min_bin_height,
-            min_derivative=min_derivative,
-            **spline_kwargs
+        inputs=inputs,
+        unnormalized_widths=unnormalized_widths,
+        unnormalized_heights=unnormalized_heights,
+        unnormalized_derivatives=unnormalized_derivatives,
+        inverse=inverse,
+        min_bin_width=min_bin_width,
+        min_bin_height=min_bin_height,
+        min_derivative=min_derivative,
+        **spline_kwargs
     )
     return outputs, logabsdet
 
@@ -92,6 +89,7 @@ def unconstrained_rational_quadratic_spline(inputs,
     )
 
     return outputs, logabsdet
+
 
 def rational_quadratic_spline(inputs,
                               unnormalized_widths,

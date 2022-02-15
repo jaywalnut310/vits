@@ -8,3 +8,7 @@ tensorboard==2.3.0
 torch==1.6.0
 torchvision==0.7.0
 Unidecode==1.1.1
+
+pandas~=1.3.3
+seaborn~=0.11.2
+pydub~=0.25.1
