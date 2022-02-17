@@ -97,12 +97,15 @@ def run(rank, n_gpus, hps):
     net_d = DDP(net_d, device_ids=[rank])
 
     try:
-        _, _, _, epoch_str = utils.load_checkpoint(hps.checkpoint_g, net_g, optim_g)
-        _, _, _, epoch_str = utils.load_checkpoint(hps.checkpoint_d, net_d, optim_d)
+        net_g, optim_g, learning_rate, epoch_str = utils.load_checkpoint(hps.checkpoint_g, net_g, optim_g)
+        net_d, optim_d, learning_rate, epoch_str = utils.load_checkpoint(hps.checkpoint_d, net_d, optim_d)
         global_step = (epoch_str - 1) * len(train_loader)
-    except:
+    except Exception as e:
+        logger.info(f"Exception occurred: {e}")
         epoch_str = 1
         global_step = 0
+
+    logger.info(f"Starting at global step {global_step}")
 
     scheduler_g = torch.optim.lr_scheduler.ExponentialLR(optim_g, gamma=hps.train.lr_decay, last_epoch=epoch_str - 2)
     scheduler_d = torch.optim.lr_scheduler.ExponentialLR(optim_d, gamma=hps.train.lr_decay, last_epoch=epoch_str - 2)

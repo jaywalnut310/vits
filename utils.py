@@ -18,6 +18,7 @@ logger = get_logger(__name__)
 
 def load_checkpoint(checkpoint_path, model, optimizer=None):
     assert os.path.isfile(checkpoint_path)
+    logger.info(f"Loading checkpoint at {checkpoint_path}")
     checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
     iteration = checkpoint_dict['iteration']
     learning_rate = checkpoint_dict['learning_rate']
