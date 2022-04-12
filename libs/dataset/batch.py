@@ -1,4 +1,4 @@
-from dataset.core import SampleEntry
+from libs.dataset.core import SampleEntry
 
 
 def index_entries(starting_idx: int = 0):

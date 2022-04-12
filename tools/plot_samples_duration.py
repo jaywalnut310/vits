@@ -6,7 +6,7 @@ import pandas as pd
 import seaborn as sns
 
 from logger import get_logger
-from dataset.read import read_zip_entries
+from libs.dataset.read import read_zip_entries
 
 logger = get_logger(__name__)
 

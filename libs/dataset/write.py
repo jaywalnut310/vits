@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from dataset.core import SampleEntry
+from libs.dataset.core import SampleEntry
 from logger import get_logger
 
 logger = get_logger(__name__)

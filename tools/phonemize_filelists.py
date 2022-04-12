@@ -8,13 +8,13 @@ logger = get_logger(__name__)
 
 
 def phonemize_dataset(dataset):
-    cleaned_dataset = []
+    phonemized_dataset = []
     dataset_len = len(dataset)
     for idx, (filepath, text) in enumerate(dataset):
         print(f"Phonemizing utterance {idx}/{dataset_len}: {text.strip()}")
         phonemized_text = phonemize(text, language='lt', backend='espeak', strip=True)
-        cleaned_dataset.append('|'.join([filepath, phonemized_text]))
-    return cleaned_dataset
+        phonemized_dataset.append('|'.join([filepath, phonemized_text]))
+    return phonemized_dataset
 
 
 if __name__ == '__main__':
@@ -31,7 +31,7 @@ if __name__ == '__main__':
         dataset = [tuple(example_line.split('|')) for example_line in
                    open(str(Path(input_dir) / filename), mode='r').readlines()]
 
-        output_filename = f"{filename.split('.')[0]}_cleaned.txt"
+        output_filename = f"{filename.split('.')[0]}_phonemized.txt"
         print(f"Writing dataset to {output_filename}")
-        cleaned_dataset = phonemize_dataset(dataset)
-        open(Path(input_dir) / output_filename, mode='w').write('\n'.join(cleaned_dataset))
+        phonemized_dataset = phonemize_dataset(dataset)
+        open(Path(input_dir) / output_filename, mode='w').write('\n'.join(phonemized_dataset))

@@ -3,7 +3,7 @@ import os
 import zipfile
 from pathlib import Path
 
-from dataset.core import AudioRecordMetadata, SampleEntry
+from libs.dataset.core import AudioRecordMetadata, SampleEntry
 from logger import get_logger
 
 logger = get_logger(__name__)
@@ -51,3 +51,5 @@ def read_zip_entries(filepath: Path, output_dir, zipfile_idx: int):
                                                              output_dataset_dir=output_dir,
                                                              zipfile_idx=zipfile_idx, audio_idx=audio_idx))
     return samples
+
+
