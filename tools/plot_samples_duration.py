@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from logger import get_logger
-from libs.dataset.read import read_zip_entries
+from src.logger import get_logger
+from src.zipper.read import read_zip_entries
 
 logger = get_logger(__name__)
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
             examples += read_zip_entries(Path(root) / file, output_dir, file_idx)
             file_idx += 1
 
-    logger.info("Writing dataset files...")
+    logger.info("Writing zipper files...")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     examples = sorted(examples, key=lambda example: example.duration, reverse=True)
     examples_df = pd.DataFrame([example.duration for example in examples], columns=['duration'])

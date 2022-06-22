@@ -1,10 +1,11 @@
 from pathlib import Path
 
-from libs.file import read_txt
-from logger import get_logger
+from src.file import read_txt
+from src.logger import get_logger
 
 if __name__ == '__main__':
-    in_filepath = Path("/media/arnas/SSD Disk/inovoice/text_data/synthesis-audiobooks/processed/Kur_vasara_amžina_processed.txt")
+    in_filepath = Path(
+        "/media/arnas/SSD Disk/inovoice/text_data/synthesis-audiobooks/processed/Kur_vasara_amžina_stressed.txt")
     out_filepath = Path(
         "/media/arnas/SSD Disk/inovoice/text_data/synthesis-audiobooks/processed/Kur vasara amžina_processed.txt")
     logger = get_logger(__name__)

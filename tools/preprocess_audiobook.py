@@ -1,14 +1,12 @@
 from pathlib import Path
 
-from libs.dataset.pipeline import replace_oov, replace_letter_to_sound, test_replace_letter_to_sound
-from libs.file import read_txt
+from src.file import read_txt
+from src.zipper.pipeline import replace_oov, replace_letter_to_sound
 
 if __name__ == '__main__':
     in_filepath = Path("/media/arnas/SSD Disk/inovoice/text_data/synthesis-audiobooks/processed/Kur vasara amžina.txt")
     out_filepath = Path(
         "/media/arnas/SSD Disk/inovoice/text_data/synthesis-audiobooks/processed/Kur vasara amžina_processed.txt")
-
-    test_replace_letter_to_sound()
 
     text = read_txt(in_filepath)
     lines = text.split('\n')
