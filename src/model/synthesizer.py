@@ -1,5 +1,6 @@
 import math
 import time
+from pathlib import Path
 from typing import List
 
 import IPython.display as ipd
@@ -8,6 +9,7 @@ from scipy.io.wavfile import write
 from torch import nn
 
 import monotonic_align
+from hparams import get_hparams_from_file
 from src.core import SynthesizedUtterance
 from src.logger import get_logger
 from src.model import commons
@@ -21,6 +23,7 @@ from src.text.convert import preprocess_text
 from src.text.symbols import stressed_symbols
 
 logger = get_logger(__name__)
+
 
 class SynthesizerTrn(nn.Module):
     """
@@ -225,7 +228,7 @@ class Synthesizer:
         for text in text_list:
             self.synthesize(text, verbose, show_player, plot_align, output_dir)
         logger.info(f"Synthesized {len(text_list)} utterances.")
-    
+
     def __setup_synthesis_model(self, hps, path):
         net_g = SynthesizerTrn(
             len(stressed_symbols),
@@ -235,3 +238,20 @@ class Synthesizer:
         net_g.eval()
         net_g, _, _, _ = load_checkpoint(hps.train, path, net_g)
         return net_g
+
+
+class InferenceConfig:
+    synthesizer: Synthesizer
+    stressed: bool
+    output_dir: Path = None
+
+    def __init__(self, config_name, checkpoint_step: int, speaker: str, stressed: bool):
+        self.stressed = stressed
+        self.checkpoint_path = Path(
+            f"/media/arnas/SSD Disk/inovoice/models/text-to-speech/vits/{speaker}/G_{checkpoint_step}.pth")
+        self.output_dir = Path(
+            f"/home/arnas/Desktop/tdi/bitbucket/vits/files/audio/samples/{speaker}/{checkpoint_step}")
+        Path(self.output_dir).mkdir(parents=True, exist_ok=True)
+
+        hps = get_hparams_from_file(f"/home/arnas/Desktop/tdi/bitbucket/vits/files/configs/{config_name}.json")
+        self.synthesizer = Synthesizer(hps, self.checkpoint_path)

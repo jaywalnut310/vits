@@ -13,6 +13,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 
 from src.file import read_txt
+from src.text.cleaners import collapse_whitespace
 from src.zipper.core import oov_replacement_vocabulary
 
 
@@ -31,8 +32,8 @@ def replace_oov_symbols(entry: Entry):
             for symbol, replacement in oov_replacement_vocabulary.items()]
 
 
-def collapse_whitespace(entry):
-    return replace(entry, text=re.sub(r"[ ]{2,}", ' ', entry.text))
+# def collapse_whitespace(entry):
+#     return replace(entry, text=re.sub(r"[ ]{2,}", ' ', entry.text))
 
 
 def collapse_newlines(entry: Entry):
@@ -49,7 +50,7 @@ if __name__ == '__main__':
     entries = map(line_to_entry, lines)
     entries = map(replace_oov_symbols, entries)
     entries = itertools.chain.from_iterable(entries)
-    entries = map(collapse_whitespace, entries)
+    entries = map(collapse_whitespace, entries) # did not test with the cleaners' version of collapse_whitespace method
     entries = map(collapse_newlines, entries)
 
     contents = '\n'.join([f"{entry.filepath}|{entry.text}" for entry in entries])
