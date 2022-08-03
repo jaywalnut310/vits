@@ -108,7 +108,7 @@ def english_cleaners2(text):
   return phonemes
 
 
-def japanese_accent_cleaners(text):
+def japanese_cleaners(text):
   '''Pipeline for notating accent in Japanese text.'''
   '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
   sentences = re.split(_japanese_marks, text)
