@@ -342,4 +342,6 @@ def korean_cleaners(text):
   text = number_to_hangul(text)
   text = j2hcj(h2j(text))
   text = divide_hangul(text)
+  if re.match('[\u3131-\u3163]',text[-1]):
+    text += '.'
   return text
