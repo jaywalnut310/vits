@@ -1,287 +1,89 @@
-dataset/ayachi_nene/nen001_001.wav|0|はい？呼びました？
-dataset/ayachi_nene/nen002_020.wav|0|わかりました。ありがとうございます
-dataset/ayachi_nene/nen003_002.wav|0|保科君を待っていたんです。一緒に来て欲しいところがありまして
-dataset/ayachi_nene/nen005_023.wav|0|いいですか、過剰な気遣いは止めて下さい
-dataset/ayachi_nene/nen005_092.wav|0|と言いますか、その……あんまり見ないで下さい。本当に恥ずかしいんですから……
-dataset/ayachi_nene/nen006_049.wav|0|大きな声を出したら……また、波が……んんっ、くぅぅぅ
-dataset/inaba_meguru/meg007_029.wav|1|実は自分、モン猟が好きなんですよ。結構やり込んでるんですよ
-dataset/inaba_meguru/meg008_023.wav|1|くっつくのは好きな相手だけですってば。それとも……寧々先輩は、嫌ですか？
-dataset/inaba_meguru/meg008_087.wav|1|なんか意地になってきた！こうなったら絶対に行く！寧々先輩ともっと仲良くなるもんっ！
-dataset/inaba_meguru/meg009_051.wav|1|いや、不愉快ってわけじゃないので謝らないで下さい。その、手を握られただけで……変なことされたわけじゃないですから
-dataset/ayachi_nene/nen009_079.wav|0|外食をあまりしたことがないので、なんだかドキドキしますね
-dataset/ayachi_nene/nen010_043.wav|0|だから、見ないで下さいって、言ったのに……ありえないありえないありえないありえないありえないありえないありえないありえないありえないありえない
-dataset/inaba_meguru/meg010_043.wav|1|はい！
-dataset/ayachi_nene/nen011_044.wav|0|では戸隠先輩の相談は、越路さんを説得すること、でいいんですか？
-dataset/ayachi_nene/nen013_023.wav|0|え？あっ、ひあぁっ
-dataset/ayachi_nene/nen015_050.wav|0|まあ……そうですね。よほどの特殊な事情でもないと、見ず知らずの土地に引っ越すことは、欠片集めにとってデメリットでしかありませんからね
-dataset/ayachi_nene/nen016_040.wav|0|はい。一緒にパーティーに出席できるよう、頑張りましょう
-dataset/ayachi_nene/nen017_040.wav|0|だ、大丈夫ですっ
-dataset/ayachi_nene/nen018_027.wav|0|バンドの練習ですよね？
-dataset/ayachi_nene/nen019_032.wav|0|私、楽器については詳しくありませんが……それが無茶だということはわかります
-dataset/ayachi_nene/nen020_152.wav|0|そうなのです
-dataset/ayachi_nene/nen101_070.wav|0|でも……もし迷惑だと思ったときは、正直に言って下さい。我慢はしなくていいですから
-dataset/ayachi_nene/nen102_036.wav|0|一日休むぐらいで大げさですよ。ちゃんと連絡もしていたんですから
-dataset/inaba_meguru/meg102_006.wav|1|あ、自分が知ってるので任せて下さい
-dataset/inaba_meguru/meg103_029.wav|1|さすが寧々先輩、とっても素敵な答えです
-dataset/ayachi_nene/nen103_147.wav|0|……はい？
-dataset/ayachi_nene/nen103_246.wav|0|私、いやらしい、いつもよりもいやらしくなってる……はぁ、はぁ、はぁひっ、ひっ、ひっ、ぃぃぃぃぃぃぃっ
-dataset/ayachi_nene/nen104_064.wav|0|それに……喜んでもらえて、嬉しい……です
-dataset/inaba_meguru/meg104_037.wav|1|え？それは、別に悪い意味ではなくて……
-dataset/ayachi_nene/nen104_220.wav|0|それは…………………よ、よかった、です。また、したいです
-dataset/ayachi_nene/nen104_320.wav|0|ひっ、くぅぅ……んぁっ、んっ……んぅぅぅっ
-dataset/ayachi_nene/nen105_028.wav|0|いいんですか？保科君に遠回りさせてしまいますし……地元だと、久島先生みたいに目撃されるかもしれませんよ？
-dataset/ayachi_nene/nen105_128.wav|0|は、はい。よろしくお願いされました
-dataset/inaba_meguru/meg106_003.wav|1|そんな脅すようなこと言わないで下さいよ
-dataset/ayachi_nene/nen106_106.wav|0|やっぱり恥ずかしいです、こんなに口を大きく開けるなんて、ちょっと下品で。こんなの今までにしたこと――
-dataset/ayachi_nene/nen107_030.wav|0|そんなの、忘れることなんてできませんよ
-dataset/ayachi_nene/nen108_060.wav|0|これなら、制服は汚れたり、しませんよね？
-dataset/ayachi_nene/nen108_160.wav|0|………………
-dataset/inaba_meguru/meg109_003.wav|1|え？あ、そうですね……多分あったと思いますけど……
-dataset/ayachi_nene/nen111_017.wav|0|私たちが入学する前から存在していた部なんですよ？でも、今の部員は私だけですが
-dataset/ayachi_nene/nen111_117.wav|0|ようやく出会ったのに私に気付いてくれませんしっ、避けるようになりますしっ、果てはヘンタイを見るような目で見つめてきますしっ
-dataset/ayachi_nene/nen112_060.wav|0|え？でも、それじゃあ……クラスで反感を買っちゃうんですよ？
-dataset/ayachi_nene/nen112_161.wav|0|こういうこと……いちいち全部言わせないで下さい。もぅ、イジワル
-dataset/ayachi_nene/nen112_262.wav|0|んっ、んんっ……ぅぅぅ、あっ、ぁぁ……はぁ、はぁ、はぁぁぁ……んんン、んッ
-dataset/ayachi_nene/nen112_362.wav|0|んっ、んっ、んぅぅぅーーー……ぅぅぷあっ、あ、あ、あ、ダメ、もっと抱いて、強くギューって……あ、あ、ダメ、私……イくッ、イきますッ
-dataset/ayachi_nene/nen113_236.wav|0|でも……でも、あっ、あああぁぁ……気持ちよくて、いいです……とってもエッチな気持ちにもなって……あっ、あっ……んんぃぃぃッ！
-dataset/ayachi_nene/nen113_003.wav|0|ここに貼っても、構いませんよね？
-dataset/ayachi_nene/nen113_056.wav|0|あっ、しゅうじ君。あっちにもほら、クマのぬいぐるみがありますよ
-dataset/ayachi_nene/nen113_143.wav|0|ど、どうしたんですか？
-dataset/ayachi_nene/nen114_057.wav|0|……ぶぅぅ……
-dataset/ayachi_nene/nen114_144.wav|0|はい……ん、れおぉぉぉ……ん、ンンッ、んーーーーーーッッ
-dataset/ayachi_nene/nen115_081.wav|0|続けて下さい……はぁ、はぁ……んっ、早く、また奥をグリグリってぇ、して下さい、はぁ、はぁ、はぁ
-dataset/ayachi_nene/nen115_181.wav|0|え？いつもって言われても……こんな風に、おち●ちんでオナニーするなんて初めてですから……んぅぅぅ、ぁっ
-dataset/ayachi_nene/nen115_271.wav|0|みなさんは……本当に、楽しいですか？
-dataset/ayachi_nene/nen117_042.wav|0|何と言われましても……おはようのフェラチオ……ですよ？コッチも、おはようございます、ってコッチは早起きでしたけどね、れろれろ
-dataset/ayachi_nene/nen117_142.wav|0|いいれすよ……れろれろ、れるんっ……ちゅっ、ちゅぅぅ……ちゅばちゅば、んんっ、このままもう１回、れろろろ
-dataset/inaba_meguru/meg201_003.wav|1|だ、だってほら、こういうのってもっと有名な人がランクインするものだと思ってたし！
-dataset/inaba_meguru/meg202_017.wav|1|じゃ、決まりですね！さっそくどっかファミレスでも入りましょう
-dataset/ayachi_nene/nen203_010.wav|0|はい、それは残念ながら
-dataset/inaba_meguru/meg203_049.wav|1|だからお願いします、センパイ！
-dataset/inaba_meguru/meg203_120.wav|1|う、そうですね……ごめんなさい
-dataset/ayachi_nene/nen203_125.wav|0|………
-dataset/inaba_meguru/meg204_078.wav|1|ほら、自分って人付き合いべったりタイプじゃないですか。しかもその頃は今よりもっとそんな感じで
-dataset/inaba_meguru/meg205_019.wav|1|センパイだけに、その……打ち明けたかったんで……
-dataset/inaba_meguru/meg205_107.wav|1|あ、でも最近はやっぱりゲームの方が多いですよ。モン猟以外にも手を出してるんで
-dataset/ayachi_nene/nen206_047.wav|0|因幡さんに話せる内容かどうかが、まだわかりませんから
-dataset/inaba_meguru/meg206_100.wav|1|今の健康は、ちーちゃんにもらったものだったんだ
-dataset/inaba_meguru/meg207_049.wav|1|～～～っ
-dataset/inaba_meguru/meg209_008.wav|1|―――っっ
-dataset/inaba_meguru/meg209_105.wav|1|み、見えてないよね？これ、ギリギリ大丈夫だよね！？見えそうで見えないくらいに出来てるよね！？
-dataset/ayachi_nene/nen210_039.wav|0|お待たせしました
-dataset/inaba_meguru/meg211_023.wav|1|～～～～
-dataset/inaba_meguru/meg212_023.wav|1|い、いきなりすぎてビックリでしたけど……
-dataset/inaba_meguru/meg212_108.wav|1|その……これからも、いいですか？
-dataset/inaba_meguru/meg213_056.wav|1|そ、そうなんですか？
-dataset/inaba_meguru/meg214_034.wav|1|だから、それもわかる気がするって……
-dataset/inaba_meguru/meg214_134.wav|1|変な感じに、なっちゃ、あっううっ、くすぐったっ、みたいな、ふうっ、む、むずむずっ、するみたいなっ……や、やだぁっ
-dataset/inaba_meguru/meg214_234.wav|1|はああぁっ……あっああっ、あふぁ、あっんっんんっ……
-dataset/inaba_meguru/meg215_054.wav|1|うれひい、ちゅぷ、しぇんぱい、うれひい、んんんぅ、だからきすしたいんれふよぅ……んん……♪
-dataset/inaba_meguru/meg215_142.wav|1|い、言えません！そんなこと言えませんってば！
-dataset/inaba_meguru/meg215_237.wav|1|顔立ちっていうより、雰囲気ですかね？
-dataset/inaba_meguru/meg216_062.wav|1|本当に、めぐるに気持ちを伝えてくれる手になってくれちゃってますよぅ……
-dataset/inaba_meguru/meg216_163.wav|1|んっ、んんっ、んふぅうっ……んぶっ、ふっ、ふーーーっ……ンふぅぅーーーーー……っ
-dataset/inaba_meguru/meg216_263.wav|1|はあぁっ……はぁ、はあぁ、せん……ぱい……またイっちゃったぁ……
-dataset/inaba_meguru/meg217_064.wav|1|……はい、センパイ
-dataset/inaba_meguru/meg217_164.wav|1|ふああ、ぁっ……
-dataset/inaba_meguru/meg217_264.wav|1|っあ！？あっあ、ああっ！せんぱっ……ああぁっ、ああああっ、あああああああぁっ……！！
-dataset/inaba_meguru/meg218_042.wav|1|へ、へへへ……
-dataset/inaba_meguru/meg219_090.wav|1|ダメなわけないですよ……ん、じゅるっ、ちゅぶぶっ……むしろ、めぐるも口に出して欲しいです……
-dataset/inaba_meguru/meg219_190.wav|1|い、衣装、ハロウィン用じゃなくて、えっち専用になっちゃうかも知れませんけどね
-dataset/ayachi_nene/nen303_020.wav|0|…………
-dataset/inaba_meguru/meg308_007.wav|1|ある意味、センパイのためにやってあげてるんですからねっ
-dataset/ayachi_nene/nen315_010.wav|0|厚真さんは親しい友人の死を受け入れ、新しい友人との関係を築こうと必死でした……
-dataset/ayachi_nene/nen402_016.wav|0|相手のことを考えると、年上の女性の方が打ち明けやすいのではないかと思いまして
-dataset/ayachi_nene/nen406_007.wav|0|でも最近、私は回収を行っていないんです
-dataset/ayachi_nene/nen410_002.wav|0|あ、そのことですか。改まって、何かと思いました
-dataset/ayachi_nene/nen507_001.wav|0|見て下さい、保科君。ちゃんと、心の欠片が返ってきましたよ
-dataset/tomotake_yoshino/yos001_005.wav|2|ムラサメ……ちゃん？
-dataset/hitachi_mako/mak002_033.wav|3|では、いきますね
-dataset/tomotake_yoshino/yos003_014.wav|2|………
-dataset/murasame/mur003_052.wav|4|そ、そうか……な、ならいいのだ
-dataset/murasame/mur003_087.wav|4|氣力を消費するというか……なんかこう、精神的に疲れるのだ
-dataset/murasame/mur004_028.wav|4|パッと見る限りでは問題はなさそうだ。他の傷と同様、まだ痕が残っているが、すぐに消えてなくなるはずだ
-dataset/murasame/mur005_021.wav|4|――よっと
-dataset/hitachi_mako/mak006_024.wav|3|そうですね……やはり美味しい物がいいんじゃないでしょうか？
-dataset/hitachi_mako/mak007_016.wav|3|それを鵜呑みにしていいものか……。有地さんも頑固なところがありますからね
-dataset/tomotake_yoshino/yos008_015.wav|2|卵焼きの砂糖だって、封印してもいいと思っていますっ
-dataset/hitachi_mako/mak009_003.wav|3|てっきりお２人がそういうプレイをなさっているものだとばっかり
-dataset/tomotake_yoshino/yos009_073.wav|2|で、では…………コホン
-dataset/tomotake_yoshino/yos010_001.wav|2|なにかお困りごとですか？
-dataset/kurama_koharu/koh010_026.wav|5|こちらは、ほうじ茶ラテとプリンになります
-dataset/tomotake_yoshino/yos010_104.wav|2|………？なんですか？
-dataset/murasame/mur010_030.wav|4|……ぐぬぅ……
-dataset/hitachi_mako/mak011_017.wav|3|頭痛？
-dataset/kurama_koharu/koh012_003.wav|5|倒れた本棚の下敷きになったって聞いたけど……
-dataset/tomotake_yoshino/yos012_040.wav|2|それに、いつも頑張ってくれているのは茉子ですから
-dataset/hitachi_mako/mak013_069.wav|3|ちゃんと無事に戻ってきてくれたんですね！よかった……よかったぁ……
-dataset/tomotake_yoshino/yos013_074.wav|2|んん……ぅぅぅーーー……
-dataset/tomotake_yoshino/yos014_048.wav|2|部屋には茉子に残ってもらいますから
-dataset/tomotake_yoshino/yos014_070.wav|2|茉子？
-dataset/tomotake_yoshino/yos100_021.wav|2|え？いや、私が含まれると言いますか、むしろ私が迷惑の中心と言いますか……
-dataset/tomotake_yoshino/yos101_007.wav|2|え！？あ、ムラサメ様っ、これは、その――
-dataset/tomotake_yoshino/yos101_069.wav|2|そのフォローに見せかけて突き落すのは止めてもらえませんか。正直、どう受け止めればいいのか……微妙です
-dataset/hitachi_mako/mak102_007.wav|3|いえ、そんなことはないはずです。味見はワタシもしているんですから
-dataset/tomotake_yoshino/yos102_105.wav|2|かといって、私の勝手で肩書きを捨てることもできません。この地に根付いていますから
-dataset/hitachi_mako/mak103_013.wav|3|ありがとうございます
-dataset/tomotake_yoshino/yos103_088.wav|2|だから私は言いました。『謝らなくていいから。お母さんの責任じゃないから。私は悲観なんてしてないから』と
-dataset/tomotake_yoshino/yos104_031.wav|2|――ハッ！？あまりに突然のことで
-dataset/tomotake_yoshino/yos104_115.wav|2|自然な流れで間接キスをするならまだしも、わざわざペットボトルの縁にキスして間接キスとか……
-dataset/tomotake_yoshino/yos105_048.wav|2|それじゃあ……とりあえず、一番上にあるものから読んでみればいいかな
-dataset/tomotake_yoshino/yos106_066.wav|2|ぁっ……何もしないんですね……
-dataset/tomotake_yoshino/yos106_166.wav|2|まだ、胸がドキドキしています
-dataset/tomotake_yoshino/yos107_050.wav|2|とにかく今は教室に戻りましょう。変な雰囲気で教室を出てしまったから、みんな不審がっていますよ、きっと
-dataset/murasame/mur107_038.wav|4|寝言は寝て言え、ご主人
-dataset/tomotake_yoshino/yos108_028.wav|2|お帰りなさい
-dataset/tomotake_yoshino/yos108_102.wav|2|……愛しています。幸せに、なりましょうね
-dataset/tomotake_yoshino/yos110_015.wav|2|はい。それじゃあ私は、先に教室に戻っていますね
-dataset/tomotake_yoshino/yos110_056.wav|2|くっ、くぱぁ……っ！？
-dataset/hitachi_mako/mak110_040.wav|3|だといいんですが……
-dataset/tomotake_yoshino/yos110_225.wav|2|ああ……本当にこんな、カエルみたいに……
-dataset/tomotake_yoshino/yos110_325.wav|2|射精、ですよね。知ってますよ……あっあっあっ、はぁぁあ！
-dataset/tomotake_yoshino/yos111_059.wav|2|してません！最初なんですから、普通のセックスだけです！
-dataset/tomotake_yoshino/yos111_129.wav|2|んっ、んんぅぅ～～……ちゅっちゅっ、んっ、んん～～……ッ
-dataset/tomotake_yoshino/yos112_064.wav|2|それとも、えっちな女の子は……嫌いですか？
-dataset/tomotake_yoshino/yos112_164.wav|2|最後には、精液まで……あんなに出されたら……
-dataset/tomotake_yoshino/yos112_264.wav|2|本当にえっちなんですから
-dataset/tomotake_yoshino/yos113_065.wav|2|……本当にそうなら、嬉しいです……ふふ
-dataset/tomotake_yoshino/yos113_165.wav|2|んんんーーー……っ、んっ、んぐぅ……！んふぅーっ！んふぅーっ！んっ、んっ、んんんん……ッッ！
-dataset/tomotake_yoshino/yos113_265.wav|2|あああっ、そこ、そこぉ！ぐりぐりぃ……あぁあぁぁあ……ぐりぐりこしゅられたら、イっちゃう、またイきますぅ
-dataset/tomotake_yoshino/yos115_013.wav|2|でも……ちょっと、思っていることがあるんです
-dataset/tomotake_yoshino/yos115_111.wav|2|きゃああっ、きゅ、急にめくらないで下さい
-dataset/tomotake_yoshino/yos115_211.wav|2|んぁあっ、あっ、ああああああぁぁぁぁぁぁぁあぁああーーーーーーー……ッッ！
-dataset/murasame/mur201_005.wav|4|実はご主人に、伝えておかねばならんことがある
-dataset/hitachi_mako/mak201_038.wav|3|とはいえ、芳乃様にあんなにお願いされては……しかも、今さら嘘だなんて言えない……ッ
-dataset/hitachi_mako/mak201_102.wav|3|ワタシが？告白ですか？そんな物好き、いるわけありませんよ
-dataset/tomotake_yoshino/yos202_023.wav|2|大体、こっちのことは気にせず、ゆっくりしてって言ってるでしょ
-dataset/hitachi_mako/mak202_124.wav|3|違いますよ、そんなことはされていません
-dataset/hitachi_mako/mak202_225.wav|3|……あっ……
-dataset/tomotake_yoshino/yos203_003.wav|2|ふふ、とっても元気で可愛らしいですね
-dataset/tomotake_yoshino/yos203_025.wav|2|常陸家に対する復讐で呪っているのなら、その目的は……
-dataset/murasame/mur204_008.wav|4|まあ、引きこもっておっては、恋ができぬのも事実だ
-dataset/hitachi_mako/mak204_084.wav|3|……はい？
-dataset/hitachi_mako/mak205_041.wav|3|お昼ももう終わる時間ですからね。もう少し前なら、お昼を食べる人もいたと思うんですが……
-dataset/hitachi_mako/mak205_141.wav|3|でしたら、どうぞ。美味しいですよ。あ～～ん
-dataset/hitachi_mako/mak205_240.wav|3|それは、見栄を張ってしまっただけですから
-dataset/murasame/mur206_001.wav|4|それで、でーとの方はどうだったのだ？
-dataset/hitachi_mako/mak206_057.wav|3|はひっ、ぁっ、ぁっ、ぁぁあっ……んんッ、んんぁー……ッ
-dataset/hitachi_mako/mak206_143.wav|3|……芳乃様、まさか……いや、でもそんなはずない……うん、ないですよね
-dataset/hitachi_mako/mak206_224.wav|3|まだワタシに取り憑いたまま……なんですね
-dataset/hitachi_mako/mak207_081.wav|3|どうかしたんですか……？突然そんなこと
-dataset/hitachi_mako/mak207_154.wav|3|あっ、ひぃんっ……、耳、ダメですよ……やっ、あぁぁっ
-dataset/hitachi_mako/mak207_254.wav|3|あっ、はぁ……はぁ……どうしましょう。そ、想像以上に、痛いです……
-dataset/murasame/mur207_025.wav|4|真面目な話と言ったであろう！茉子に憑りついておる獣の話だ！
-dataset/hitachi_mako/mak208_059.wav|3|こうして２人きりの幸せをワタシが感じれば、きっと気付いてくれるんじゃないかなって
-dataset/hitachi_mako/mak208_154.wav|3|………
-dataset/hitachi_mako/mak208_254.wav|3|はぁー……はぁー……奥で……ワタシの身体の奥で、その温もりを感じさせて下さい……
-dataset/hitachi_mako/mak208_354.wav|3|そんな風に思ってもらえたなら、なによりです
-dataset/hitachi_mako/mak209_073.wav|3|あは、冗談ですよ。身体の方はちょっぴり大変ではありましたが……愛されてると実感できて……幸せでしたから
-dataset/tomotake_yoshino/yos209_011.wav|2|きゃっ！？
-dataset/hitachi_mako/mak210_003.wav|3|はい。すみません、ワタシがワガママを言ったせいで、事態がこんなに大きくなってしまって
-dataset/hitachi_mako/mak210_087.wav|3|んふふ……可愛い……んむっ、そんな可愛い顔されると……んむ、ぢゅるるるるっ……ぢゅぷぷっ
-dataset/hitachi_mako/mak210_187.wav|3|熱くなってる、トロトロのアソコに……早く、ぁぁ、早くぅ……んんっ
-dataset/hitachi_mako/mak210_287.wav|3|それは……ワタシも同じ気持ちですが……でもまさか、あんなにいっぱい……しかも３回も
-dataset/hitachi_mako/mak211_077.wav|3|あ、あは……本当ですね。先っぽが膨らんで……まっかっか……はぁ、はぁ……ぁぁ、すごい
-dataset/hitachi_mako/mak211_177.wav|3|あっ、あっ、あっ、擦れてるっ、お腹の裏、こすれて……るっ、んんんぅぅぅぅーーーんっ！
-dataset/kurama_koharu/koh301_001.wav|5|あ、お兄ちゃん、もう食べようとしてるー
-dataset/murasame/mur301_087.wav|4|穂織にはまつりごとが多いからな、神主の出番は割とある
-dataset/tomotake_yoshino/yos302_012.wav|2|客人として、滞在してくれればいいんです
-dataset/murasame/mur302_090.wav|4|いや、吾輩を買い物に付き合わせるという発想がそもそも変だ
-dataset/tomotake_yoshino/yos303_009.wav|2|いっしょに頑張ろうね、茉子
-dataset/tomotake_yoshino/yos303_032.wav|2|有地さん、ふざけすぎですよ
-dataset/murasame/mur304_021.wav|4|茉子の料理は美味しいし、なかなか魅力的な提案ではあるが
-dataset/murasame/mur305_027.wav|4|ご主人、どうした？ちょっと浮かれておるな
-dataset/murasame/mur305_105.wav|4|では、これからどうする、ご主人
-dataset/murasame/mur305_172.wav|4|吾輩がスバッと斬ってやるぞ
-dataset/murasame/mur306_029.wav|4|だてに、年はとっておらぬ！
-dataset/murasame/mur306_090.wav|4|ご主人のことを考えるだけで、胸が苦しくなる。ずっと触れていたくなる
-dataset/murasame/mur306_190.wav|4|ご主人が、他の女と仲良くしてるのを見ると、平静でおれん
-dataset/murasame/mur306_290.wav|4|むしろ、忘れられないくらい、強くお主を刻んでくれ
-dataset/murasame/mur307_022.wav|4|ん？
-dataset/hitachi_mako/mak307_016.wav|3|そうですね、それがわからなければ至急、身体からは出ていただかないといけません
-dataset/hitachi_mako/mak308_015.wav|3|これはこれは、ワタシとしたことが
-dataset/murasame/mur309_011_ref.wav|4|礼ならさんざん皆から言ってもらった
-dataset/murasame/mur309_115.wav|4|そ、そうか、良かった……
-dataset/murasame/mur309_215.wav|4|む、ご主人……
-dataset/murasame/mur309_311.wav|4|それだけで、吾輩は、ご主人を尊敬できるのだ
-dataset/kurama_koharu/koh310_012.wav|5|はい、お兄ちゃん
-dataset/murasame/mur310_115.wav|4|またお休みの接吻をしてやるから、床に入れ！
-dataset/hitachi_mako/mak310_032.wav|3|違いますよ！本当にたまたま聞いてしまっただけです！
-dataset/murasame/mur310_259.wav|4|ご主人なら、いくらでも他の女と幸せに――
-dataset/murasame/mur311_043.wav|4|この手では、上手くいくものもいかんぞ、ご主人
-dataset/murasame/mur312_005.wav|4|そうか、では参るか
-dataset/murasame/mur312_097.wav|4|おお、ご主人の背中は広いのう
-dataset/tomotake_yoshino/yos313_029.wav|2|何か質問はありますか？
-dataset/murasame/mur313_092.wav|4|……
-dataset/murasame/mur314_014.wav|4|ご主人覚えておけ、玄十郎はつんでれ属性なのだ
-dataset/murasame/mur314_100.wav|4|は、はしたない娘になってしまった……！
-dataset/murasame/mur314_200.wav|4|んっ、あっ、で、出てる、はぁ、はぁ……
-dataset/murasame/mur317_007.wav|4|ん？どうした、ご主人元気がないぞ
-dataset/murasame/mur317_107.wav|4|あはははは！
-dataset/murasame/mur317_208.wav|4|吾輩と繋がろう、ご主人
-dataset/murasame/mur317_308.wav|4|吾輩に追い抜かれた者は、後で神罰が下るぞ？
-dataset/tomotake_yoshino/yos414_023.wav|2|え？相変わらず、激しく反応してますけど
-dataset/murasame/mur415_044.wav|4|正直、吾輩にもまったく想像できん
-dataset/murasame/mur417_004.wav|4|いや、以前、レナが操られていたときと様子が似ておったからな
-dataset/murasame/mur418_011.wav|4|ええい、茶化すでない！ご主人が報告したのだぞ？
-dataset/murasame/mur419_004.wav|4|羨ましいのう、茉子……羨ましいのう
-dataset/tomotake_yoshino/yos419_040.wav|2|……～～っ、……～っ
-dataset/tomotake_yoshino/yos420_021.wav|2|そんなの、レナさんはとっくに穂織の一員で、私達の……お、お友達じゃないですか
-dataset/murasame/mur423_003.wav|4|妖異を祓い、たとえ折られても再生するのも納得であるな
-dataset/hitachi_mako/mak424_019.wav|3|ええ、ですがお覚悟の程をお聞きしたいのです
-dataset/tomotake_yoshino/yos425_035.wav|2|もちろん、叢雨丸の力にばかり頼るつもりはありません
-dataset/kurama_koharu/koh501_032.wav|5|本わらび粉で作ったわらび餅だって！
-dataset/kurama_koharu/koh503_036.wav|5|でもね、お兄ちゃんが残ってくれて、一緒にアルバイトできて本当に嬉しいよ
-dataset/kurama_koharu/koh504_051.wav|5|よかったね、お兄ちゃんをアルバイトに誘って
-dataset/kurama_koharu/koh505_037.wav|5|………
-dataset/kurama_koharu/koh506_068.wav|5|巫女姫様に、常陸先輩に、レナ先輩……他にもいっぱい……はぁぁぁ……
-dataset/kurama_koharu/koh508_030.wav|5|そうだといいけど……やっぱり胸がないとお兄ちゃんも損だと思うよね？
-dataset/kurama_koharu/koh511_048.wav|5|……もぐ……もぐ……
-dataset/kurama_koharu/koh511_148.wav|5|んぁぁ、はぁぁ……お兄ちゃん、今、声を漏らしてた……すごい……本当だったんだ
-dataset/kurama_koharu/koh511_248.wav|5|しびれるっ……あっあっあっ、身体が、またしびれちゃぅよぉ……はぁ、はぁ、んんんっ
-dataset/kurama_koharu/koh511_348.wav|5|あっ、はぁ……はぁ……はぁ……んんっ、んんーーー……
-dataset/kurama_koharu/koh512_089.wav|5|んっ、ンんん……ッッ
-dataset/kurama_koharu/koh513_029.wav|5|え？広げ……あっ、ちょっと、お兄ちゃん……！？
-dataset/kurama_koharu/koh513_129.wav|5|んんぃぃぃぃいいぃぃぃッッ！あっあっあっ、なんで、なんでぇぇ……お兄ちゃんのおち●ちん、どんどん大きくなってない？
-dataset/arihara_nanami/nan000_028.wav|6|仕方ないなぁ……今日は補習でしょう。このままだと遅刻しちゃうよ
-dataset/arihara_nanami/nan001_018.wav|6|あっ
-dataset/arihara_nanami/nan001_118.wav|6|あっ、遊んでるわけじゃなくて……ホントっ、もうむりなのぉ……ッッ
-dataset/arihara_nanami/nan002_047.wav|6|さとる君のバカ、アホー……転入初日から、こんなことするなんて……勘違いされた。絶対に勘違いされたよ
-dataset/arihara_nanami/nan004_026.wav|6|だから遊びじゃなくって……み、見てないで、助けっ……ひぃぃんっ、お兄ちゃぁぁん
-dataset/arihara_nanami/nan007_029.wav|6|急に真面目ぶる……
-dataset/arihara_nanami/nan010_001.wav|6|あっ、さとる君
-dataset/arihara_nanami/nan012_042.wav|6|………。さとる君に言われたくないなー。毎日わたしに起こされてたくせにー
-dataset/arihara_nanami/nan103_022.wav|6|５・４・３・２・１・今っ！
-dataset/arihara_nanami/nan108_051.wav|6|気になるのは、やっぱりここ。セキュリティと研究棟の構造に差があるんだよ
-dataset/arihara_nanami/nan200_005.wav|6|もしかして何か任務？
-dataset/arihara_nanami/nan201_060.wav|6|道の真ん中で考え事なんて危ないなぁ。一体どうしたの？
-dataset/arihara_nanami/nan201_165.wav|6|もぉ……明日からどんな顔して、さとる君に会えばいいの？
-dataset/arihara_nanami/nan202_103.wav|6|うん。セキュリティも全部戻ってる。罠じゃないなら、校舎の中にはわたしたちしかいないはずだよ
-dataset/arihara_nanami/nan203_008.wav|6|ちさきちゃん、いつからそこに……っ！？
-dataset/arihara_nanami/nan203_109.wav|6|いいよ、これぐらい
-dataset/arihara_nanami/nan203_210.wav|6|うん、それは知ってる
-dataset/arihara_nanami/nan204_014.wav|6|そうなんだよねぇ……
-dataset/arihara_nanami/nan204_115.wav|6|はぁ……なんか上手くいかないなぁ
-dataset/arihara_nanami/naj204_027.wav|6|……え？
-dataset/arihara_nanami/nan205_083.wav|6|射精を
-dataset/arihara_nanami/nan205_184.wav|6|ひぁあぁぁッ！奥っ、奥が、ビリビリって……ぁっ、あっ！お兄ちゃん……お兄ちゃん……っ！
-dataset/arihara_nanami/nan206_052.wav|6|お待たせ、お兄ちゃん
-dataset/arihara_nanami/nan207_037.wav|6|どう？痛くない？
-dataset/arihara_nanami/nan207_137.wav|6|んんっ、んんーーっ！んじゅっ、じゅるじゅる……じゅぷぷぷっ
-dataset/arihara_nanami/nan208_003.wav|6|んー……今日も、いい天気だね
-dataset/arihara_nanami/nan208_103.wav|6|……だね
-dataset/arihara_nanami/nan210_020.wav|6|それに、餃子の時に込めてるのは、大抵の場合は怒りだよ
-dataset/arihara_nanami/nan210_121.wav|6|もしかして、見てるだけでも……イっちゃったりする？
-dataset/arihara_nanami/nan210_221.wav|6|はぁ……はぁ……お兄ちゃん、気持ちよかった？
-dataset/arihara_nanami/nan210_318.wav|6|すー……すー……んっ、んんー？お兄ちゃん……？
-dataset/arihara_nanami/nan211_060.wav|6|こんな風に動けばいいのかな？知識としては知ってるけど……実践は初めてだから
-dataset/arihara_nanami/nan211_160.wav|6|はぁ、はぁ……わたしも幸せ、大好きなお兄ちゃんを、体の奥まで感じられるの……好き……しあわせぇ、んんんッッ
-dataset/arihara_nanami/nan212_044.wav|6|はぁ、はぁ……はぁ、はぁ……お兄ちゃん、ちゃんと見えてる？
-dataset/arihara_nanami/nan212_145.wav|6|もっと……もっと、して欲しい。お兄ちゃんに、気持ちよくして欲しい……はぁ、はぁ、はぁ……
-dataset/arihara_nanami/nan304_008.wav|6|これを挿してもらえさえすれば、わたしの端末から遠隔でハッキングできるから
-dataset/arihara_nanami/nan306_017.wav|6|明日の日中って手もないではないけどね。でも、それだと２人揃って授業を抜け出すことになるでしょ
-dataset/arihara_nanami/nan309_008.wav|6|……何やってんの？
-dataset/arihara_nanami/nan402_006.wav|6|そ、そうじゃなくてもっ、こう、見えないように紙袋に入れるとかっ
-dataset/arihara_nanami/nan414_007.wav|6|わ、わたしも共犯だから。お兄ちゃんだけ怒らないでっ
-dataset/arihara_nanami/nan502_014.wav|6|あっ、さとる君
-dataset/arihara_nanami/nan503_029.wav|6|……ふぅ。これで、傷はちゃんと消えたかな。まだ痛みが残ってる？
+fox_data/origin/s_1.wav|0|도련…… 님……?
+fox_data/origin/s_100.wav|0|네!
+fox_data/origin/s_200.wav|0|뭐든지 말씀해보세요~
+fox_data/origin/s_347.wav|0|도련님한테 이게 무슨 짓이냐니까?
+fox_data/origin/s_287.wav|0|소녀가 흉계를 꾸미고 있었다고 생각했나요?
+fox_data/origin/m_58.wav|1|반했냐? 어?
+fox_data/origin/s_434.wav|0|들어가요. 소녀만 볼 거예요.
+fox_data/origin/s_715.wav|0|…….
+fox_data/origin/s_509.wav|0|…….
+fox_data/origin/s_609.wav|0|…!!!
+fox_data/origin/a_47.wav|2|혹시 영능력자라거나…….
+fox_data/origin/s_815.wav|0|에헤헤헤헤~
+fox_data/origin/a_221.wav|2|……확신은 못하겠어.
+fox_data/origin/m_225.wav|1|내게 그런 말 할 자격은 없겠지…….
+fox_data/origin/s_953.wav|0|소녀가 또 쓸데없는 짓을…….
+fox_data/origin/a_154.wav|2|생각해봐!! 널 어떻게 할 거였으면 진작에 했겠지!!
+fox_data/origin/s_1099.wav|0|도련님……
+fox_data/origin/a_314.wav|2|응응!!!
+fox_data/origin/s_1121.wav|0|뭘 하시는 건가요?
+fox_data/origin/a_352.wav|2|아! 미… 미안해!! 내가 멋대로…….
+fox_data/origin/m_424.wav|1|다만, 그 법기는 실체가 이쪽에 있는 물건이 아니라서…….
+fox_data/origin/s_1273.wav|0|우후후~
+fox_data/origin/s_1393.wav|0|어서요!
+fox_data/origin/m_466.wav|1|하…….
+fox_data/origin/s_1440.wav|0|계속 말씀드렸잖아요
+fox_data/origin/a_521.wav|2|아침에 일어났는데, 날 감시하던 분신도 없구.
+fox_data/origin/a_550.wav|2|세은아? 왜 그래?!!
+fox_data/origin/s_1546.wav|0|침실에 갈 때까지 참으셔야 해요.
+fox_data/origin/s_1646.wav|0|하아… 하아… 하아…….
+fox_data/origin/m_589.wav|1|도령이 제일 잘못한 건…….
+fox_data/origin/m_546.wav|1|나 너 싫어하지 않아.
+fox_data/origin/s_1807.wav|0|흥.
+fox_data/origin/j_30.wav|2|사람을 홀려야 하는 여우 입장에서는, 최악의 상대가 아닌지요?
+fox_data/origin/m_642.wav|1|허접하긴 해도, 한 번 보고 거기까지 따라 하는 건 천부적인 재능이야.
+fox_data/origin/a_711.wav|2|크윽…! 저… 저승사자는 이런 협박에 굴복하지 않는다!!
+fox_data/origin/s_2013.wav|0|아, 고마워요.
+fox_data/origin/a_736.wav|2|그래서 한번 해 봤는데… 진짜 되네요?
+fox_data/origin/s_2215.wav|0|우후후~
+fox_data/origin/s_2292.wav|0|…….
+fox_data/origin/m_862.wav|1|산신령이야~~
+fox_data/origin/s_2368.wav|0|소녀, 너무 기뻐서… 더… 더 이상 여한이 없긴 한데…….
+fox_data/origin/a_826.wav|2|아니… 그런건 아닌 것 같아.
+fox_data/origin/s_2461.wav|0|도련님? 좀 더 말해보세요.
+fox_data/origin/a_865.wav|2|그… 그… 글쎄요?! 저… 전 아무것도 예상 안 했어요!!
+fox_data/hwa/s_55.wav|0|하지마아아안…….
+fox_data/hwa/s_86.wav|0|수아예요.
+fox_data/hwa/s_114.wav|0|여우의 싸움에서 이런 건 당연한 것이옵니다~
+fox_data/hwa/y_60.wav|3|싸워보는 게 유화의 역할이었다면, 그걸 전해주는 게 내 역할.
+fox_data/hwa/u_120.wav|4|하으아으으아아아으아아아앙!!! 어… 업이란 건… 그러니까, 죄를 지으면 대가를 치르게 된다는 것 같은 건… 데…….
+fox_data/hwa/s_162.wav|0|도련님…….
+fox_data/hwa/s_184.wav|0|……고마워요.
+fox_data/hwa/m_101.wav|1|저승의 암호 해독반을 끌고 온다면 모르겠지만… 그쪽엔 연줄이 없어서.
+fox_data/hwa/s_250.wav|0|어떻게……. 어떻게 그런 명령을…!!!
+fox_data/hwa/s_301.wav|0|수아앗~ 도련님의 등…… 넓고… 따뜻해…….
+fox_data/hwa/s_351.wav|0|대체 왜…….
+fox_data/hwa/u_330.wav|4|무슨 말을 지껄이나요 인간아? 
+fox_data/hwa/s_440.wav|0|…….
+fox_data/hwa/s_456.wav|0|어쩌면…….
+fox_data/hwa/y_274.wav|3|~
+fox_data/hwa/m_10.wav|1|아 왜.
+fox_data/hwa/u_48.wav|4|읏…….
+fox_data/hwa/s_129.wav|0|당신… 누구죠?
+fox_data/hwa/u_431.wav|4|왜 남의 이름을 함부로 부르나요 인간아.
+fox_data/hwa/k_111.wav|5|그래서 화수분에겐 우리 친구가 필요했던 거지.
+fox_data/hwa/u_465.wav|4|크르르르르르르르르!!!!!!
+fox_data/hwa/u_517.wav|4|에헤헤헤…….
+fox_data/hwa/s_551.wav|0|더 놀고 싶어어어~
+fox_data/hwa/a_207.wav|2|차갑다고 생각해…….
+fox_data/hwa/s_653.wav|0|하지만 도련님.
+fox_data/hwa/a_251.wav|2|어… 그… 그러니까…….
+fox_data/hwa/a_346.wav|2|흐에에~
+fox_data/hwa/s_738.wav|0|후후훗.
+fox_data/hwa/s_839.wav|0|어떻게 해야 할지… 아시겠나요?
+fox_data/hwa/m_449.wav|1|도령이라면, 분명히 우릴 불러줄 거라고.
+fox_data/hwa/a_436.wav|2|그… 그래서 그런 부끄러운 말을 한 거야!!
+fox_data/hwa/a_467.wav|2|용도는 잘 모르겠지만 이미 사용이 끝난 것 같아.
+fox_data/hwa/k_284.wav|5|그래서 진실만으로 속이는 화법을 익히게 되는데…….
+fox_data/hwa/m_511.wav|1|도령이 정말로 과거를 바꿔 버린 거구나.
+fox_data/hwa/u_643.wav|4|…….
+fox_data/hwa/y_297.wav|3|미안해.
+fox_data/hwa/u_776.wav|4|저기… 대답해줘.
+fox_data/hwa/u_865.wav|4|도망… 쳐…….
+fox_data/hwa/y_321.wav|3|난 분명, 존재하지 않았고.
+fox_data/hwa/u_955.wav|4|갑자기 이 모든 걸 받아들이라고 해도.
+fox_data/hwa/s_1039.wav|0|소녀는… 소녀는…….
+fox_data/hwa/s_1079.wav|0|…….
+fox_data/hwa/y_332.wav|3|프러포즈 받은 줄 알았어~
+fox_data/hwa/a_585.wav|2|으으… 터치를…….
+fox_data/hwa/m_630.wav|1|도령 인생이 그렇잖아.

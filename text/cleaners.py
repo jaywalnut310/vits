@@ -16,7 +16,6 @@ import re
 from unidecode import unidecode
 import pyopenjtalk
 from jamo import h2j, j2hcj
-import jamo
 
 
 # This is a list of Korean classifiers preceded by pure Korean numerals.
