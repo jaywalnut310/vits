@@ -45,45 +45,45 @@ fox_data/origin/a_865.wav|2|그… 그… 글쎄요?! 저… 전 아무것도 �
 fox_data/hwa/s_55.wav|0|하지마아아안…….
 fox_data/hwa/s_86.wav|0|수아예요.
 fox_data/hwa/s_114.wav|0|여우의 싸움에서 이런 건 당연한 것이옵니다~
-fox_data/hwa/u_69.wav|4|언니…….
-fox_data/hwa/u_121.wav|4|인간의 육체와 영혼을 취했을 때의 대가라고나 할까…….
-fox_data/hwa/s_163.wav|0|도…… 련님…….
-fox_data/hwa/m_82.wav|1|헹.
-fox_data/hwa/m_102.wav|1|뭐… 안전하게 해제할 만한 녀석이 있긴 한데…….
-fox_data/hwa/y_115.wav|3|힘들 거 없잖아? 눈 딱 감고 한 번만 하면 되는걸?
-fox_data/hwa/s_302.wav|0|후훗…….
-fox_data/hwa/y_164.wav|3|…….
-fox_data/hwa/y_187.wav|3|그렇긴 한데~?
-fox_data/hwa/y_207.wav|3|아 참.
-fox_data/hwa/s_457.wav|0|어쩌면, 가족이 되었을지도 몰라요.
-fox_data/hwa/u_416.wav|4|그게 뭔가요 인간아?
-fox_data/hwa/m_11.wav|1|하아… 그래.
-fox_data/hwa/u_49.wav|4|어디서 눈을 부라려요. 가문에서 도태된 실패작이 개기는 게 아니에요. 
-fox_data/hwa/u_67.wav|4|…놔요.
-fox_data/hwa/u_433.wav|4|취미?
-fox_data/hwa/k_113.wav|5|처음엔, 별 일 아니었어.
-fox_data/hwa/u_467.wav|4|뭘 멋대로 꼬리에 손대고 앉았나요.
-fox_data/hwa/k_223.wav|5|스스로 계속 머물고 있었던 거냐?
-fox_data/hwa/s_553.wav|0|도련님?
-fox_data/hwa/a_209.wav|2|미… 미안해!!
-fox_data/hwa/s_655.wav|0|이게… 소녀인걸요?
-fox_data/hwa/a_253.wav|2|…….
-fox_data/hwa/s_685.wav|0|아하하하하하~!!
-fox_data/hwa/s_740.wav|0|왜~?
-fox_data/hwa/s_841.wav|0|도련님이라면 선을 지키실 거라고. 소녀, 믿고 있사옵니다.
-fox_data/hwa/m_451.wav|1|너 설마 나를 제일 먼저 불러낸 거야?!
-fox_data/hwa/a_438.wav|2|아까 내가 했던… 부끄러운 말은…….
-fox_data/hwa/a_469.wav|2|그리고, 영력 타입을 봤을 때…… 절대로 저 여우가 설치한 게 아냐!
-fox_data/hwa/k_286.wav|5|일부 저승사자나 신령의 기술로 가공하면…….
-fox_data/hwa/k_338.wav|5|상부에 비상이 걸리고… 즉시 중지 명령이 내려왔어.
-fox_data/hwa/u_644.wav|4|……아.
-fox_data/hwa/u_722.wav|4|…….
-fox_data/hwa/u_778.wav|4|내 불꽃을 보고 예쁘다고 했잖아!!!
-fox_data/hwa/u_867.wav|4|여기서 나가!!!!!!!!!!!!!!!
-fox_data/hwa/y_323.wav|3|먼지투성이가 되어있던 날 불러준. 당신의 마음은.
-fox_data/hwa/u_957.wav|4|수아를 '언니'라고 부르는 건 아직 힘들고.
-fox_data/hwa/s_1041.wav|0|이 세상 누구보다도.
-fox_data/hwa/m_602.wav|1|…….
-fox_data/hwa/y_334.wav|3|하지만 이 영혼과 인격…… 뭐. 진짜 영혼인건 아니지만.
-fox_data/hwa/a_587.wav|2|으… 응?!
-fox_data/hwa/m_632.wav|1|아니. 도령.
+fox_data/hwa/y_60.wav|3|싸워보는 게 유화의 역할이었다면, 그걸 전해주는 게 내 역할.
+fox_data/hwa/u_120.wav|4|하으아으으아아아으아아아앙!!! 어… 업이란 건… 그러니까, 죄를 지으면 대가를 치르게 된다는 것 같은 건… 데…….
+fox_data/hwa/s_162.wav|0|도련님…….
+fox_data/hwa/s_184.wav|0|……고마워요.
+fox_data/hwa/m_101.wav|1|저승의 암호 해독반을 끌고 온다면 모르겠지만… 그쪽엔 연줄이 없어서.
+fox_data/hwa/s_250.wav|0|어떻게……. 어떻게 그런 명령을…!!!
+fox_data/hwa/s_301.wav|0|수아앗~ 도련님의 등…… 넓고… 따뜻해…….
+fox_data/hwa/s_351.wav|0|대체 왜…….
+fox_data/hwa/u_330.wav|4|무슨 말을 지껄이나요 인간아? 
+fox_data/hwa/s_440.wav|0|…….
+fox_data/hwa/s_456.wav|0|어쩌면…….
+fox_data/hwa/y_274.wav|3|~
+fox_data/hwa/m_10.wav|1|아 왜.
+fox_data/hwa/u_48.wav|4|읏…….
+fox_data/hwa/s_129.wav|0|당신… 누구죠?
+fox_data/hwa/u_431.wav|4|왜 남의 이름을 함부로 부르나요 인간아.
+fox_data/hwa/k_111.wav|5|그래서 화수분에겐 우리 친구가 필요했던 거지.
+fox_data/hwa/u_465.wav|4|크르르르르르르르르!!!!!!
+fox_data/hwa/u_517.wav|4|에헤헤헤…….
+fox_data/hwa/s_551.wav|0|더 놀고 싶어어어~
+fox_data/hwa/a_207.wav|2|차갑다고 생각해…….
+fox_data/hwa/s_653.wav|0|하지만 도련님.
+fox_data/hwa/a_251.wav|2|어… 그… 그러니까…….
+fox_data/hwa/a_346.wav|2|흐에에~
+fox_data/hwa/s_738.wav|0|후후훗.
+fox_data/hwa/s_839.wav|0|어떻게 해야 할지… 아시겠나요?
+fox_data/hwa/m_449.wav|1|도령이라면, 분명히 우릴 불러줄 거라고.
+fox_data/hwa/a_436.wav|2|그… 그래서 그런 부끄러운 말을 한 거야!!
+fox_data/hwa/a_467.wav|2|용도는 잘 모르겠지만 이미 사용이 끝난 것 같아.
+fox_data/hwa/k_284.wav|5|그래서 진실만으로 속이는 화법을 익히게 되는데…….
+fox_data/hwa/m_511.wav|1|도령이 정말로 과거를 바꿔 버린 거구나.
+fox_data/hwa/u_643.wav|4|…….
+fox_data/hwa/y_297.wav|3|미안해.
+fox_data/hwa/u_776.wav|4|저기… 대답해줘.
+fox_data/hwa/u_865.wav|4|도망… 쳐…….
+fox_data/hwa/y_321.wav|3|난 분명, 존재하지 않았고.
+fox_data/hwa/u_955.wav|4|갑자기 이 모든 걸 받아들이라고 해도.
+fox_data/hwa/s_1039.wav|0|소녀는… 소녀는…….
+fox_data/hwa/s_1079.wav|0|…….
+fox_data/hwa/y_332.wav|3|프러포즈 받은 줄 알았어~
+fox_data/hwa/a_585.wav|2|으으… 터치를…….
+fox_data/hwa/m_630.wav|1|도령 인생이 그렇잖아.
