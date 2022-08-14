@@ -215,7 +215,7 @@ class TextAudioSpeakerLoader(torch.utils.data.Dataset):
                 self.sampling_rate, self.hop_length, self.win_length,
                 center=False)
             spec = torch.squeeze(spec, 0)
-            torch.save(spec, spec_filename)
+            torch.save(spec, spec_filename, _use_new_zipfile_serialization=False)
         return spec, audio_norm
 
     def get_text(self, text):

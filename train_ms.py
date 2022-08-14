@@ -1,10 +1,5 @@
 import os
-import json
-import argparse
-import itertools
-import math
 import torch
-from torch import nn, optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
@@ -13,7 +8,6 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.cuda.amp import autocast, GradScaler
 
-import librosa
 import logging
 
 logging.getLogger('numba').setLevel(logging.WARNING)
@@ -36,7 +30,7 @@ from losses import (
   kl_loss
 )
 from mel_processing import mel_spectrogram_torch, spec_to_mel_torch
-from text.symbols import symbols
+from text import initialize
 
 
 torch.backends.cudnn.benchmark = True
@@ -52,6 +46,7 @@ def main():
   os.environ['MASTER_PORT'] = '80000'
 
   hps = utils.get_hparams()
+  initialize(hps.symbols)
   mp.spawn(run, nprocs=n_gpus, args=(n_gpus, hps,))
 
 
@@ -86,7 +81,7 @@ def run(rank, n_gpus, hps):
         drop_last=False, collate_fn=collate_fn)
 
   net_g = SynthesizerTrn(
-      len(symbols),
+      hps.symbols,
       hps.data.filter_length // 2 + 1,
       hps.train.segment_size // hps.data.hop_length,
       n_speakers=hps.data.n_speakers,
