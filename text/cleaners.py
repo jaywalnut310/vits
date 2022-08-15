@@ -16,6 +16,8 @@ import re
 from unidecode import unidecode
 import pyopenjtalk
 from jamo import h2j, j2hcj
+from pypinyin import lazy_pinyin,BOPOMOFO
+import jieba
 
 
 # This is a list of Korean classifiers preceded by pure Korean numerals.
@@ -307,4 +309,24 @@ def korean_cleaners(text):
   if re.match('[\u3131-\u3163]',text[-1]):
     text += '.'
   return text
-  
+
+
+def chinese_cleaners(text):
+  '''Pipeline for Chinese text'''
+  text=text.replace('、','，').replace('；','，').replace('：','，')
+  words=jieba.lcut(text,cut_all=False)
+  text=''
+  for word in words:
+    bopomofos=lazy_pinyin(word,BOPOMOFO)
+    if not re.search('[\u4e00-\u9fff]',word):
+      text+=word
+      continue
+    for i in range(len(bopomofos)):
+      if re.match('[\u3105-\u3129]',bopomofos[i][-1]):
+        bopomofos[i]+='ˉ'
+    if text!='':
+      text+=' '
+    text+=''.join(bopomofos)
+  if re.match('[ˉˊˇˋ˙]',text[-1]):
+    text += '。'
+  return text
