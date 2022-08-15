@@ -17,9 +17,9 @@
     "c_kl": 1.0
   },
   "data": {
-    "training_files":"filelists/ljs_audio_text_train_filelist.txt.cleaned",
-    "validation_files":"filelists/ljs_audio_text_val_filelist.txt.cleaned",
-    "text_cleaners":["english_cleaners2"],
+    "training_files":"filelists/train_filelist.txt.cleaned",
+    "validation_files":"filelists/val_filelist.txt.cleaned",
+    "text_cleaners":["japanese_cleaners2"],
     "max_wav_value": 32768.0,
     "sampling_rate": 22050,
     "filter_length": 1024,
@@ -48,5 +48,7 @@
     "upsample_kernel_sizes": [16,16,4,4],
     "n_layers_q": 3,
     "use_spectral_norm": false
-  }
+  },
+  "speakers": ["\u30eb\u30a4\u30ba"],
+  "symbols": ["_", ",", ".", "!", "?", "-", "~", "\u2026", "A", "E", "I", "N", "O", "Q", "U", "a", "b", "d", "e", "f", "g", "h", "i", "j", "k", "m", "n", "o", "p", "r", "s", "t", "u", "v", "w", "y", "z", "\u0283", "\u02a7", "\u02a6", "\u2193", "\u2191", " "]
 }

@@ -295,7 +295,7 @@ def japanese_cleaners(text):
 
 
 def japanese_cleaners2(text):
-  return japanese_cleaners(text).replace('ts','ʦ')
+  return japanese_cleaners(text).replace('ts','ʦ').replace('...','…')
 
 
 def korean_cleaners(text):
@@ -307,3 +307,4 @@ def korean_cleaners(text):
   if re.match('[\u3131-\u3163]',text[-1]):
     text += '.'
   return text
+  
