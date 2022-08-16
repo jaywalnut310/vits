@@ -81,7 +81,7 @@ def transliteration_cleaners(text):
   return text
 
 
-def japanese_cleaners(text):
+def japanese_accent_cleaners(text):
   '''Pipeline for notating accent in Japanese text.'''
   '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
   sentences = re.split(_japanese_marks, text)
@@ -129,13 +129,11 @@ def japanese_phrase_cleaners(text):
   text = ''
   for i, sentence in enumerate(sentences):
     if re.match(_japanese_characters, sentence):
-      if text != '':
-        text += ' '
       labels = pyopenjtalk.extract_fullcontext(sentence)
       for n, label in enumerate(labels):
         phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
         if phoneme not in ['sil','pau']:
-          text += phoneme
+          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q').replace('ts','ʦ')
         else:
           continue
         a3 = int(re.search(r"\+(\d+)/", label).group(1))
