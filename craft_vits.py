@@ -46,6 +46,5 @@ def pth_do(cfg_path, pt_path, cleaned, length_scale=1):
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
-  x_tst = stn_tst.unsqueeze(0)
-  x_tst_lengths = torch.LongTensor([stn_tst.size(0)])
-  return model.infer(x_tst, x_tst_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=length_scale)[0][0, 0].data.float().numpy().tobytes()
+  return model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=length_scale)[0][
+    0, 0].data.float().numpy().tobytes()

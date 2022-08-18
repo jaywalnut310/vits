@@ -8,6 +8,7 @@ _japanese_marks = re.compile(r'[^A-Za-z\d\u3005\u3040-\u30ff\u4e00-\u9fff\uff11-
 
 
 def japanese_cleaner(text):
+  '''Pipeline for dividing Japanese text into phrases.'''
   sentences = re.split(_japanese_marks, text)
   marks = re.findall(_japanese_marks, text)
   text = ''
