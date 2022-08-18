@@ -1,5 +1,6 @@
 import json
 
+
 def get_hparams_from_file(config_path):
   with open(config_path, "r") as f:
     data = f.read()

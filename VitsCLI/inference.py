@@ -3,11 +3,12 @@ from torch import nn
 
 from commons import sequence_mask, generate_path
 from duration_predictor import DurationPredictor
-from stochastic_duration_predictor import StochasticDurationPredictor
-from residual_coupling_block import ResidualCouplingBlock
-from posterior_encoder import PosteriorEncoder
 from generator import Generator
+from posterior_encoder import PosteriorEncoder
+from residual_coupling_block import ResidualCouplingBlock
+from stochastic_duration_predictor import StochasticDurationPredictor
 from text_encoder import TextEncoder
+
 
 class SynthesizerInf(nn.Module):
   """

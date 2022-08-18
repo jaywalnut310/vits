@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-import modules
+from modules import LayerNorm
 
 
 class DurationPredictor(nn.Module):
@@ -16,9 +16,9 @@ class DurationPredictor(nn.Module):
 
     self.drop = nn.Dropout(p_dropout)
     self.conv_1 = nn.Conv1d(in_channels, filter_channels, kernel_size, padding=kernel_size // 2)
-    self.norm_1 = modules.LayerNorm(filter_channels)
+    self.norm_1 = LayerNorm(filter_channels)
     self.conv_2 = nn.Conv1d(filter_channels, filter_channels, kernel_size, padding=kernel_size // 2)
-    self.norm_2 = modules.LayerNorm(filter_channels)
+    self.norm_2 = LayerNorm(filter_channels)
     self.proj = nn.Conv1d(filter_channels, 1, 1)
 
     if gin_channels != 0:

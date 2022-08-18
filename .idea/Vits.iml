@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="Go" enabled="true" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/monotonic_align/build" />
+      <excludeFolder url="file://$MODULE_DIR$/Runtime/CleanerTest/.vs" />
+      <excludeFolder url="file://$MODULE_DIR$/Runtime/CleanerTest/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/Runtime/CleanerTest/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/.vs" />
+      <excludeFolder url="file://$MODULE_DIR$/CraftVits/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/CraftVits/obj" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="renderExternalDocumentation" value="true" />
+  </component>
+</module>
