@@ -1,20 +1,9 @@
-import json
-
 import torch
 
-from hparams import HParams
+from hparams import get_hparams_from_file
+from inference import SynthesizerInf
+from load_checkpoint import load_checkpoint
 from text.symbols import symbols
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-
-def read_cfg(config_path):
-  with open(config_path, "r") as f:
-    data = f.read()
-  config = json.loads(data)
-
-  return HParams(**config)
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -34,7 +23,7 @@ def get_text(text, hps):
 # ----------------------------------------------------------------------------------------------------------------------
 
 def pt_do(cfg_path, pt_path, cleaned):
-  hps = read_cfg(cfg_path)
+  hps = get_hparams_from_file(cfg_path)
 
   model = torch.jit.load(pt_path).eval()
   torch.set_grad_enabled(False)
@@ -42,7 +31,17 @@ def pt_do(cfg_path, pt_path, cleaned):
   stn_tst = get_text(cleaned, hps)
   return model(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]))[0][0, 0].data.float().numpy().tobytes()
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 def pth_do(cfg_path, pt_path, cleaned):
+  hps = get_hparams_from_file(cfg_path)
+  net_g = SynthesizerInf(
+    len(symbols),
+    hps.data.filter_length // 2 + 1,
+    hps.train.segment_size // hps.data.hop_length,
+    **hps.model)
+  _ = net_g.eval()
 
+  _ = load_checkpoint("./logs/ljs_base/G_119000.pth", net_g, None)
+  torch.set_grad_enabled(False)

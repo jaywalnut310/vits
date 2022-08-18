@@ -1,4 +1,15 @@
-class HParams():
+import json
+
+def get_hparams_from_file(config_path):
+  with open(config_path, "r") as f:
+    data = f.read()
+  config = json.loads(data)
+
+  hparams = HParams(**config)
+  return hparams
+
+
+class HParams:
   def __init__(self, **kwargs):
     for k, v in kwargs.items():
       if type(v) == dict:
