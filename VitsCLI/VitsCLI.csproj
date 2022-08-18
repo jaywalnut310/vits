@@ -13,25 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="cleaner.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="craft_vits.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="generator.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="inference.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="modules.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="stochastic_duration_predictor.cp38-win_amd64.pyd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="transforms.cp38-win_amd64.pyd">
+    <None Update="*.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
