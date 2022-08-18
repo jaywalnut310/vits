@@ -1,4 +1,5 @@
 import argparse
+
 import text
 from utils import load_filepaths_and_text
 
@@ -10,7 +11,7 @@ if __name__ == '__main__':
   parser.add_argument("--text_cleaners", nargs="+", default=["japanese_phrase_cleaners"])
 
   args = parser.parse_args()
-    
+
   for filelist in args.filelists:
     print("START:", filelist)
     filepaths_and_text = load_filepaths_and_text(filelist)
