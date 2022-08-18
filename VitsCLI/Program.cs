@@ -31,6 +31,10 @@ internal class Program {
             if (!string.IsNullOrEmpty(path)) {
                 PythonEngine.PythonHome = path;
                 Console.WriteLine("Set PythonHome to: " + path);
+            } else {
+                Console.Error.WriteLine("It looks like you don't have Python38 installed, please install it, or use --PyLoc to locate it.");
+                _ = System.Diagnostics.Process.Start("https://apps.microsoft.com/store/detail/python-38/9MSSZTT1N39L");
+                return -1;
             }
         }
 
