@@ -599,7 +599,7 @@ class SynthesizerInf(nn.Module):
     if n_speakers > 1:
       self.emb_g = nn.Embedding(n_speakers, gin_channels)
 
-  def forward(self, x, x_lengths, length_scale, noise_scale=.667, noise_scale_w=0.8, sid=None, max_len=None):
+  def forward(self, x, x_lengths, sid=None, noise_scale=.667, length_scale=1, noise_scale_w=0.8, max_len=None):
     x, m_p, logs_p, x_mask = self.enc_p(x, x_lengths)
     if self.n_speakers > 0:
         g = self.emb_g(sid).unsqueeze(-1) # [b, h, 1]
@@ -610,7 +610,7 @@ class SynthesizerInf(nn.Module):
         logw = self.dp(x, x_mask, g=g, reverse=True, noise_scale=noise_scale_w)
     else:
         logw = self.dp(x, x_mask, g=g)
-    w = torch.exp(logw) * x_mask * length_scale[0]
+    w = torch.exp(logw) * x_mask * length_scale
     w_ceil = torch.ceil(w)
     y_lengths = torch.clamp_min(torch.sum(w_ceil, [1, 2]), 1).long()
     y_mask = torch.unsqueeze(commons.sequence_mask(y_lengths, None), 1).to(x_mask.dtype)
