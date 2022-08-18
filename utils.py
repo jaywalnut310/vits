@@ -27,7 +27,7 @@ def load_checkpoint(checkpoint_path, model, optimizer=None):
     state_dict = model.module.state_dict()
   else:
     state_dict = model.state_dict()
-  new_state_dict= {}
+  new_state_dict = {}
   for k, v in state_dict.items():
     try:
       new_state_dict[k] = saved_state_dict[k]
@@ -38,7 +38,7 @@ def load_checkpoint(checkpoint_path, model, optimizer=None):
     model.module.load_state_dict(new_state_dict)
   else:
     model.load_state_dict(new_state_dict)
-  logger.info("Loaded checkpoint '{}' (iteration {})" .format(
+  logger.info("Loaded checkpoint '{}' (iteration {})".format(
     checkpoint_path, iteration))
   return model, optimizer, learning_rate, iteration
 
@@ -85,10 +85,10 @@ def plot_spectrogram_to_numpy(spectrogram):
     mpl_logger.setLevel(logging.WARNING)
   import matplotlib.pylab as plt
   import numpy as np
-  
-  fig, ax = plt.subplots(figsize=(10,2))
+
+  fig, ax = plt.subplots(figsize=(10, 2))
   im = ax.imshow(spectrogram, aspect="auto", origin="lower",
-                  interpolation='none')
+                 interpolation='none')
   plt.colorbar(im, ax=ax)
   plt.xlabel("Frames")
   plt.ylabel("Channels")
@@ -114,11 +114,11 @@ def plot_alignment_to_numpy(alignment, info=None):
 
   fig, ax = plt.subplots(figsize=(6, 4))
   im = ax.imshow(alignment.transpose(), aspect='auto', origin='lower',
-                  interpolation='none')
+                 interpolation='none')
   fig.colorbar(im, ax=ax)
   xlabel = 'Decoder timestep'
   if info is not None:
-      xlabel += '\n\n' + info
+    xlabel += '\n\n' + info
   plt.xlabel(xlabel)
   plt.ylabel('Encoder timestep')
   plt.tight_layout()
@@ -147,7 +147,7 @@ def get_hparams(init=True):
                       help='JSON file for configuration')
   parser.add_argument('-m', '--model', type=str, required=True,
                       help='Model name')
-  
+
   args = parser.parse_args()
   model_dir = os.path.join("./logs", args.model)
 
@@ -165,7 +165,7 @@ def get_hparams(init=True):
     with open(config_save_path, "r") as f:
       data = f.read()
   config = json.loads(data)
-  
+
   hparams = HParams(**config)
   hparams.model_dir = model_dir
   return hparams
@@ -177,7 +177,7 @@ def get_hparams_from_dir(model_dir):
     data = f.read()
   config = json.loads(data)
 
-  hparams =HParams(**config)
+  hparams = HParams(**config)
   hparams.model_dir = model_dir
   return hparams
 
@@ -187,7 +187,7 @@ def get_hparams_from_file(config_path):
     data = f.read()
   config = json.loads(data)
 
-  hparams =HParams(**config)
+  hparams = HParams(**config)
   return hparams
 
 
@@ -215,7 +215,7 @@ def get_logger(model_dir, filename="train.log"):
   global logger
   logger = logging.getLogger(os.path.basename(model_dir))
   logger.setLevel(logging.DEBUG)
-  
+
   formatter = logging.Formatter("%(asctime)s\t%(name)s\t%(levelname)s\t%(message)s")
   if not os.path.exists(model_dir):
     os.makedirs(model_dir)
@@ -232,7 +232,7 @@ class HParams():
       if type(v) == dict:
         v = HParams(**v)
       self[k] = v
-    
+
   def keys(self):
     return self.__dict__.keys()
 
