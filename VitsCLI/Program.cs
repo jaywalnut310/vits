@@ -66,9 +66,9 @@ internal class Program {
 
             root.Add(ja);
             root.SetHandler(str => {
-                using var py = new Vits();
+                var py = new Vits();
                 var cleaned = py.Clean(str);
-                py.PT(new("E:/Codes/CraftVits/configs/ljs_base.json"), new("E:/CaChe/119.pt"), cleaned);
+                py.PT(new("E:/CaChe/NimiSora.json"), new("E:/CaChe/NimiSora.pt"), cleaned);
             }, ja);
         }
 
