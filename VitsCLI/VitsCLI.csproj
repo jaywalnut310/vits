@@ -16,6 +16,9 @@
     <None Update="cleaner.cp38-win_amd64.pyd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="craft_vits.cp38-win_amd64.pyd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
