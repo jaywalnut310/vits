@@ -23,14 +23,14 @@ public class Vits : IDisposable {
         return res;
     }
 
-    public void PT(FileInfo config, FileInfo model, string cleaned, FileInfo output) {
+    public void PT(FileInfo config, FileInfo model, string cleaned, string? output) {
         this.vits ??= Py.Import("craft_vits");
-        this.vits.pt(config.FullName, model.FullName, cleaned, output.FullName);
+        this.vits.pt(config.FullName, model.FullName, cleaned, output);
     }
 
-    public void PTH(FileInfo config, FileInfo model, string cleaned, FileInfo output, float scale = 1) {
+    public void PTH(FileInfo config, FileInfo model, string cleaned, string output, float scale = 1) {
         this.vits ??= Py.Import("craft_vits");
-        this.vits.pth(config.FullName, model.FullName, cleaned, output.FullName, scale);
+        this.vits.pth(config.FullName, model.FullName, cleaned, output, scale);
     }
 
     public void Dispose() {

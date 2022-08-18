@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VitsCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "\"吾輩は猫である。\" --Clean"
+    }
+  }
+}
