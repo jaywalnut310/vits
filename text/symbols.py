@@ -1,9 +1,9 @@
-'''
+"""
 Defines the set of symbols used in text input to the model.
-'''
+"""
 
 # japanese_cleaners
-_pad        = '_'
+_pad = '_'
 _punctuation = ',.!?-~…'
 _letters = 'AEINOQUabdefghijkmnoprstuvwyzʃʧʦ↓↑ '
 

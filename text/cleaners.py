@@ -1,20 +1,7 @@
-""" from https://github.com/keithito/tacotron """
-
-'''
-Cleaners are transformations that run over the input text at both training and eval time.
-Cleaners can be selected by passing a comma-delimited list of cleaner names as the "cleaners"
-hyperparameter. Some cleaners are English-specific. You'll typically want to use:
-  1. "english_cleaners" for English text
-  2. "transliteration_cleaners" for non-English text that can be transliterated to ASCII using
-     the Unidecode library (https://pypi.python.org/pypi/Unidecode)
-  3. "basic_cleaners" if you do not want to transliterate (in this case, you should also update
-     the symbols in symbols.py to match your data).
-'''
-
 import re
-from unidecode import unidecode
-import pyopenjtalk
 
+import pyopenjtalk
+from unidecode import unidecode
 
 # Regular expression matching whitespace:
 _whitespace_re = re.compile(r'\s+')
@@ -89,21 +76,21 @@ def japanese_accent_cleaners(text):
   text = ''
   for i, sentence in enumerate(sentences):
     if re.match(_japanese_characters, sentence):
-      if text!='':
-        text+=' '
+      if text != '':
+        text += ' '
       labels = pyopenjtalk.extract_fullcontext(sentence)
       for n, label in enumerate(labels):
         phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
-        if phoneme not in ['sil','pau']:
-          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q').replace('ts','ʦ')
+        if phoneme not in ['sil', 'pau']:
+          text += phoneme.replace('ch', 'ʧ').replace('sh', 'ʃ').replace('cl', 'Q').replace('ts', 'ʦ')
         else:
           continue
         n_moras = int(re.search(r'/F:(\d+)_', label).group(1))
         a1 = int(re.search(r"/A:(\-?[0-9]+)\+", label).group(1))
         a2 = int(re.search(r"\+(\d+)\+", label).group(1))
         a3 = int(re.search(r"\+(\d+)/", label).group(1))
-        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil','pau']:
-          a2_next=-1
+        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil', 'pau']:
+          a2_next = -1
         else:
           a2_next = int(re.search(r"\+(\d+)\+", labels[n + 1]).group(1))
         # Accent phrase boundary
@@ -115,11 +102,11 @@ def japanese_accent_cleaners(text):
         # Rising
         elif a2 == 1 and a2_next == 2:
           text += '↑'
-    if i<len(marks):
-      text += unidecode(marks[i]).replace(' ','')
-  if re.match('[A-Za-z]',text[-1]):
+    if i < len(marks):
+      text += unidecode(marks[i]).replace(' ', '')
+  if re.match('[A-Za-z]', text[-1]):
     text += '.'
-  return text.replace('...','…')
+  return text.replace('...', '…')
 
 
 def japanese_phrase_cleaners(text):
@@ -132,20 +119,20 @@ def japanese_phrase_cleaners(text):
       labels = pyopenjtalk.extract_fullcontext(sentence)
       for n, label in enumerate(labels):
         phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
-        if phoneme not in ['sil','pau']:
-          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q').replace('ts','ʦ')
+        if phoneme not in ['sil', 'pau']:
+          text += phoneme.replace('ch', 'ʧ').replace('sh', 'ʃ').replace('cl', 'Q').replace('ts', 'ʦ')
         else:
           continue
         a3 = int(re.search(r"\+(\d+)/", label).group(1))
-        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil','pau']:
-          a2_next=-1
+        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil', 'pau']:
+          a2_next = -1
         else:
           a2_next = int(re.search(r"\+(\d+)\+", labels[n + 1]).group(1))
         # Accent phrase boundary
         if a3 == 1 and a2_next == 1:
           text += ' '
-    if i<len(marks):
-      text += unidecode(marks[i]).replace(' ','')
-  if re.match('[A-Za-z]',text[-1]):
+    if i < len(marks):
+      text += unidecode(marks[i]).replace(' ', '')
+  if re.match('[A-Za-z]', text[-1]):
     text += '.'
-  return text.replace('...','…')
+  return text.replace('...', '…')
