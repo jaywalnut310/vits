@@ -67,7 +67,7 @@ def write(filename, rate, data):
     if data.dtype.byteorder == '>' or (data.dtype.byteorder == '=' and
                                        sys.byteorder == 'big'):
       data = data.byteswap()
-    _array_tofile(fid, data)
+    fid.write(data.ravel().view('b').data)
 
     # Determine file size and place it in correct
     #  position at start of the file.
@@ -80,7 +80,3 @@ def write(filename, rate, data):
       fid.close()
     else:
       fid.seek(0)
-
-
-def _array_tofile(fid, data):
-  fid.write(data.ravel().view('b').data)

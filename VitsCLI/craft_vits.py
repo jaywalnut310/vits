@@ -4,9 +4,9 @@ from hparams import get_hparams_from_file
 from inference import SynthesizerInf
 from load_checkpoint import load_checkpoint
 from symbols import symbols
+from to_wave import write
 
 # ----------------------------------------------------------------------------------------------------------------------
-from to_wav import write
 
 _symbol_to_id = {s: i for i, s in enumerate(symbols)}
 
@@ -23,7 +23,7 @@ def get_text(text, hps):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-def pt_do(cfg_path, pt_path, cleaned, out_path):
+def pt(cfg_path, pt_path, cleaned, out_path):
   hps = get_hparams_from_file(cfg_path)
 
   model = torch.jit.load(pt_path).eval()
@@ -36,7 +36,7 @@ def pt_do(cfg_path, pt_path, cleaned, out_path):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-def pth_do(cfg_path, pt_path, cleaned, out_path, length_scale=1):
+def pth(cfg_path, pt_path, cleaned, out_path, length_scale=1):
   hps = get_hparams_from_file(cfg_path)
   model = SynthesizerInf(
     len(symbols),
@@ -48,5 +48,6 @@ def pth_do(cfg_path, pt_path, cleaned, out_path, length_scale=1):
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
-  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=length_scale)[0][0, 0].data.float().numpy()
+  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=length_scale)[0][
+    0, 0].data.float().numpy()
   return write(out_path, hps.data.sampling_rate, raw)

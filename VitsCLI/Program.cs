@@ -68,7 +68,7 @@ internal class Program {
             root.SetHandler(str => {
                 var py = new Vits();
                 var cleaned = py.Clean(str);
-                py.PT(new("E:/CaChe/NimiSora.json"), new("E:/CaChe/NimiSora.pt"), cleaned);
+                py.PT(new("E:/CaChe/NimiSora.json"), new("E:/CaChe/NimiSora.pt"), cleaned, new("E:/CaChe/NimiSora.wav"));
             }, ja);
         }
 

@@ -2,7 +2,7 @@
 
 using Python.Runtime;
 
-public class Vits {
+public class Vits : IDisposable {
     private readonly Py.GILState gil;
     private dynamic? clr;
     private dynamic? vits;
@@ -23,17 +23,17 @@ public class Vits {
         return res;
     }
 
-    public void PT(FileInfo config, FileInfo model, string cleaned) {
+    public void PT(FileInfo config, FileInfo model, string cleaned, FileInfo output) {
         this.vits ??= Py.Import("craft_vits");
-
-        var res = this.vits.pt_do(config.FullName, model.FullName, cleaned);
+        this.vits.pt(config.FullName, model.FullName, cleaned, output.FullName);
     }
 
-    public void PTH(FileInfo config, FileInfo model, string cleaned, float scale = 1) {
-
+    public void PTH(FileInfo config, FileInfo model, string cleaned, FileInfo output, float scale = 1) {
+        this.vits ??= Py.Import("craft_vits");
+        this.vits.pth(config.FullName, model.FullName, cleaned, output.FullName, scale);
     }
 
-    ~Vits() {
+    public void Dispose() {
         this.gil.Dispose();
         PythonEngine.Shutdown();
     }
