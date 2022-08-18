@@ -34,14 +34,18 @@ def pt_do(cfg_path, pt_path, cleaned):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-def pth_do(cfg_path, pt_path, cleaned):
+def pth_do(cfg_path, pt_path, cleaned, length_scale=1):
   hps = get_hparams_from_file(cfg_path)
-  net_g = SynthesizerInf(
+  model = SynthesizerInf(
     len(symbols),
     hps.data.filter_length // 2 + 1,
     hps.train.segment_size // hps.data.hop_length,
-    **hps.model)
-  _ = net_g.eval()
+    **hps.model).eval()
 
-  _ = load_checkpoint("./logs/ljs_base/G_119000.pth", net_g, None)
+  _ = load_checkpoint(pt_path, model, None)
   torch.set_grad_enabled(False)
+
+  stn_tst = get_text(cleaned, hps)
+  x_tst = stn_tst.unsqueeze(0)
+  x_tst_lengths = torch.LongTensor([stn_tst.size(0)])
+  return model.infer(x_tst, x_tst_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=length_scale)[0][0, 0].data.float().numpy().tobytes()
