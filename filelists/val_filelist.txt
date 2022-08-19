@@ -1,6 +1,0 @@
-koakuma/VOICE_ID_05733.wav|早く部屋から出てって！着替えはシエスタにしてもらうから。
-koakuma/VOICE_ID_05734.wav|ぐずぐずしてないで、さっさと出てって！
-koakuma/VOICE_ID_05735.wav|もう、サイトが早く部屋から出てくれなかったから遅れたんでしょ？
-koakuma/VOICE_ID_05736.wav|え……えぇ！？あ、いえ、その、なんでもありません。ミスタ・コルベール。
-koakuma/VOICE_ID_05737.wav|はい。
-koakuma/VOICE_ID_05738.wav|ま、わたし達には関係ないけどね。
