@@ -16,8 +16,8 @@ import re
 from unidecode import unidecode
 import pyopenjtalk
 from jamo import h2j, j2hcj
-from pypinyin import lazy_pinyin,BOPOMOFO
-import jieba
+from pypinyin import lazy_pinyin, BOPOMOFO
+import jieba, cn2an
 
 
 # This is a list of Korean classifiers preceded by pure Korean numerals.
@@ -110,6 +110,36 @@ _latin_to_hangul = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('x', '엑스'),
   ('y', '와이'),
   ('z', '제트')
+]]
+
+# List of (Latin alphabet, bopomofo) pairs:ˉˊˇˋ˙
+_latin_to_bopomofo = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
+  ('a', 'ㄟˉ'),
+  ('b', 'ㄅㄧˋ'),
+  ('c', 'ㄙㄧˉ'),
+  ('d', 'ㄉㄧˋ'),
+  ('e', 'ㄧˋ'),
+  ('f', 'ㄝˊㄈㄨˋ'),
+  ('g', 'ㄐㄧˋ'),
+  ('h', 'ㄝˇㄑㄩˋ'),
+  ('i', 'ㄞˋ'),
+  ('j', 'ㄐㄟˋ'),
+  ('k', 'ㄎㄟˋ'),
+  ('l', 'ㄝˊㄛˋ'),
+  ('m', 'ㄝˊㄇㄨˋ'),
+  ('n', 'ㄣˉ'),
+  ('o', 'ㄡˉ'),
+  ('p', 'ㄆㄧˉ'),
+  ('q', 'ㄎㄧㄡˉ'),
+  ('r', 'ㄚˋ'),
+  ('s', 'ㄝˊㄙˋ'),
+  ('t', 'ㄊㄧˋ'),
+  ('u', 'ㄧㄡˉ'),
+  ('v', 'ㄨㄧˉ'),
+  ('w', 'ㄉㄚˋㄅㄨˋㄌㄧㄡˋ'),
+  ('x', 'ㄝˉㄎㄨˋㄙˋ'),
+  ('y', 'ㄨㄞˋ'),
+  ('z', 'ㄗㄟˋ')
 ]]
 
 
@@ -240,6 +270,19 @@ def number_to_hangul(text):
   return text
 
 
+def number_to_chinese(text):
+  numbers = re.findall(r'\d+(?:\.?\d+)?', text)
+  for number in numbers:
+    text = text.replace(number, cn2an.an2cn(number),1)
+  return text
+
+
+def latin_to_bopomofo(text):
+  for regex, replacement in _latin_to_bopomofo:
+    text = re.sub(regex, replacement, text)
+  return text
+
+
 def basic_cleaners(text):
   '''Basic pipeline that lowercases and collapses whitespace without transliteration.'''
   text = lowercase(text)
@@ -313,6 +356,7 @@ def korean_cleaners(text):
 
 def chinese_cleaners(text):
   '''Pipeline for Chinese text'''
+  text=number_to_chinese(text)
   text=text.replace('、','，').replace('；','，').replace('：','，')
   words=jieba.lcut(text,cut_all=False)
   text=''
@@ -327,6 +371,7 @@ def chinese_cleaners(text):
     if text!='':
       text+=' '
     text+=''.join(bopomofos)
+  text=latin_to_bopomofo(text)
   if re.match('[ˉˊˇˋ˙]',text[-1]):
     text += '。'
   return text

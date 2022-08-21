@@ -12,3 +12,4 @@ pyopenjtalk==0.2.0
 jamo==0.4.1
 pypinyin==0.44.0
 jieba==0.42.1
+cn2an==0.5.17

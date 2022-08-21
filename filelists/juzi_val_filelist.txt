@@ -1,0 +1,17 @@
+juzi/cvrong01001.wav|0|哇啊啊啊啊啊啊啊————
+juzi/cvrong02079.wav|0|我已经不能再喝水了……
+juzi/cvrong03124.wav|0|嗯嗯！
+juzi/cvrong04195.wav|0|哥哥不想说？
+juzi/cvrong06057.wav|0|但是和哥哥靠在一起很开心……
+juzi/cvrong10041.wav|0|这种事情怎么能假设！
+juzi/cvrong16029.wav|0|我喜欢哥哥！
+juzi/day01_tang_012.wav|1|这是我毕生的心愿——这么说你会怎么理解。
+juzi/day03_tang_058.wav|1|…………
+juzi/day06_tang_027.wav|1|盯着你看比钓鱼有意思。
+juzi/day08_tang_020.wav|1|如果不是我每天都在教室玩弄你，你的药也能多撑一阵子吧。
+juzi/day09_tang_069.wav|1|……嗯？
+juzi/ch04_hl_038.wav|3|好啦好啦，别露出一副难受的样子。
+juzi/ch07_xls_013.wav|4|很多事要自己回想起来才有意义，对吗？
+juzi/ch11_xls_003.wav|4|忘记我是谁了？
+juzi/ch12_qy_089.wav|6|您的表情好像非常困扰，方便告诉我一下吗？为什么您对记忆有洁癖。
+juzi/ch19_hl_018.wav|3|这重要吗？
