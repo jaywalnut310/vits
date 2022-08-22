@@ -26,6 +26,12 @@ _punctuation = '，。！？—…'
 _letters = 'ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄧㄨㄩˉˊˇˋ˙ '
 '''
 
+'''# zh_ja_mixture_cleaners
+_pad        = '_'
+_punctuation = ',.!?-~…'
+_letters = 'AEINOQUabdefghijklmnoprstuvwyzʃʧʦɯɻəɥ⁼ʰ`→↓↑ '
+'''
+
 # Export all symbols:
 symbols = [_pad] + list(_punctuation) + list(_letters)
 

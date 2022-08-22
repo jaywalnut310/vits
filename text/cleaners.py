@@ -112,7 +112,7 @@ _latin_to_hangul = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('z', '제트')
 ]]
 
-# List of (Latin alphabet, bopomofo) pairs:ˉˊˇˋ˙
+# List of (Latin alphabet, bopomofo) pairs:
 _latin_to_bopomofo = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('a', 'ㄟˉ'),
   ('b', 'ㄅㄧˋ'),
@@ -143,6 +143,67 @@ _latin_to_bopomofo = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
 ]]
 
 
+# List of (bopomofo, romaji) pairs:
+_bopomofo_to_romaji = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
+  ('ㄅㄛ', 'p⁼wo'),
+  ('ㄆㄛ', 'pʰwo'),
+  ('ㄇㄛ', 'mwo'),
+  ('ㄈㄛ', 'fwo'),
+  ('ㄅ', 'p⁼'),
+  ('ㄆ', 'pʰ'),
+  ('ㄇ', 'm'),
+  ('ㄈ', 'f'),
+  ('ㄉ', 't⁼'),
+  ('ㄊ', 'tʰ'),
+  ('ㄋ', 'n'),
+  ('ㄌ', 'l'),
+  ('ㄍ', 'k⁼'),
+  ('ㄎ', 'kʰ'),
+  ('ㄏ', 'h'),
+  ('ㄐ', 'ʧ⁼'),
+  ('ㄑ', 'ʧʰ'),
+  ('ㄒ', 'ʃ'),
+  ('ㄓ', 'ʦ`⁼'),
+  ('ㄔ', 'ʦ`ʰ'),
+  ('ㄕ', 's`'),
+  ('ㄖ', 'ɻ'),
+  ('ㄗ', 'ʦ⁼'),
+  ('ㄘ', 'ʦʰ'),
+  ('ㄙ', 's'),
+  ('ㄚ', 'a'),
+  ('ㄛ', 'o'),
+  ('ㄜ', 'ə'),
+  ('ㄝ', 'e'),
+  ('ㄞ', 'ai'),
+  ('ㄟ', 'ei'),
+  ('ㄠ', 'au'),
+  ('ㄡ', 'ou'),
+  ('ㄧㄢ', 'yeNN'),
+  ('ㄢ', 'aNN'),
+  ('ㄧㄣ', 'iNN'),
+  ('ㄣ', 'əNN'),
+  ('ㄤ', 'aNg'),
+  ('ㄧㄥ', 'iNg'),
+  ('ㄨㄥ', 'uNg'),
+  ('ㄩㄥ', 'yuNg'),
+  ('ㄥ', 'əNg'),
+  ('ㄦ', 'əɻ'),
+  ('ㄧ', 'i'),
+  ('ㄨ', 'u'),
+  ('ㄩ', 'ɥ'),
+  ('ˉ', '→'),
+  ('ˊ', '↑'),
+  ('ˇ', '↓↑'),
+  ('ˋ', '↓'),
+  ('˙', ''),
+  ('，', ','),
+  ('。', '.'),
+  ('！', '!'),
+  ('？', '?'),
+  ('—', '-')
+]]
+
+
 def expand_abbreviations(text):
   for regex, replacement in _abbreviations:
     text = re.sub(regex, replacement, text)
@@ -159,6 +220,44 @@ def collapse_whitespace(text):
 
 def convert_to_ascii(text):
   return unidecode(text)
+
+
+def japanese_to_romaji_with_accent(text):
+  '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
+  sentences = re.split(_japanese_marks, text)
+  marks = re.findall(_japanese_marks, text)
+  text = ''
+  for i, sentence in enumerate(sentences):
+    if re.match(_japanese_characters, sentence):
+      if text!='':
+        text+=' '
+      labels = pyopenjtalk.extract_fullcontext(sentence)
+      for n, label in enumerate(labels):
+        phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
+        if phoneme not in ['sil','pau']:
+          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q')
+        else:
+          continue
+        n_moras = int(re.search(r'/F:(\d+)_', label).group(1))
+        a1 = int(re.search(r"/A:(\-?[0-9]+)\+", label).group(1))
+        a2 = int(re.search(r"\+(\d+)\+", label).group(1))
+        a3 = int(re.search(r"\+(\d+)/", label).group(1))
+        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil','pau']:
+          a2_next=-1
+        else:
+          a2_next = int(re.search(r"\+(\d+)\+", labels[n + 1]).group(1))
+        # Accent phrase boundary
+        if a3 == 1 and a2_next == 1:
+          text += ' '
+        # Falling
+        elif a1 == 0 and a2_next == a2 + 1 and a2 != n_moras:
+          text += '↓'
+        # Rising
+        elif a2 == 1 and a2_next == 2:
+          text += '↑'
+    if i<len(marks):
+      text += unidecode(marks[i]).replace(' ','')
+  return text
 
 
 def latin_to_hangul(text):
@@ -277,8 +376,32 @@ def number_to_chinese(text):
   return text
 
 
+def chinese_to_bopomofo(text):
+  text=text.replace('、','，').replace('；','，').replace('：','，')
+  words=jieba.lcut(text,cut_all=False)
+  text=''
+  for word in words:
+    bopomofos=lazy_pinyin(word,BOPOMOFO)
+    if not re.search('[\u4e00-\u9fff]',word):
+      text+=word
+      continue
+    for i in range(len(bopomofos)):
+      if re.match('[\u3105-\u3129]',bopomofos[i][-1]):
+        bopomofos[i]+='ˉ'
+    if text!='':
+      text+=' '
+    text+=''.join(bopomofos)
+  return text
+
+
 def latin_to_bopomofo(text):
   for regex, replacement in _latin_to_bopomofo:
+    text = re.sub(regex, replacement, text)
+  return text
+
+
+def bopomofo_to_romaji(text):
+  for regex, replacement in _bopomofo_to_romaji:
     text = re.sub(regex, replacement, text)
   return text
 
@@ -299,41 +422,7 @@ def transliteration_cleaners(text):
 
 
 def japanese_cleaners(text):
-  '''Pipeline for notating accent in Japanese text.
-  Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
-  sentences = re.split(_japanese_marks, text)
-  marks = re.findall(_japanese_marks, text)
-  text = ''
-  for i, sentence in enumerate(sentences):
-    if re.match(_japanese_characters, sentence):
-      if text!='':
-        text+=' '
-      labels = pyopenjtalk.extract_fullcontext(sentence)
-      for n, label in enumerate(labels):
-        phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
-        if phoneme not in ['sil','pau']:
-          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q')
-        else:
-          continue
-        n_moras = int(re.search(r'/F:(\d+)_', label).group(1))
-        a1 = int(re.search(r"/A:(\-?[0-9]+)\+", label).group(1))
-        a2 = int(re.search(r"\+(\d+)\+", label).group(1))
-        a3 = int(re.search(r"\+(\d+)/", label).group(1))
-        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil','pau']:
-          a2_next=-1
-        else:
-          a2_next = int(re.search(r"\+(\d+)\+", labels[n + 1]).group(1))
-        # Accent phrase boundary
-        if a3 == 1 and a2_next == 1:
-          text += ' '
-        # Falling
-        elif a1 == 0 and a2_next == a2 + 1 and a2 != n_moras:
-          text += '↓'
-        # Rising
-        elif a2 == 1 and a2_next == 2:
-          text += '↑'
-    if i<len(marks):
-      text += unidecode(marks[i]).replace(' ','')
+  text=japanese_to_romaji_with_accent(text)
   if re.match('[A-Za-z]',text[-1]):
     text += '.'
   return text
@@ -357,21 +446,29 @@ def korean_cleaners(text):
 def chinese_cleaners(text):
   '''Pipeline for Chinese text'''
   text=number_to_chinese(text)
-  text=text.replace('、','，').replace('；','，').replace('：','，')
-  words=jieba.lcut(text,cut_all=False)
-  text=''
-  for word in words:
-    bopomofos=lazy_pinyin(word,BOPOMOFO)
-    if not re.search('[\u4e00-\u9fff]',word):
-      text+=word
-      continue
-    for i in range(len(bopomofos)):
-      if re.match('[\u3105-\u3129]',bopomofos[i][-1]):
-        bopomofos[i]+='ˉ'
-    if text!='':
-      text+=' '
-    text+=''.join(bopomofos)
+  text=chinese_to_bopomofo(text)
   text=latin_to_bopomofo(text)
   if re.match('[ˉˊˇˋ˙]',text[-1]):
     text += '。'
+  return text
+
+
+def zh_ja_mixture_cleaners(text):
+  chinese_texts=re.findall(r'\[ZH\].*?\[ZH\]',text)
+  japanese_texts=re.findall(r'\[JA\].*?\[JA\]',text)
+  for chinese_text in chinese_texts:
+    cleaned_text=number_to_chinese(chinese_text[4:-4])
+    cleaned_text=chinese_to_bopomofo(cleaned_text)
+    cleaned_text=latin_to_bopomofo(cleaned_text)
+    cleaned_text=bopomofo_to_romaji(cleaned_text)
+    cleaned_text=re.sub('i[aoe]',lambda x:'y'+x.group(0)[1:],cleaned_text)
+    cleaned_text=re.sub('u[aoəe]',lambda x:'w'+x.group(0)[1:],cleaned_text)
+    cleaned_text=re.sub('([ʦs]`?[⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɻ'+x.group(2),cleaned_text)
+    text = text.replace(chinese_text,cleaned_text+' ',1)
+  for japanese_text in japanese_texts:
+    cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…')
+    text = text.replace(japanese_text,cleaned_text+' ',1)
+  text=text[:-1]
+  if re.match('[A-Za-z]',text[-1]):
+    text += '.'
   return text
