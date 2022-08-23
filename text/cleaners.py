@@ -469,6 +469,6 @@ def zh_ja_mixture_cleaners(text):
     cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…')
     text = text.replace(japanese_text,cleaned_text+' ',1)
   text=text[:-1]
-  if re.match('[A-Za-z→↓↑]',text[-1]):
+  if re.match('[A-Za-zɯɻəɥ→↓↑]',text[-1]):
     text += '.'
   return text
