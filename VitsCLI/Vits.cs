@@ -12,7 +12,7 @@ public class Vits : IDisposable {
         this.gil = Py.GIL();
 
         dynamic sys = Py.Import("sys");
-        sys.path.append(AppContext.BaseDirectory);
+        sys.path.append(AppContext.BaseDirectory + "infer.zip");
     }
 
     public string Clean(string str) {

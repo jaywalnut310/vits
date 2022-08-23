@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="*.py">
+    <None Update="infer.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
