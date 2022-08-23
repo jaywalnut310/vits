@@ -1,6 +1,7 @@
 ﻿namespace VitsCLI;
 
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using CommandLine;
@@ -21,7 +22,7 @@ internal class Program {
                                 : "libpython3.8.so";
 
                     Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", pyLib);
-                    Console.WriteLine("PythonDLL name is: " + pyLib);
+                    Console.WriteLine("Set PythonDLL name to: " + pyLib);
                 }
 
                 if (!string.IsNullOrWhiteSpace(x.PyLoc)) {
@@ -32,8 +33,7 @@ internal class Program {
                 } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
 
                     var path = Environment.GetEnvironmentVariable("PATH")?.Split(';')
-                        .Where(p => !p.Contains("WindowsApps"))
-                        .FirstOrDefault(p => File.Exists(Path.Combine(p, "python.exe")));
+                        .FirstOrDefault(p => File.Exists(Path.Combine(p, "python3.dll")));
 
                     if (!string.IsNullOrEmpty(path)) {
                         PythonEngine.PythonHome = path;
@@ -45,14 +45,28 @@ internal class Program {
                     }
                 }
 
-                {
-                    var py = new Vits();
-                    var cleaned = py.Clean(x.Text);
+                var py = new Vits();
+                var cleaned = py.Clean(x.Text);
 
-                    if (x.Clean) Environment.Exit(0);
+                if (x.Clean) Environment.Exit(0);
 
-                    py.PT(new(x.Config), new(x.Model), cleaned, x.Output);
+                var file = $"{Path.GetFileNameWithoutExtension(x.Config)}-{Random.Shared.Next()}.wav";
+
+                if (string.IsNullOrWhiteSpace(x.Output))
+                    x.Output = Path.Combine(AppContext.BaseDirectory, file);
+
+                if (Directory.Exists(x.Output))
+                    x.Output = Path.Combine(x.Output, file);
+
+                Console.WriteLine("Save File to " + x.Output);
+
+                if (x.Model.EndsWith(".pth", true, CultureInfo.InvariantCulture)) {
+                    py.PTH(x.Config, x.Model, cleaned, x.Output);
                     py.Dispose();
+                    return;
                 }
+
+                py.PT(x.Config, x.Model, cleaned, x.Output);
+                py.Dispose();
             });
 }

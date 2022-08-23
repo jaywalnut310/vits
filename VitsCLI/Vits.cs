@@ -19,18 +19,18 @@ public class Vits : IDisposable {
         this.clr ??= Py.Import("cleaner");
 
         var res = this.clr.japanese_cleaner(str);
-        Console.WriteLine(res);
+        Console.WriteLine("Cleaned: " + res);
         return res;
     }
 
-    public void PT(FileInfo config, FileInfo model, string cleaned, string? output) {
+    public void PT(string config, string model, string cleaned, string output) {
         this.vits ??= Py.Import("craft_vits");
-        this.vits.pt(config.FullName, model.FullName, cleaned, output);
+        this.vits.pt(config, model, cleaned, output);
     }
 
-    public void PTH(FileInfo config, FileInfo model, string cleaned, string output, float scale = 1) {
+    public void PTH(string config, string model, string cleaned, string output, float scale = 1) {
         this.vits ??= Py.Import("craft_vits");
-        this.vits.pth(config.FullName, model.FullName, cleaned, output, scale);
+        this.vits.pth(config, model, cleaned, output, scale);
     }
 
     public void Dispose() {

@@ -21,6 +21,6 @@ public class Options {
     [Option('o', "Output", Required = false, HelpText = "WAV file output file or directory.")]
     public string? Output { get; set; }
 
-    [Value(0, MetaName = "Text", Required = true, HelpText = "The text to be converted.")]
+    [Value(0, MetaName = "Text", Required = false, HelpText = "The text to be converted.")]
     public string Text { get; set; } = "吾輩は猫である。名前はまだない";
 }
