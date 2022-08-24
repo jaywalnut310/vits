@@ -2,12 +2,15 @@
 
 using CommandLine;
 
-public class Options {
+public class Cfg {
     [Option('d', "PyDLL", Required = false, HelpText = "Specifies the PythonDLL name of the Python3.")]
     public string? PyDLL { get; set; }
 
     [Option('p', "PyLoc", Required = false, HelpText = "Specifies the PythonHome location of the Python38.")]
     public string? PyLoc { get; set; }
+
+    [Option('l', "Local", Required = false, HelpText = "Use Python that is already installed on the system.")]
+    public bool Local { get; set; }
 
     [Option('n', "Clean", Required = false, HelpText = "NoTTS, Only clean the Text.")]
     public bool Clean { get; set; }
