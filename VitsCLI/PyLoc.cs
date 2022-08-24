@@ -24,7 +24,7 @@ public static partial class Env {
             } else {
                 _ = Process.Start("explorer", "https://apps.microsoft.com/store/detail/python-38/9MSSZTT1N39L");
                 throw new DllNotFoundException(
-                    "It looks like you don't have Python3 installed, please install it, or don't set --Local, or use --PyLoc to locate it.");
+                    "It looks like you don't have Python38 installed, please install it, or don't set --Local, or use --PyLoc to locate it.");
             }
         }
     }

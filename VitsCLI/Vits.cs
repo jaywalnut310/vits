@@ -7,7 +7,10 @@ public class Vits : IDisposable {
     private dynamic? clr;
     private dynamic? vits;
 
-    public Vits() {
+    public Vits(string[] args, bool check = true) {
+        if (check && !Env.TryLoad(args).Result)
+            throw new("不能启动 Python，这可能是因为在 Local 模式时 PyDLL / PyLoc 设置错误；或自动安装的 Python 环境损坏导致的，可使用 --Reset 恢复");
+
         PythonEngine.Initialize();
         this.gil = Py.GIL();
 

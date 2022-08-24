@@ -9,7 +9,12 @@ Parser.Default.ParseArguments<Cfg>(args)
         else
             Env.AutoSetup();
 
-        var py = new Vits();
+        if (x.Test) {
+            new Vits(args, false).Dispose();
+            return;
+        }
+
+        var py = new Vits(args);
         var cleaned = py.Clean(x.Text);
 
         if (x.Clean) Environment.Exit(0);
