@@ -166,7 +166,7 @@ _bopomofo_to_romaji = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('ㄓ', 'ʦ`⁼'),
   ('ㄔ', 'ʦ`ʰ'),
   ('ㄕ', 's`'),
-  ('ㄖ', 'ɻ'),
+  ('ㄖ', 'ɹ`'),
   ('ㄗ', 'ʦ⁼'),
   ('ㄘ', 'ʦʰ'),
   ('ㄙ', 's'),
@@ -463,12 +463,13 @@ def zh_ja_mixture_cleaners(text):
     cleaned_text=bopomofo_to_romaji(cleaned_text)
     cleaned_text=re.sub('i[aoe]',lambda x:'y'+x.group(0)[1:],cleaned_text)
     cleaned_text=re.sub('u[aoəe]',lambda x:'w'+x.group(0)[1:],cleaned_text)
-    cleaned_text=re.sub('([ʦs]`?[⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɻ'+x.group(2),cleaned_text)
+    cleaned_text=re.sub('([ʦsɹ]`[⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɹ`'+x.group(2),cleaned_text)
+    cleaned_text=re.sub('([ʦs][⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɹ'+x.group(2),cleaned_text)
     text = text.replace(chinese_text,cleaned_text+' ',1)
   for japanese_text in japanese_texts:
     cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…')
     text = text.replace(japanese_text,cleaned_text+' ',1)
   text=text[:-1]
-  if re.match('[A-Za-zɯɻəɥ→↓↑]',text[-1]):
+  if re.match('[A-Za-zɯɹəɥ→↓↑]',text[-1]):
     text += '.'
   return text
