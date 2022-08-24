@@ -1,5 +1,6 @@
 ﻿namespace VitsCLI;
 
+using System.Globalization;
 using Python.Runtime;
 
 public class Vits : IDisposable {
@@ -26,14 +27,20 @@ public class Vits : IDisposable {
         return res;
     }
 
-    public void PT(string config, string model, string cleaned, string output) {
-        this.vits ??= Py.Import("craft_vits");
-        this.vits.pt(config, model, cleaned, output);
-    }
+    public void Do(string config, string model, string cleaned, string output, float scale = 1) {
+        ArgumentException.ThrowIfNullOrEmpty(config);
+        ArgumentException.ThrowIfNullOrEmpty(model);
+        ArgumentException.ThrowIfNullOrEmpty(cleaned);
+        ArgumentException.ThrowIfNullOrEmpty(output);
 
-    public void PTH(string config, string model, string cleaned, string output, float scale = 1) {
         this.vits ??= Py.Import("craft_vits");
-        this.vits.pth(config, model, cleaned, output, scale);
+
+        if (model.EndsWith(".pth", true, CultureInfo.InvariantCulture)) {
+            this.vits.pth(config, model, cleaned, output, scale);
+            return;
+        }
+
+        this.vits.pt(config, model, cleaned, output);
     }
 
     public void Dispose() {

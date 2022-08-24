@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using CommandLine;
+﻿using CommandLine;
 using VitsCLI;
 
 Parser.Default.ParseArguments<Cfg>(args)
@@ -17,7 +16,8 @@ Parser.Default.ParseArguments<Cfg>(args)
         var py = new Vits(args);
         var cleaned = py.Clean(x.Text);
 
-        if (x.Clean) Environment.Exit(0);
+        if (x.Clean)
+            Environment.Exit(0);
 
         var file = Env.OutName(x.Config);
 
@@ -29,12 +29,6 @@ Parser.Default.ParseArguments<Cfg>(args)
 
         Console.WriteLine("Save File to " + x.Output);
 
-        if (x.Model.EndsWith(".pth", true, CultureInfo.InvariantCulture)) {
-            py.PTH(x.Config, x.Model, cleaned, x.Output);
-            py.Dispose();
-            return;
-        }
-
-        py.PT(x.Config, x.Model, cleaned, x.Output);
+        py.Do(x.Config, x.Model, cleaned, x.Output);
         py.Dispose();
     });
