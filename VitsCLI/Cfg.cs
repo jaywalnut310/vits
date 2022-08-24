@@ -30,8 +30,11 @@ public class Cfg {
     [Option('o', "Output", HelpText = "WAV file output file or directory.")]
     public string? Output { get; set; }
 
-    [Option('s', "Scale", HelpText = "Valid when PTH. Set the voice speed.")]
-    public float Scale { get; set; }
+    [Option('s', "Scale", HelpText = "Valid for PTH. Set speaking speed.")]
+    public float Scale { get; set; } = 1;
+
+    [Option('w', "Speaker", HelpText = "Valid for multi-speaker models. Set speaker ID.")]
+    public ushort Speaker { get; set; }
 
     [Value(0, MetaName = "Text", HelpText = "The text to be converted.")]
     public string Text { get; set; } = "吾輩は猫である。名前はまだない";

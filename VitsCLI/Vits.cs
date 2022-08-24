@@ -23,24 +23,24 @@ public class Vits : IDisposable {
         this.clr ??= Py.Import("cleaner");
 
         var res = this.clr.japanese_cleaner(str);
-        Console.WriteLine("Cleaned: " + res);
+        Console.WriteLine("\nCleaned: " + res);
         return res;
     }
 
-    public void Do(string config, string model, string cleaned, string output, float scale = 1) {
-        ArgumentException.ThrowIfNullOrEmpty(config);
-        ArgumentException.ThrowIfNullOrEmpty(model);
+    public void Do(Cfg cfg, string cleaned) {
+        ArgumentException.ThrowIfNullOrEmpty(cfg.Config);
+        ArgumentException.ThrowIfNullOrEmpty(cfg.Model);
+        ArgumentException.ThrowIfNullOrEmpty(cfg.Output);
         ArgumentException.ThrowIfNullOrEmpty(cleaned);
-        ArgumentException.ThrowIfNullOrEmpty(output);
 
         this.vits ??= Py.Import("craft_vits");
 
-        if (model.EndsWith(".pth", true, CultureInfo.InvariantCulture)) {
-            this.vits.pth(config, model, cleaned, output, scale);
+        if (cfg.Model.EndsWith(".pth", true, CultureInfo.InvariantCulture)) {
+            this.vits.pth(cfg, cleaned);
             return;
         }
 
-        this.vits.pt(config, model, cleaned, output);
+        this.vits.pt(cfg, cleaned);
     }
 
     public void Dispose() {

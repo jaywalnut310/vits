@@ -16,8 +16,10 @@ Parser.Default.ParseArguments<Cfg>(args)
         var py = new Vits(args);
         var cleaned = py.Clean(x.Text);
 
-        if (x.Clean)
-            Environment.Exit(0);
+        if (x.Clean) {
+            py.Dispose();
+            return;
+        }
 
         var file = Env.OutName(x.Config);
 
@@ -27,8 +29,8 @@ Parser.Default.ParseArguments<Cfg>(args)
         if (Directory.Exists(x.Output))
             x.Output = Path.Combine(x.Output, file);
 
-        Console.WriteLine("Save File to " + x.Output);
+        Console.WriteLine("\nSave File to file://" + x.Output.Replace('\\', '/'));
 
-        py.Do(x.Config, x.Model, cleaned, x.Output);
+        py.Do(x, cleaned);
         py.Dispose();
     });

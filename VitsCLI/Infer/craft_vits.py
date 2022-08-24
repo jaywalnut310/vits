@@ -23,31 +23,31 @@ def get_text(text, hps):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-def pt(cfg_path, pt_path, cleaned, out_path):
-  hps = get_hparams_from_file(cfg_path)
+def pt(cfg, cleaned):
+  hps = get_hparams_from_file(cfg.Config)
 
-  model = torch.jit.load(pt_path).eval()
+  model = torch.jit.load(cfg.Model).eval()
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
   raw = model(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]))[0][0, 0].data.float().numpy()
-  return write(out_path, hps.data.sampling_rate, raw)
+  return write(cfg.Output, hps.data.sampling_rate, raw)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-def pth(cfg_path, pt_path, cleaned, out_path, length_scale=1):
-  hps = get_hparams_from_file(cfg_path)
+def pth(cfg, cleaned):
+  hps = get_hparams_from_file(cfg.Config)
   model = SynthesizerInf(
     len(symbols),
     hps.data.filter_length // 2 + 1,
     hps.train.segment_size // hps.data.hop_length,
     **hps.model).eval()
 
-  _ = load_checkpoint(pt_path, model, None)
+  _ = load_checkpoint(cfg.Model, model, None)
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
-  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=length_scale)[0][
+  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), cfg.Scale)[0][
     0, 0].data.float().numpy()
-  return write(out_path, hps.data.sampling_rate, raw)
+  return write(cfg.Output, hps.data.sampling_rate, raw)
