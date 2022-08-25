@@ -3,19 +3,22 @@
 using CommandLine;
 
 public class Cfg {
-    [Option('d', "PyDLL", HelpText = "Specifies the PythonDLL name of the Python3.")]
+    [Option('d', "PyDLL", HelpText = "Set the PythonDLL name of the Python3.")]
     public string? PyDLL { get; set; }
 
-    [Option('p', "PyLoc", HelpText = "Specifies the PythonHome location of the Python38.")]
+    [Option('p', "PyLoc", HelpText = "Set the PythonHome location of the Python38.")]
     public string? PyLoc { get; set; }
 
-    [Option('l', "Local", HelpText = "Use Python that is already installed on the system.")]
+    [Option('h', "PyPath", HelpText = "Set the PythonPath location of the Python38.")]
+    public string? PyPath { get; set; }
+
+    [Option('l', "Local", HelpText = "Use Python installed on the system.")]
     public bool Local { get; set; }
 
     [Option('t', "Test", HelpText = "Try to load Python.")]
     public bool Test { get; set; }
 
-    [Option('r', "Reset", HelpText = "Reset the included Python.")]
+    [Option('r', "Reset", HelpText = "Reset the built-in Python.")]
     public bool Reset { get; set; }
 
     [Option('n', "Clean", HelpText = "NoTTS, Only clean the Text.")]

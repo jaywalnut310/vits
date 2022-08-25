@@ -70,6 +70,14 @@ public static partial class Env {
                     sxz.ExtractToDirectory(lib, true);
                 }
 
+                {
+                    Console.WriteLine("安装 typing_extensions");
+                    await using var typ = await client.GetStreamAsync(
+                        "https://pypi.tuna.tsinghua.edu.cn/packages/ed/d6/2afc375a8d55b8be879d6b4986d4f69f01115e795e36827fd3a40166028b/typing_extensions-4.3.0-py3-none-any.whl");
+                    using var tpz = new ZipArchive(typ);
+                    tpz.ExtractToDirectory(lib, true);
+                }
+
                 Console.WriteLine("安装 pyopenjtalk");
                 ZipFile.ExtractToDirectory(Path.Combine(AppContext.BaseDirectory, "pyopenjtalk.zip"), lib, true);
             }
@@ -79,7 +87,7 @@ public static partial class Env {
 
             PythonEngine.PythonPath = string.Join(";", path, lib,
                 Path.Combine(path, "python38.zip"),
-                Path.Combine(path, "infer.zip"));
+                Path.Combine(AppContext.BaseDirectory, "infer.zip"));
         } else
             throw new NotSupportedException("目前还不支持 Windows 以外的自动环境配置");
     }
