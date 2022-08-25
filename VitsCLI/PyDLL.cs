@@ -12,8 +12,6 @@ public static partial class Env {
                     : "libpython3.8.so";
 
         Environment.SetEnvironmentVariable("PYTHONNET_PYDLL", lib);
-        Console.WriteLine("Set PythonDLL name to: " + lib);
-
         return lib;
     }
 }

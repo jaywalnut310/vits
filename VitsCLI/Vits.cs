@@ -14,9 +14,6 @@ public class Vits : IDisposable {
 
         PythonEngine.Initialize();
         this.gil = Py.GIL();
-
-        dynamic sys = Py.Import("sys");
-        sys.path.append(AppContext.BaseDirectory + "infer.zip");
     }
 
     public string Clean(string str) {

@@ -3,10 +3,16 @@ using VitsCLI;
 
 Parser.Default.ParseArguments<Cfg>(args)
     .WithParsed(x => {
+        if (x.Reset) {
+            Env.AutoSetup(true).Wait();
+            Console.WriteLine("已成功重建 Python 运行时");
+            return;
+        }
+
         if (x.Local)
             Env.SetPyLoc(x.PyLoc, Env.SetPyDLL(x.PyDLL));
         else
-            Env.AutoSetup();
+            Env.AutoSetup().Wait();
 
         if (x.Test) {
             new Vits(args, false).Dispose();
