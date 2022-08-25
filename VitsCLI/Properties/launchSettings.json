@@ -2,7 +2,7 @@
   "profiles": {
     "VitsCLI": {
       "commandName": "Project",
-      "commandLineArgs": "-c \"E:\\CaChe\\NimiSora.json\"\r\n-m \"E:\\CaChe\\NimiSora_G_119000.pth\""
+      "commandLineArgs": "-r\r\n-c \"E:\\CaChe\\NimiSora.json\"\r\n-m \"E:\\CaChe\\NimiSora_G_119000.pth\""
     }
   }
 }
