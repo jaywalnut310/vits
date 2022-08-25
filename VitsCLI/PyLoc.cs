@@ -6,12 +6,17 @@ using Python.Runtime;
 
 public static partial class Env {
     public static void SetPyLoc(string? loc = null, string? dll = null) {
-        if (!string.IsNullOrWhiteSpace(loc))
-            PythonEngine.PythonHome = Directory.Exists(loc)
+        if (!string.IsNullOrWhiteSpace(loc)) {
+            var path = Directory.Exists(loc)
                 ? loc
                 : throw new DirectoryNotFoundException("PythonHome Not Exists " + loc);
 
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+            var raw = Environment.GetEnvironmentVariable("PATH")?.TrimEnd(';');
+            Environment.SetEnvironmentVariable("PATH", string.IsNullOrEmpty(raw) ? path : $"{raw};{path}", EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PYTHONHOME", path, EnvironmentVariableTarget.Process);
+            PythonEngine.PythonHome = path;
+
+        } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
             var path = Environment.GetEnvironmentVariable("PATH")?.Split(';')
                 .FirstOrDefault(p => string.IsNullOrWhiteSpace(dll)
                     ? File.Exists(Path.Combine(p, "python3.dll"))
