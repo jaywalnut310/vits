@@ -147,10 +147,14 @@ class MultiHeadAttention(nn.Module):
 
   def attention(self, query, key, value, mask=None):
     # reshape [b, d, t] -> [b, n_h, t, d_k]
-    b = torch.tensor(key.size(0))
-    d = torch.tensor(key.size(1))
-    t_s = torch.tensor(key.size(2))
-    t_t = torch.tensor(query.size(2))
+    # When generating ONNX, Tensor.size() returns a tensor
+    # Otherwise, it returns an int
+    b, d, t_s, t_t = (*key.size(), query.size(2))
+    if type(b) != torch.Tensor:
+      b = torch.tensor(b)
+      d = torch.tensor(d)
+      t_s = torch.tensor(t_s)
+      t_t = torch.tensor(t_t)
     query = query.view(b, self.n_heads, self.k_channels, t_t).transpose(2, 3)
     key = key.view(b, self.n_heads, self.k_channels, t_s).transpose(2, 3)
     value = value.view(b, self.n_heads, self.k_channels, t_s).transpose(2, 3)
