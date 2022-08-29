@@ -48,6 +48,6 @@ def pth(cfg, cleaned):
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
-  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), cfg.Scale)[0][
+  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=cfg.Scale)[0][
     0, 0].data.float().numpy()
   return write(cfg.Output, hps.data.sampling_rate, raw)
