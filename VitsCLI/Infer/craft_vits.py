@@ -42,12 +42,13 @@ def pth(cfg, cleaned):
     len(symbols),
     hps.data.filter_length // 2 + 1,
     hps.train.segment_size // hps.data.hop_length,
+    n_speakers=hps.data.n_speakers,
     **hps.model).eval()
 
   _ = load_checkpoint(cfg.Model, model, None)
   torch.set_grad_enabled(False)
 
   stn_tst = get_text(cleaned, hps)
-  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]), length_scale=cfg.Scale)[0][
-    0, 0].data.float().numpy()
+  raw = model.forward(stn_tst.unsqueeze(0), torch.LongTensor([stn_tst.size(0)]),
+                      length_scale=cfg.Scale, sid=torch.LongTensor([cfg.Speaker]))[0][0, 0].data.float().numpy()
   return write(cfg.Output, hps.data.sampling_rate, raw)
