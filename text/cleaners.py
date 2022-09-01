@@ -51,7 +51,12 @@ _abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in 
   ('esq', 'esquire'),
   ('ltd', 'limited'),
   ('col', 'colonel'),
-  ('ft', 'fort'),
+  ('ft', 'fort')
+]]
+
+# List of (symbol, Japanese) pairs for marks:
+_symbols_to_japanese = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
+  ('％', 'パーセント')
 ]]
 
 # List of (hangul, hangul divided) pairs:
@@ -222,8 +227,15 @@ def convert_to_ascii(text):
   return unidecode(text)
 
 
+def symbols_to_japanese(text):
+  for regex, replacement in _symbols_to_japanese:
+    text = re.sub(regex, replacement, text)
+  return text
+
+
 def japanese_to_romaji_with_accent(text):
   '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
+  text = symbols_to_japanese(text)
   sentences = re.split(_japanese_marks, text)
   marks = re.findall(_japanese_marks, text)
   text = ''
