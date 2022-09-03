@@ -29,7 +29,7 @@
     "mel_fmin": 0.0,
     "mel_fmax": null,
     "add_blank": true,
-    "n_speakers": 21,
+    "n_speakers": 26,
     "cleaned_text": true
   },
   "model": {
