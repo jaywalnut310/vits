@@ -1095,7 +1095,7 @@ rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
 name = "resampy"
-version = "0.4.1"
+version = "0.4.2"
 description = "Efficient signal resampling"
 category = "main"
 optional = false
