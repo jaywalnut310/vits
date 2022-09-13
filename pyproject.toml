@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "vits-1"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.10"
+Cython = "^0.29.32"
+librosa = "*"
+matplotlib = "*"
+numpy = "*"
+phonemizer = "*"
+scipy = "*"
+tensorboard = "*"
+torch = "*"
+torchvision = "*"
+Unidecode = "*"
+
+[tool.poetry.dev-dependencies]
+ipykernel = "^6.15.3"
+black = {version = "^22.8.0", allow-prereleases = true}
+flake8 = "^5.0.4"
+pylint = "^2.15.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
