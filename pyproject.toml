@@ -7,8 +7,8 @@ build = "build.py"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
-Cython = "^0.29.32"
 numpy = "^1.23.3"
+Cython = "^0.29.32"
 librosa = "*"
 matplotlib = "*"
 numpy = "*"
