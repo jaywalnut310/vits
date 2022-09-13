@@ -8,5 +8,5 @@ __pycache__
 
 build
 *.c
-monotonic_align/monotonic_align
+vits/monotonic_align/monotonic_align
 dist/
