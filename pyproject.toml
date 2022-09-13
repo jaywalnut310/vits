@@ -7,11 +7,10 @@ build = "build.py"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
-numpy = "^1.23.3"
+numpy = "*"
 Cython = "^0.29.32"
 librosa = "*"
 matplotlib = "*"
-numpy = "*"
 phonemizer = "*"
 scipy = "*"
 tensorboard = "*"
