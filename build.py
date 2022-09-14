@@ -21,6 +21,6 @@ def build(setup_kwargs):
             "include_dirs": [numpy.get_include()],
         }
     )
-if __name__ == '__main__':
-    build()
+# if __name__ == '__main__':
+#     build()
     
