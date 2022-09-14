@@ -10,7 +10,7 @@ modules = [
 
 extensions = [
     Extension("vits.monotonic_align.core",
-              ["vits.monotonic_align.core.pyx"],
+              ["vits/monotonic_align/core.pyx"],
                 include_dirs=[numpy.get_include()]
               )
 ]
