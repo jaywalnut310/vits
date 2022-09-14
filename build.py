@@ -1,25 +1,35 @@
+from setuptools.extension import Extension
+
 import numpy
 from Cython.Build import cythonize
+from Cython.Distutils import build_ext
 
 modules = [
     "vits/monotonic_align/core.pyx",
 ]
 
-extensions = cythonize(modules)
+extensions = [
+    Extension("vits.monotonic_align.core",
+              ["vits.monotonic_align.core.pyx"],
+                include_dirs=[numpy.get_include()]
+              )
+]
 
+class BuildExt(build_ext):
+    def build_extensions(self):
+        try:
+            super().build_extensions()
+        except Exception:
+            pass
 
 def build(setup_kwargs):
-    """
-    This is a callback for poetry used to hook in our extensions.
-    """
-
     setup_kwargs.update(
-        {
-            # declare the extension so that setuptools will compile it
-            "name": "monotonic_align",
-            "ext_modules": extensions,
-            "include_dirs": [numpy.get_include()],
-        }
+        dict(
+            cmdclass=dict(build_ext=BuildExt),
+            ext_modules=cythonize(extensions,
+                                  language_level=3),
+            zip_safe=False
+        )
     )
 # if __name__ == '__main__':
 #     build()
