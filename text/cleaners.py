@@ -16,8 +16,10 @@ import re
 from unidecode import unidecode
 import pyopenjtalk
 from jamo import h2j, j2hcj
+import ko_pron
 from pypinyin import lazy_pinyin, BOPOMOFO
 import jieba, cn2an
+from indic_transliteration import sanscript
 
 
 # This is a list of Korean classifiers preceded by pure Korean numerals.
@@ -58,6 +60,36 @@ _abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in 
 _symbols_to_japanese = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('％', 'パーセント')
 ]]
+
+# Dictinary of (consonant, sokuon) pairs:
+_real_sokuon = {
+  'k': 'k#',
+  'g': 'k#',
+  't': 't#',
+  'd': 't#',
+  'ʦ': 't#',
+  'ʧ': 't#',
+  'ʥ': 't#',
+  'j': 't#',
+  's': 's',
+  'ʃ': 's',
+  'p': 'p#',
+  'b': 'p#'
+}
+
+# Dictinary of (consonant, hatsuon) pairs:
+_real_hatsuon = {
+  'p': 'm',
+  'b': 'm',
+  'm': 'm',
+  't': 'n',
+  'd': 'n',
+  'n': 'n',
+  'ʧ': 'n^',
+  'ʥ': 'n^',
+  'k': 'ŋ',
+  'g': 'ŋ'
+}
 
 # List of (hangul, hangul divided) pairs:
 _hangul_divided = [(re.compile('%s' % x[0]), x[1]) for x in [
@@ -149,7 +181,7 @@ _latin_to_bopomofo = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
 
 
 # List of (bopomofo, romaji) pairs:
-_bopomofo_to_romaji = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
+_bopomofo_to_romaji = [(re.compile('%s' % x[0]), x[1]) for x in [
   ('ㄅㄛ', 'p⁼wo'),
   ('ㄆㄛ', 'pʰwo'),
   ('ㄇㄛ', 'mwo'),
@@ -206,6 +238,53 @@ _bopomofo_to_romaji = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
   ('！', '!'),
   ('？', '?'),
   ('—', '-')
+]]
+
+
+# List of (iast, ipa) pairs:
+_iast_to_ipa = [(re.compile('%s' % x[0]), x[1]) for x in [
+  ('a', 'ə'),
+  ('ā', 'aː'),
+  ('ī', 'iː'),
+  ('ū', 'uː'),
+  ('ṛ', 'ɹ`'),
+  ('ṝ', 'ɹ`ː'),
+  ('ḷ', 'l`'),
+  ('ḹ', 'l`ː'),
+  ('e', 'eː'),
+  ('o', 'oː'),
+  ('k', 'k⁼'),
+  ('k⁼h', 'kʰ'),
+  ('g', 'g⁼'),
+  ('g⁼h', 'gʰ'),
+  ('ṅ', 'ŋ'),
+  ('c', 'ʧ⁼'),
+  ('ʧ⁼h', 'ʧʰ'),
+  ('j', 'ʥ⁼'),
+  ('ʥ⁼h', 'ʥʰ'),
+  ('ñ', 'n^'),
+  ('ṭ', 't`⁼'),
+  ('t`⁼h', 't`ʰ'),
+  ('ḍ', 'd`⁼'),
+  ('d`⁼h', 'd`ʰ'),
+  ('ṇ', 'n`'),
+  ('t', 't⁼'),
+  ('t⁼h', 'tʰ'),
+  ('d', 'd⁼'),
+  ('d⁼h', 'dʰ'),
+  ('p', 'p⁼'),
+  ('p⁼h', 'pʰ'),
+  ('b', 'b⁼'),
+  ('b⁼h', 'bʰ'),
+  ('y', 'j'),
+  ('ś', 'ʃ'),
+  ('ṣ', 's`'),
+  ('r','ɾ'),
+  ('l̤', 'l`'),
+  ('h', 'ɦ'),
+  ("'", ''),
+  ('~', '^'),
+  ('ṃ', '^')
 ]]
 
 
@@ -269,6 +348,16 @@ def japanese_to_romaji_with_accent(text):
           text += '↑'
     if i<len(marks):
       text += unidecode(marks[i]).replace(' ','')
+  return text
+
+
+def get_real_sokuon(text):
+  text=re.sub('Q[↑↓]*(.)',lambda x:_real_sokuon[x.group(1)]+x.group(0)[1:] if x.group(1) in _real_sokuon.keys() else x.group(0),text)
+  return text
+
+
+def get_real_hatsuon(text):
+  text=re.sub('N[↑↓]*(.)',lambda x:_real_hatsuon[x.group(1)]+x.group(0)[1:] if x.group(1) in _real_hatsuon.keys() else x.group(0),text)
   return text
 
 
@@ -381,6 +470,11 @@ def number_to_hangul(text):
   return text
 
 
+def lazy_korean_ipa(text):
+  text=re.sub('[\uac00-\ud7af]+',lambda x:ko_pron.romanise(x.group(0),'ipa'),text).split('] ~ [')[0].replace('t͡ɕ','ʧ').replace('d͡ʑ','ʥ').replace('ɲ','n^').replace('ɕ','ʃ').replace('ʷ','w').replace('ɭ','l`').replace('ʎ','ɾ').replace('ɣ','ŋ').replace('ɰ','ɯ').replace('ʝ','j').replace('ʌ','ə').replace('ɡ','g').replace('\u031a','#').replace('\u0348','=').replace('\u031e','').replace('\u0320','').replace('\u0339','')
+  return text
+
+
 def number_to_chinese(text):
   numbers = re.findall(r'\d+(?:\.?\d+)?', text)
   for number in numbers:
@@ -418,18 +512,26 @@ def bopomofo_to_romaji(text):
   return text
 
 
-def basic_cleaners(text):
-  '''Basic pipeline that lowercases and collapses whitespace without transliteration.'''
-  text = lowercase(text)
-  text = collapse_whitespace(text)
+def chinese_to_romaji(text):
+  text=number_to_chinese(text)
+  text=chinese_to_bopomofo(text)
+  text=latin_to_bopomofo(text)
+  text=bopomofo_to_romaji(text)
+  text=re.sub('i[aoe]',lambda x:'y'+x.group(0)[1:],text)
+  text=re.sub('u[aoəe]',lambda x:'w'+x.group(0)[1:],text)
+  text=re.sub('([ʦsɹ]`[⁼ʰ]?)([→↓↑ ]+|$)',lambda x:x.group(1)+'ɹ`'+x.group(2),text).replace('ɻ','ɹ`')
+  text=re.sub('([ʦs][⁼ʰ]?)([→↓↑ ]+|$)',lambda x:x.group(1)+'ɹ'+x.group(2),text)
   return text
 
 
-def transliteration_cleaners(text):
-  '''Pipeline for non-English text that transliterates to ASCII.'''
-  text = convert_to_ascii(text)
-  text = lowercase(text)
-  text = collapse_whitespace(text)
+def devanagari_to_ipa(text):
+  text = re.sub(r'\s*।\s*$','.',text)
+  text = re.sub(r'\s*।\s*',', ',text)
+  text = re.sub(r'\s*॥','.',text)
+  text = sanscript.transliterate(text,sanscript.DEVANAGARI,sanscript.IAST)
+  for regex, replacement in _iast_to_ipa:
+    text = re.sub(regex, replacement, text)
+  text = re.sub('(.)[`ː]*ḥ',lambda x:x.group(0)[:-1]+'h'+x.group(1)+'*',text)
   return text
 
 
@@ -469,14 +571,7 @@ def zh_ja_mixture_cleaners(text):
   chinese_texts=re.findall(r'\[ZH\].*?\[ZH\]',text)
   japanese_texts=re.findall(r'\[JA\].*?\[JA\]',text)
   for chinese_text in chinese_texts:
-    cleaned_text=number_to_chinese(chinese_text[4:-4])
-    cleaned_text=chinese_to_bopomofo(cleaned_text)
-    cleaned_text=latin_to_bopomofo(cleaned_text)
-    cleaned_text=bopomofo_to_romaji(cleaned_text)
-    cleaned_text=re.sub('i[aoe]',lambda x:'y'+x.group(0)[1:],cleaned_text)
-    cleaned_text=re.sub('u[aoəe]',lambda x:'w'+x.group(0)[1:],cleaned_text)
-    cleaned_text=re.sub('([ʦsɹ]`[⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɹ`'+x.group(2),cleaned_text).replace('ɻ','ɹ`')
-    cleaned_text=re.sub('([ʦs][⁼ʰ]?)([→↓↑]+)',lambda x:x.group(1)+'ɹ'+x.group(2),cleaned_text)
+    cleaned_text=chinese_to_romaji(chinese_text[4:-4])
     text = text.replace(chinese_text,cleaned_text+' ',1)
   for japanese_text in japanese_texts:
     cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…')
@@ -489,6 +584,34 @@ def zh_ja_mixture_cleaners(text):
 
 def sanskrit_cleaners(text):
   text=text.replace('॥','।').replace('ॐ','ओम्')
-  if text[-1]!='।':
+  if text!='' and text[-1]!='।':
     text+=' ।'
+  return text
+
+
+def cjks_cleaners(text):
+  chinese_texts=re.findall(r'\[ZH\].*?\[ZH\]',text)
+  japanese_texts=re.findall(r'\[JA\].*?\[JA\]',text)
+  korean_texts=re.findall(r'\[KO\].*?\[KO\]',text)
+  sanskrit_texts=re.findall(r'\[SA\].*?\[SA\]',text)
+  for chinese_text in chinese_texts:
+    cleaned_text=chinese_to_romaji(chinese_text[4:-4]).replace('ʃy','ʃ').replace('ʧʰy','ʧʰ').replace('ʧ⁼y','ʧ⁼').replace('NN','n').replace('Ng','ŋ').replace('y','j').replace('h','x')
+    text = text.replace(chinese_text,cleaned_text+' ',1)
+  for japanese_text in japanese_texts:
+    cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…').replace('j','ʥ').replace('y','j').replace('ni','n^i').replace('nj','n^').replace('hi','çi').replace('hj','ç').replace('f','ɸ').replace('I','i*').replace('U','ɯ*').replace('r','ɾ')
+    cleaned_text=re.sub(r'([A-Za-zɯ])\1+',lambda x:x.group(0)[0]+'ː'*(len(x.group(0))-1),cleaned_text)
+    cleaned_text=get_real_sokuon(cleaned_text)
+    cleaned_text=get_real_hatsuon(cleaned_text)
+    text = text.replace(japanese_text,cleaned_text+' ',1)
+  for korean_text in korean_texts:
+    cleaned_text=latin_to_hangul(korean_text[4:-4])
+    cleaned_text=number_to_hangul(cleaned_text)
+    cleaned_text=lazy_korean_ipa(cleaned_text)
+    text = text.replace(korean_text,cleaned_text+' ',1)
+  for sanskrit_text in sanskrit_texts:
+    cleaned_text=devanagari_to_ipa(sanskrit_text[4:-4])
+    text = text.replace(sanskrit_text,cleaned_text+' ',1)
+  text=text[:-1]
+  if re.match(r'[^\.,!\?\-…~]',text[-1]):
+    text += '.'
   return text
