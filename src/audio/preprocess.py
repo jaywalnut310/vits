@@ -8,8 +8,8 @@ from src.mel_processing import spectrogram_torch
 
 
 def load_wav_to_torch(full_path):
-    sampling_rate, data = read(full_path)
-    return torch.FloatTensor(data.astype(np.float32)), sampling_rate
+    sample_rate, data = read(full_path)
+    return torch.FloatTensor(data.astype(np.float32)), sample_rate
 
 
 def preprocess_audio(filename, target_sr, max_wav_value, filter_length, hop_length, win_length):

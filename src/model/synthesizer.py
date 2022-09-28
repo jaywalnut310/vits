@@ -20,7 +20,7 @@ from src.model.modules import ResidualCouplingBlock
 from src.model.predictors import StochasticDurationPredictor, DurationPredictor
 from src.plot import plot_alignment
 from src.text.convert import preprocess_text
-from src.text.symbols import stressed_symbols
+from src.text.symbols import get_vocabulary
 
 logger = get_logger(__name__)
 
@@ -176,15 +176,12 @@ class SynthesizerTrn(nn.Module):
 
 
 class Synthesizer:
-    model: SynthesizerTrn
-    text_cleaners: List[str]
-    sample_rate: int
-    add_blank: bool
-
-    def __init__(self, hps, checkpoint_path):
+    def __init__(self, hps, checkpoint_path, device=0):
         self.text_cleaners = hps.data.text_cleaners
-        self.sample_rate = hps.data.sampling_rate
+        self.sample_rate = hps.data.sample_rate
         self.add_blank = hps.data.add_blank
+        self.device = device
+        self.symbols, self.symbol_to_id, _ = get_vocabulary(hps.data.language)
         self.net_g = self.__setup_synthesis_model(hps, checkpoint_path)
 
     def synthesize(self, text, verbose=False, show_player=False, plot_align=False,
@@ -195,11 +192,11 @@ class Synthesizer:
         if verbose:
             logger.info(f"Synthesizing {text}")
 
-        text_tensor = preprocess_text(text, self.text_cleaners, self.add_blank)
+        text_tensor = preprocess_text(text, self.text_cleaners, self.symbol_to_id, add_blank=self.add_blank)
         start_time = time.time()
         with torch.no_grad():
-            x = text_tensor.unsqueeze(0).cuda()
-            x_lengths = torch.LongTensor([text_tensor.size(0)]).cuda()
+            x = text_tensor.unsqueeze(0).cuda(self.device)
+            x_lengths = torch.LongTensor([text_tensor.size(0)]).cuda(torch.device(self.device))
 
             y_hat, attn, _, _ = self.net_g.infer(x, x_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=1)
 
@@ -223,18 +220,18 @@ class Synthesizer:
 
         return utterance
 
-    def synthesize_all(self, text_list, verbose=False, show_player=False, plot_align=False,
-                       output_dir=None):
+    def synthesize_all(self, text_list, verbose=False, show_player=False, plot_align=False, output_dir=None):
         for text in text_list:
             self.synthesize(text, verbose, show_player, plot_align, output_dir)
+
         logger.info(f"Synthesized {len(text_list)} utterances.")
 
     def __setup_synthesis_model(self, hps, path):
         net_g = SynthesizerTrn(
-            len(stressed_symbols),
+            len(self.symbols),
             hps.data.filter_length // 2 + 1,
             hps.train.segment_size // hps.data.hop_length,
-            **hps.model).cuda()
+            **hps.model).cuda(self.device)
         net_g.eval()
         net_g, _, _, _ = load_checkpoint(hps.train, path, net_g)
         return net_g
@@ -245,13 +242,13 @@ class InferenceConfig:
     stressed: bool
     output_dir: Path = None
 
-    def __init__(self, config_name, checkpoint_step: int, speaker: str, stressed: bool):
+    def __init__(self, config_name, checkpoint_step: int, speaker: str, stressed: bool, device: int = 0):
         self.stressed = stressed
         self.checkpoint_path = Path(
-            f"/media/arnas/SSD Disk/inovoice/models/text-to-speech/vits/{speaker}/G_{checkpoint_step}.pth")
+            f"/home/aai-labs/inovoice/models/{speaker}/G_{checkpoint_step}.pth")
         self.output_dir = Path(
-            f"/home/arnas/Desktop/tdi/bitbucket/vits/files/audio/samples/{speaker}/{checkpoint_step}")
+            f"/home/aai-labs/inovoice/repos/vits/files/audio/samples/{speaker}/{checkpoint_step}")
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
 
-        hps = get_hparams_from_file(f"/home/arnas/Desktop/tdi/bitbucket/vits/files/configs/{config_name}.json")
-        self.synthesizer = Synthesizer(hps, self.checkpoint_path)
+        hps = get_hparams_from_file(f"/home/aai-labs/inovoice/repos/vits/files/configs/{config_name}.json")
+        self.synthesizer = Synthesizer(hps, self.checkpoint_path, device=device)

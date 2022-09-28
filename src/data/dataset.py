@@ -7,6 +7,7 @@ import torch.utils
 from src.audio.preprocess import preprocess_audio
 from src.text.convert import preprocess_text
 from src.text.load import load_filepaths_and_text
+from src.text.symbols import get_vocabulary
 
 
 class TextAudioDataset(torch.utils.data.Dataset):
@@ -20,17 +21,19 @@ class TextAudioDataset(torch.utils.data.Dataset):
         self.audiopaths_and_text = load_filepaths_and_text(audiopaths_and_text)
         self.text_cleaners = hparams.text_cleaners
         self.max_wav_value = hparams.max_wav_value
-        self.sampling_rate = hparams.sample_rate
+        self.sample_rate = hparams.sample_rate
         self.filter_length = hparams.filter_length
         self.hop_length = hparams.hop_length
         self.win_length = hparams.win_length
-        self.sampling_rate = hparams.sample_rate
+        self.sample_rate = hparams.sample_rate
 
         self.cleaned_text = getattr(hparams, "cleaned_text", False)
 
         self.add_blank = hparams.add_blank
         self.min_text_len = getattr(hparams, "min_text_len", 1)
         self.max_text_len = getattr(hparams, "max_text_len", 190)
+
+        _, self.symbol_to_id, _ = get_vocabulary(hparams.language)
 
         random.seed(1234)
         random.shuffle(self.audiopaths_and_text)
@@ -56,8 +59,8 @@ class TextAudioDataset(torch.utils.data.Dataset):
     def get_audio_text_pair(self, audiopath_and_text):
         # separate filename and text
         audiopath, text = audiopath_and_text[0], audiopath_and_text[1]
-        text = preprocess_text(text, self.text_cleaners, self.add_blank)
-        spec, wav = preprocess_audio(audiopath, self.sampling_rate, self.max_wav_value,
+        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, self.add_blank)
+        spec, wav = preprocess_audio(audiopath, self.sample_rate, self.max_wav_value,
                                      self.filter_length, self.hop_length, self.win_length)
         return text, spec, wav
 
@@ -79,17 +82,19 @@ class TextAudioSpeakerDataset(torch.utils.data.Dataset):
         self.audiopaths_sid_text = load_filepaths_and_text(audiopaths_sid_text)
         self.text_cleaners = hparams.text_cleaners
         self.max_wav_value = hparams.max_wav_value
-        self.sampling_rate = hparams.sample_rate
+        self.sample_rate = hparams.sample_rate
         self.filter_length = hparams.filter_length
         self.hop_length = hparams.hop_length
         self.win_length = hparams.win_length
-        self.sampling_rate = hparams.sample_rate
+        self.sample_rate = hparams.sample_rate
 
         self.cleaned_text = getattr(hparams, "cleaned_text", False)
 
         self.add_blank = hparams.add_blank
         self.min_text_len = getattr(hparams, "min_text_len", 1)
         self.max_text_len = getattr(hparams, "max_text_len", 190)
+
+        _, self.symbol_to_id, _ = get_vocabulary(hparams.language)
 
         random.seed(1234)
         random.shuffle(self.audiopaths_sid_text)
@@ -115,8 +120,8 @@ class TextAudioSpeakerDataset(torch.utils.data.Dataset):
     def get_audio_text_speaker_pair(self, audiopath_sid_text):
         # separate filename, speaker_id and text
         audiopath, sid, text = audiopath_sid_text[0], audiopath_sid_text[1], audiopath_sid_text[2]
-        text = preprocess_text(text, self.text_cleaners, self.add_blank)
-        spec, wav = preprocess_audio(audiopath, self.sampling_rate, self.max_wav_value,
+        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, self.add_blank)
+        spec, wav = preprocess_audio(audiopath, self.sample_rate, self.max_wav_value,
                                      self.filter_length, self.hop_length, self.win_length)
         sid = self.get_sid(sid)
         return text, spec, wav, sid

@@ -28,7 +28,7 @@ from src.mel_processing import mel_spectrogram_torch, spec_to_mel_torch
 from src.model import commons
 from src.model.discriminators import MultiPeriodDiscriminator
 from src.model.synthesizer import SynthesizerTrn
-from src.text.symbols import symbols
+from src.text.symbols import get_vocabulary
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
@@ -53,6 +53,8 @@ def run(rank, n_gpus, hps):
         logger.info(hps)
         writer = SummaryWriter(log_dir=hps.model_dir)
         writer_eval = SummaryWriter(log_dir=os.path.join(hps.model_dir, "eval"))
+
+    symbols, _, _ = get_vocabulary(hps.data.language)
 
     dist.init_process_group(backend='nccl', init_method='env://', world_size=n_gpus, rank=rank)
     torch.manual_seed(hps.train.seed)
@@ -291,7 +293,7 @@ def evaluate(hps, generator, eval_loader, writer_eval):
         global_step=global_step,
         images=image_dict,
         audios=audio_dict,
-        audio_sampling_rate=hps.data.sample_rate
+        audio_sample_rate=hps.data.sample_rate
     )
     generator.train()
 

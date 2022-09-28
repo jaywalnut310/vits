@@ -1,5 +1,6 @@
 import multiprocessing
 import os
+from time import time
 
 import torch
 import torch.distributed as dist
@@ -28,7 +29,7 @@ from src.mel_processing import mel_spectrogram_torch, spec_to_mel_torch
 from src.model import commons
 from src.model.discriminators import MultiPeriodDiscriminator
 from src.model.synthesizer import SynthesizerTrn
-from src.text.symbols import stressed_symbols
+from src.text.symbols import get_vocabulary
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
@@ -41,7 +42,7 @@ def main():
 
     n_gpus = torch.cuda.device_count()
     os.environ['MASTER_ADDR'] = 'localhost'
-    os.environ['MASTER_PORT'] = '80000'
+    os.environ['MASTER_PORT'] = '8001'
 
     hps = hparams.get_hparams()
     mp.spawn(run, nprocs=n_gpus, args=(n_gpus, hps,))
@@ -53,6 +54,8 @@ def run(rank, n_gpus, hps):
         logger.info(hps)
         writer = SummaryWriter(log_dir=hps.model_dir)
         writer_eval = SummaryWriter(log_dir=os.path.join(hps.model_dir, "eval"))
+
+    symbols, _, _ = get_vocabulary(hps.data.language)
 
     dist.init_process_group(backend='nccl', init_method='env://', world_size=n_gpus, rank=rank)
     torch.manual_seed(hps.train.seed)
@@ -100,7 +103,9 @@ def run(rank, n_gpus, hps):
                                                                                         net_g, optim_g)
         net_d, optim_d, learning_rate, epoch_str = src.model.checkpoint.load_checkpoint(hps.train, hps.checkpoint_d,
                                                                                         net_d, optim_d)
-        global_step = (epoch_str - 1) * len(train_loader)
+        # global_step = (epoch_str - 1) * len(train_loader)
+        global_step = 1
+        epoch_str = 1
     except Exception as e:
         logger.info(f"Exception occurred: {e}")
         epoch_str = 1
@@ -142,6 +147,7 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
         spec, spec_lengths = spec.cuda(rank, non_blocking=True), spec_lengths.cuda(rank, non_blocking=True)
         y, y_lengths = y.cuda(rank, non_blocking=True), y_lengths.cuda(rank, non_blocking=True)
 
+        step_start = time()
         with autocast(enabled=hps.train.fp16_run):
             y_hat, l_length, attn, ids_slice, x_mask, z_mask, \
             (z, z_p, m_p, logs_p, m_q, logs_q) = net_g(x, x_lengths, spec, spec_lengths)
@@ -196,6 +202,8 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
         scaler.step(optim_g)
         scaler.update()
 
+        step_end = time()
+
         if rank == 0:
             if global_step % hps.train.log_interval == 0:
                 lr = optim_g.param_groups[0]['lr']
@@ -232,6 +240,7 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
                 src.model.checkpoint.save_checkpoint(net_d, optim_d, hps.train.learning_rate, epoch,
                                                      os.path.join(hps.model_dir, "D_{}.pth".format(global_step)))
         global_step += 1
+        logger.info(f"Step {global_step}. Processing time: {step_end - step_start}")
 
     if rank == 0:
         logger.info('====> Epoch: {}'.format(epoch))
@@ -288,7 +297,7 @@ def evaluate(hps, generator, eval_loader, writer_eval):
         global_step=global_step,
         images=image_dict,
         audios=audio_dict,
-        audio_sampling_rate=hps.data.sample_rate
+        audio_sample_rate=hps.data.sample_rate
     )
     generator.train()
 

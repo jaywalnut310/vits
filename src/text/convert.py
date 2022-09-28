@@ -6,11 +6,10 @@ import torch
 
 from src.model.commons import intersperse
 from src.text import cleaners
-from src.text.symbols import symbol_to_id
 
 
-def preprocess_text(text, cleaner_names, add_blank=True):
-    text_norm = tokenize(text, cleaner_names)
+def preprocess_text(text, cleaner_names, symbol_to_id, add_blank=True):
+    text_norm = tokenize(text, cleaner_names, symbol_to_id)
 
     if add_blank:
         text_norm = intersperse(text_norm, 0)
@@ -18,7 +17,7 @@ def preprocess_text(text, cleaner_names, add_blank=True):
     return torch.LongTensor(text_norm)
 
 
-def tokenize(text, cleaner_names):
+def tokenize(text, cleaner_names, symbol_to_id):
     """Converts a string of text to a sequence of IDs corresponding to the symbols in the text.
       Args:
         text: string to convert to a sequence

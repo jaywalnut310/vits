@@ -91,8 +91,8 @@ def __load_state_dict(model, checkpoint_dict, hps_train):
 
 
 def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path):
-    logger.info("Saving model and optimizer state at iteration {} to {}".format(
-        iteration, checkpoint_path))
+    logger.info(f"Saving model and optimizer state at iteration {iteration} to {checkpoint_path}")
+
     if hasattr(model, 'module'):
         state_dict = model.module.state_dict()
     else:
@@ -100,7 +100,9 @@ def save_checkpoint(model, optimizer, learning_rate, iteration, checkpoint_path)
     torch.save({'model': state_dict,
                 'iteration': iteration,
                 'optimizer': optimizer.state_dict(),
-                'learning_rate': learning_rate}, checkpoint_path)
+                'learning_rate': learning_rate}, checkpoint_path)  # TODO: save vocabulary
+
+    logger.info(f"Model saved to {checkpoint_path}")
 
 
 def latest_checkpoint_path(dir_path, regex="G_*.pth"):

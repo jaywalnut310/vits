@@ -7,7 +7,7 @@ mel_basis = {}
 hann_window = {}
 
 
-def spectrogram_torch(y, n_fft, sampling_rate, hop_size, win_size, center=False):
+def spectrogram_torch(y, n_fft, sample_rate, hop_size, win_size, center=False):
     if torch.min(y) < -1.:
         print('min value is ', torch.min(y))
     if torch.max(y) > 1.:
@@ -19,19 +19,19 @@ def spectrogram_torch(y, n_fft, sampling_rate, hop_size, win_size, center=False)
     return __to_spectrogram(y, n_fft, hop_size, win_size, wnsize_dtype_device, center)
 
 
-def spec_to_mel_torch(spec, n_fft, num_mels, sampling_rate, fmin, fmax):
+def spec_to_mel_torch(spec, n_fft, num_mels, sample_rate, fmin, fmax):
     global mel_basis
     dtype_device = str(spec.dtype) + '_' + str(spec.device)
     fmax_dtype_device = str(fmax) + '_' + dtype_device
     if fmax_dtype_device not in mel_basis:
-        mel = librosa_mel_fn(sampling_rate, n_fft, num_mels, fmin, fmax)
+        mel = librosa_mel_fn(sample_rate, n_fft, num_mels, fmin, fmax)
         mel_basis[fmax_dtype_device] = torch.from_numpy(mel).to(dtype=spec.dtype, device=spec.device)
     spec = torch.matmul(mel_basis[fmax_dtype_device], spec)
     spec = __spectral_normalize_torch(spec)
     return spec
 
 
-def mel_spectrogram_torch(y, n_fft, num_mels, sampling_rate, hop_size, win_size, fmin, fmax, center=False):
+def mel_spectrogram_torch(y, n_fft, num_mels, sample_rate, hop_size, win_size, fmin, fmax, center=False):
     if torch.min(y) < -1.:
         print('min value is ', torch.min(y))
     if torch.max(y) > 1.:
@@ -42,7 +42,7 @@ def mel_spectrogram_torch(y, n_fft, num_mels, sampling_rate, hop_size, win_size,
     fmax_dtype_device = str(fmax) + '_' + dtype_device
     wnsize_dtype_device = str(win_size) + '_' + dtype_device
     if fmax_dtype_device not in mel_basis:
-        mel = librosa_mel_fn(sampling_rate, n_fft, num_mels, fmin, fmax)
+        mel = librosa_mel_fn(sample_rate, n_fft, num_mels, fmin, fmax)
         mel_basis[fmax_dtype_device] = torch.from_numpy(mel).to(dtype=y.dtype, device=y.device)
 
     spec = __to_spectrogram(y, n_fft, hop_size, win_size, wnsize_dtype_device, center)

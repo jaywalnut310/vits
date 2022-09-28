@@ -40,6 +40,20 @@ mkdir monotonic_align
 python setup.py build_ext --inplace
 ```
 
+for RTX 3090 TI
+```commandline
+sudo apt install libsndfile1 espeak gcc g++
+conda create -n vits python=3.7
+conda activate vits
+
+pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+pip install tensorboard==2.3.0 scipy==1.7.3 librosa==0.9.1 phonemizer==3.0.1 unidecode==1.3.2 cython==0.29.27 matplotlib==3.5.1 tqdm==4.64.0 ipython==7.34.0 pydub==0.25.1 protobuf==3.20.1 numpy==1.21.6
+
+cd monotonic_align
+mkdir monotonic_align
+python setup.py build_ext --inplace
+```
+
 Preprocessing (g2p) for your own datasets. Preprocessed phonemes for LJ Speech and VCTK have been already provided.
 
 ```commandline
@@ -51,7 +65,7 @@ python preprocess.py --text_index 2 --filelists files/filelists/vctk_audio_sid_t
 
 ```sh
 # LJ Speech
-python train.py -c configs/ljs_base.json -m ljs_base
+python train.py -c configs/ljs_base_cleaned_44khz.json -m ljs_base
 
 # VCTK
 python train_ms.py -c configs/vctk_base.json -m vctk_base
