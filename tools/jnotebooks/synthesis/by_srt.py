@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-from past.builtins import raw_input
 from scipy.io.wavfile import write
 
 from hparams import get_hparams_from_file
@@ -13,40 +12,37 @@ logger = get_logger(__name__)
 
 
 def __approve_input_text(entry_text: str):
-    i_option = raw_input(f"Edit entry text? Note that the symbol `*` is removed when synthesizing.\n"
+    i_option = input(f"Edit entry text? Note that the symbol `*` is removed when synthesizing.\n"
                          f"{entry_text}\n"
                          f"[Y/n]: ")
 
-    return entry_text if i_option.lower() != 'y' else raw_input("Enter text:\n")
+    return entry_text if i_option.lower() != 'y' else input("Enter text:\n")
 
 
 if __name__ == '__main__':
-    checkpoint_step = '150000'
-    speaker = 'aurimas_nausedas'
-    sample_rate = 22050
+    checkpoint_step = 250000
+    speaker = 'giedrius_studio_44'
+    device = 1
 
-    checkpoint_filepath = f"/media/arnas/SSD Disk/inovoice/models/text-to-speech/vits/{speaker}/G_{checkpoint_step}.pth"
-    hps = get_hparams_from_file("/home/arnas/Desktop/tdi/bitbucket/vits/files/configs/mif_stressed.json")
+    synthesizer = InferenceConfig(
+        checkpoint_step=checkpoint_step,
+        config_name='giedrius_studio_44khz',
+        speaker='giedrius_studio_44',
+        stressed=True,
+        device=device,
+    ).synthesizer
 
     filename = f'kur_vasara_amzina_{speaker}_{checkpoint_step}'
-    srt_path = Path(
-        f"/home/arnas/Desktop/tdi/bitbucket/vits/files/audio/audiobooks/{speaker}/{checkpoint_step}/{filename}.srt")
-    wav_path = Path(
-        f"/home/arnas/Desktop/tdi/bitbucket/vits/files/audio/audiobooks/{speaker}/{checkpoint_step}/{filename}.wav")
-    output_dir = Path(f"/home/arnas/Desktop/tdi/bitbucket/vits/files/audio/audiobooks/{speaker}/{checkpoint_step}/out")
+    base_dir = "/home/aai-labs/inovoice/repos/vits/files/audio/audiobooks"
+    srt_path = Path(f"{base_dir}/{speaker}/{checkpoint_step}/{filename}.srt")
+    wav_path = Path(f"{base_dir}/{speaker}/{checkpoint_step}/{filename}.wav")
+    output_dir = Path(f"{base_dir}/{speaker}/{checkpoint_step}/out")
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
-    filter_marked = True
-
-    config = InferenceConfig(
-        checkpoint_step=150000,
-        config_name='mif_stressed',
-        speaker='aurimas_nausedas',
-        stressed=True,
-    )
+    filter_marked = False
 
     srt: SrtPair = SrtPair.from_filepaths_pair(srt_path, wav_path)
-    tmp_filepath = '/home/arnas/tmp_audio.wav'  # used as a temporary file to be able to play audio
+    tmp_filepath = '/home/aai-labs/tmp_audio.wav'  # used as a temporary file to be able to play audio
     for idx, entry in enumerate(srt.entries):
         if filter_marked and '*' not in entry.text:
             continue
@@ -56,7 +52,7 @@ if __name__ == '__main__':
             os.system(f"ffplay {tmp_filepath}")
 
             try:
-                option = int(raw_input("[1] Next entry\n[2] Resynthesize\n[3] Save\n[OTHER] Replay audio\n"))
+                option = int(input("[1] Next entry\n[2] Resynthesize\n[3] Save\n[OTHER] Replay audio\n"))
             except:
                 print("WRONG INPUT...")
                 continue
@@ -69,11 +65,13 @@ if __name__ == '__main__':
                 print(f"Resynthesizing... {curr_entry.text}")
                 text = __approve_input_text(curr_entry.text)
 
-                utterance = config.synthesizer.synthesize(text.replace('*', '').strip())
-                write(tmp_filepath, sample_rate, utterance.audio)
+                utterance = synthesizer.synthesize(text.replace('*', '').strip())
+                write(tmp_filepath, synthesizer.sample_rate, utterance.audio)
 
                 srt.update_entry_by_utternace(idx, utterance)
             elif option == 3:
                 srt.save_pair(output_dir)
 
+    srt.save_pair(output_dir)
     os.remove(tmp_filepath)
+    print("SRT fixing complete!")
