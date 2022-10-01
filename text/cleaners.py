@@ -1,617 +1,146 @@
-""" from https://github.com/keithito/tacotron """
-
-'''
-Cleaners are transformations that run over the input text at both training and eval time.
-
-Cleaners can be selected by passing a comma-delimited list of cleaner names as the "cleaners"
-hyperparameter. Some cleaners are English-specific. You'll typically want to use:
-  1. "english_cleaners" for English text
-  2. "transliteration_cleaners" for non-English text that can be transliterated to ASCII using
-     the Unidecode library (https://pypi.python.org/pypi/Unidecode)
-  3. "basic_cleaners" if you do not want to transliterate (in this case, you should also update
-     the symbols in symbols.py to match your data).
-'''
-
 import re
-from unidecode import unidecode
-import pyopenjtalk
-from jamo import h2j, j2hcj
-import ko_pron
-from pypinyin import lazy_pinyin, BOPOMOFO
-import jieba, cn2an
-from indic_transliteration import sanscript
-
-
-# This is a list of Korean classifiers preceded by pure Korean numerals.
-_korean_classifiers = '군데 권 개 그루 닢 대 두 마리 모 모금 뭇 발 발짝 방 번 벌 보루 살 수 술 시 쌈 움큼 정 짝 채 척 첩 축 켤레 톨 통'
-
-# Regular expression matching whitespace:
-_whitespace_re = re.compile(r'\s+')
-
-# Regular expression matching Japanese without punctuation marks:
-_japanese_characters = re.compile(r'[A-Za-z\d\u3005\u3040-\u30ff\u4e00-\u9fff\uff11-\uff19\uff21-\uff3a\uff41-\uff5a\uff66-\uff9d]')
-
-# Regular expression matching non-Japanese characters or punctuation marks:
-_japanese_marks = re.compile(r'[^A-Za-z\d\u3005\u3040-\u30ff\u4e00-\u9fff\uff11-\uff19\uff21-\uff3a\uff41-\uff5a\uff66-\uff9d]')
-
-# List of (regular expression, replacement) pairs for abbreviations:
-_abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in [
-  ('mrs', 'misess'),
-  ('mr', 'mister'),
-  ('dr', 'doctor'),
-  ('st', 'saint'),
-  ('co', 'company'),
-  ('jr', 'junior'),
-  ('maj', 'major'),
-  ('gen', 'general'),
-  ('drs', 'doctors'),
-  ('rev', 'reverend'),
-  ('lt', 'lieutenant'),
-  ('hon', 'honorable'),
-  ('sgt', 'sergeant'),
-  ('capt', 'captain'),
-  ('esq', 'esquire'),
-  ('ltd', 'limited'),
-  ('col', 'colonel'),
-  ('ft', 'fort')
-]]
-
-# List of (symbol, Japanese) pairs for marks:
-_symbols_to_japanese = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
-  ('％', 'パーセント')
-]]
-
-# Dictinary of (consonant, sokuon) pairs:
-_real_sokuon = {
-  'k': 'k#',
-  'g': 'k#',
-  't': 't#',
-  'd': 't#',
-  'ʦ': 't#',
-  'ʧ': 't#',
-  'ʥ': 't#',
-  'j': 't#',
-  's': 's',
-  'ʃ': 's',
-  'p': 'p#',
-  'b': 'p#'
-}
-
-# Dictinary of (consonant, hatsuon) pairs:
-_real_hatsuon = {
-  'p': 'm',
-  'b': 'm',
-  'm': 'm',
-  't': 'n',
-  'd': 'n',
-  'n': 'n',
-  'ʧ': 'n^',
-  'ʥ': 'n^',
-  'k': 'ŋ',
-  'g': 'ŋ'
-}
-
-# List of (hangul, hangul divided) pairs:
-_hangul_divided = [(re.compile('%s' % x[0]), x[1]) for x in [
-  ('ㄳ', 'ㄱㅅ'),
-  ('ㄵ', 'ㄴㅈ'),
-  ('ㄶ', 'ㄴㅎ'),
-  ('ㄺ', 'ㄹㄱ'),
-  ('ㄻ', 'ㄹㅁ'),
-  ('ㄼ', 'ㄹㅂ'),
-  ('ㄽ', 'ㄹㅅ'),
-  ('ㄾ', 'ㄹㅌ'),
-  ('ㄿ', 'ㄹㅍ'),
-  ('ㅀ', 'ㄹㅎ'),
-  ('ㅄ', 'ㅂㅅ'),
-  ('ㅘ', 'ㅗㅏ'),
-  ('ㅙ', 'ㅗㅐ'),
-  ('ㅚ', 'ㅗㅣ'),
-  ('ㅝ', 'ㅜㅓ'),
-  ('ㅞ', 'ㅜㅔ'),
-  ('ㅟ', 'ㅜㅣ'),
-  ('ㅢ', 'ㅡㅣ'),
-  ('ㅑ', 'ㅣㅏ'),
-  ('ㅒ', 'ㅣㅐ'),
-  ('ㅕ', 'ㅣㅓ'),
-  ('ㅖ', 'ㅣㅔ'),
-  ('ㅛ', 'ㅣㅗ'),
-  ('ㅠ', 'ㅣㅜ')
-]]
-
-# List of (Latin alphabet, hangul) pairs:
-_latin_to_hangul = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
-  ('a', '에이'),
-  ('b', '비'),
-  ('c', '시'),
-  ('d', '디'),
-  ('e', '이'),
-  ('f', '에프'),
-  ('g', '지'),
-  ('h', '에이치'),
-  ('i', '아이'),
-  ('j', '제이'),
-  ('k', '케이'),
-  ('l', '엘'),
-  ('m', '엠'),
-  ('n', '엔'),
-  ('o', '오'),
-  ('p', '피'),
-  ('q', '큐'),
-  ('r', '아르'),
-  ('s', '에스'),
-  ('t', '티'),
-  ('u', '유'),
-  ('v', '브이'),
-  ('w', '더블유'),
-  ('x', '엑스'),
-  ('y', '와이'),
-  ('z', '제트')
-]]
-
-# List of (Latin alphabet, bopomofo) pairs:
-_latin_to_bopomofo = [(re.compile('%s' % x[0], re.IGNORECASE), x[1]) for x in [
-  ('a', 'ㄟˉ'),
-  ('b', 'ㄅㄧˋ'),
-  ('c', 'ㄙㄧˉ'),
-  ('d', 'ㄉㄧˋ'),
-  ('e', 'ㄧˋ'),
-  ('f', 'ㄝˊㄈㄨˋ'),
-  ('g', 'ㄐㄧˋ'),
-  ('h', 'ㄝˇㄑㄩˋ'),
-  ('i', 'ㄞˋ'),
-  ('j', 'ㄐㄟˋ'),
-  ('k', 'ㄎㄟˋ'),
-  ('l', 'ㄝˊㄛˋ'),
-  ('m', 'ㄝˊㄇㄨˋ'),
-  ('n', 'ㄣˉ'),
-  ('o', 'ㄡˉ'),
-  ('p', 'ㄆㄧˉ'),
-  ('q', 'ㄎㄧㄡˉ'),
-  ('r', 'ㄚˋ'),
-  ('s', 'ㄝˊㄙˋ'),
-  ('t', 'ㄊㄧˋ'),
-  ('u', 'ㄧㄡˉ'),
-  ('v', 'ㄨㄧˉ'),
-  ('w', 'ㄉㄚˋㄅㄨˋㄌㄧㄡˋ'),
-  ('x', 'ㄝˉㄎㄨˋㄙˋ'),
-  ('y', 'ㄨㄞˋ'),
-  ('z', 'ㄗㄟˋ')
-]]
-
-
-# List of (bopomofo, romaji) pairs:
-_bopomofo_to_romaji = [(re.compile('%s' % x[0]), x[1]) for x in [
-  ('ㄅㄛ', 'p⁼wo'),
-  ('ㄆㄛ', 'pʰwo'),
-  ('ㄇㄛ', 'mwo'),
-  ('ㄈㄛ', 'fwo'),
-  ('ㄅ', 'p⁼'),
-  ('ㄆ', 'pʰ'),
-  ('ㄇ', 'm'),
-  ('ㄈ', 'f'),
-  ('ㄉ', 't⁼'),
-  ('ㄊ', 'tʰ'),
-  ('ㄋ', 'n'),
-  ('ㄌ', 'l'),
-  ('ㄍ', 'k⁼'),
-  ('ㄎ', 'kʰ'),
-  ('ㄏ', 'h'),
-  ('ㄐ', 'ʧ⁼'),
-  ('ㄑ', 'ʧʰ'),
-  ('ㄒ', 'ʃ'),
-  ('ㄓ', 'ʦ`⁼'),
-  ('ㄔ', 'ʦ`ʰ'),
-  ('ㄕ', 's`'),
-  ('ㄖ', 'ɹ`'),
-  ('ㄗ', 'ʦ⁼'),
-  ('ㄘ', 'ʦʰ'),
-  ('ㄙ', 's'),
-  ('ㄚ', 'a'),
-  ('ㄛ', 'o'),
-  ('ㄜ', 'ə'),
-  ('ㄝ', 'e'),
-  ('ㄞ', 'ai'),
-  ('ㄟ', 'ei'),
-  ('ㄠ', 'au'),
-  ('ㄡ', 'ou'),
-  ('ㄧㄢ', 'yeNN'),
-  ('ㄢ', 'aNN'),
-  ('ㄧㄣ', 'iNN'),
-  ('ㄣ', 'əNN'),
-  ('ㄤ', 'aNg'),
-  ('ㄧㄥ', 'iNg'),
-  ('ㄨㄥ', 'uNg'),
-  ('ㄩㄥ', 'yuNg'),
-  ('ㄥ', 'əNg'),
-  ('ㄦ', 'əɻ'),
-  ('ㄧ', 'i'),
-  ('ㄨ', 'u'),
-  ('ㄩ', 'ɥ'),
-  ('ˉ', '→'),
-  ('ˊ', '↑'),
-  ('ˇ', '↓↑'),
-  ('ˋ', '↓'),
-  ('˙', ''),
-  ('，', ','),
-  ('。', '.'),
-  ('！', '!'),
-  ('？', '?'),
-  ('—', '-')
-]]
-
-
-# List of (iast, ipa) pairs:
-_iast_to_ipa = [(re.compile('%s' % x[0]), x[1]) for x in [
-  ('a', 'ə'),
-  ('ā', 'aː'),
-  ('ī', 'iː'),
-  ('ū', 'uː'),
-  ('ṛ', 'ɹ`'),
-  ('ṝ', 'ɹ`ː'),
-  ('ḷ', 'l`'),
-  ('ḹ', 'l`ː'),
-  ('e', 'eː'),
-  ('o', 'oː'),
-  ('k', 'k⁼'),
-  ('k⁼h', 'kʰ'),
-  ('g', 'g⁼'),
-  ('g⁼h', 'gʰ'),
-  ('ṅ', 'ŋ'),
-  ('c', 'ʧ⁼'),
-  ('ʧ⁼h', 'ʧʰ'),
-  ('j', 'ʥ⁼'),
-  ('ʥ⁼h', 'ʥʰ'),
-  ('ñ', 'n^'),
-  ('ṭ', 't`⁼'),
-  ('t`⁼h', 't`ʰ'),
-  ('ḍ', 'd`⁼'),
-  ('d`⁼h', 'd`ʰ'),
-  ('ṇ', 'n`'),
-  ('t', 't⁼'),
-  ('t⁼h', 'tʰ'),
-  ('d', 'd⁼'),
-  ('d⁼h', 'dʰ'),
-  ('p', 'p⁼'),
-  ('p⁼h', 'pʰ'),
-  ('b', 'b⁼'),
-  ('b⁼h', 'bʰ'),
-  ('y', 'j'),
-  ('ś', 'ʃ'),
-  ('ṣ', 's`'),
-  ('r','ɾ'),
-  ('l̤', 'l`'),
-  ('h', 'ɦ'),
-  ("'", ''),
-  ('~', '^'),
-  ('ṃ', '^')
-]]
-
-
-def expand_abbreviations(text):
-  for regex, replacement in _abbreviations:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def lowercase(text):
-  return text.lower()
-
-
-def collapse_whitespace(text):
-  return re.sub(_whitespace_re, ' ', text)
-
-
-def convert_to_ascii(text):
-  return unidecode(text)
-
-
-def symbols_to_japanese(text):
-  for regex, replacement in _symbols_to_japanese:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def japanese_to_romaji_with_accent(text):
-  '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
-  text = symbols_to_japanese(text)
-  sentences = re.split(_japanese_marks, text)
-  marks = re.findall(_japanese_marks, text)
-  text = ''
-  for i, sentence in enumerate(sentences):
-    if re.match(_japanese_characters, sentence):
-      if text!='':
-        text+=' '
-      labels = pyopenjtalk.extract_fullcontext(sentence)
-      for n, label in enumerate(labels):
-        phoneme = re.search(r'\-([^\+]*)\+', label).group(1)
-        if phoneme not in ['sil','pau']:
-          text += phoneme.replace('ch','ʧ').replace('sh','ʃ').replace('cl','Q')
-        else:
-          continue
-        n_moras = int(re.search(r'/F:(\d+)_', label).group(1))
-        a1 = int(re.search(r"/A:(\-?[0-9]+)\+", label).group(1))
-        a2 = int(re.search(r"\+(\d+)\+", label).group(1))
-        a3 = int(re.search(r"\+(\d+)/", label).group(1))
-        if re.search(r'\-([^\+]*)\+', labels[n + 1]).group(1) in ['sil','pau']:
-          a2_next=-1
-        else:
-          a2_next = int(re.search(r"\+(\d+)\+", labels[n + 1]).group(1))
-        # Accent phrase boundary
-        if a3 == 1 and a2_next == 1:
-          text += ' '
-        # Falling
-        elif a1 == 0 and a2_next == a2 + 1 and a2 != n_moras:
-          text += '↓'
-        # Rising
-        elif a2 == 1 and a2_next == 2:
-          text += '↑'
-    if i<len(marks):
-      text += unidecode(marks[i]).replace(' ','')
-  return text
-
-
-def get_real_sokuon(text):
-  text=re.sub('Q[↑↓]*(.)',lambda x:_real_sokuon[x.group(1)]+x.group(0)[1:] if x.group(1) in _real_sokuon.keys() else x.group(0),text)
-  return text
-
-
-def get_real_hatsuon(text):
-  text=re.sub('N[↑↓]*(.)',lambda x:_real_hatsuon[x.group(1)]+x.group(0)[1:] if x.group(1) in _real_hatsuon.keys() else x.group(0),text)
-  return text
-
-
-def latin_to_hangul(text):
-  for regex, replacement in _latin_to_hangul:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def divide_hangul(text):
-  for regex, replacement in _hangul_divided:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def hangul_number(num, sino=True):
-  '''Reference https://github.com/Kyubyong/g2pK'''
-  num = re.sub(',', '', num)
-
-  if num == '0':
-      return '영'
-  if not sino and num == '20':
-      return '스무'
-
-  digits = '123456789'
-  names = '일이삼사오육칠팔구'
-  digit2name = {d: n for d, n in zip(digits, names)}
-  
-  modifiers = '한 두 세 네 다섯 여섯 일곱 여덟 아홉'
-  decimals = '열 스물 서른 마흔 쉰 예순 일흔 여든 아흔'
-  digit2mod = {d: mod for d, mod in zip(digits, modifiers.split())}
-  digit2dec = {d: dec for d, dec in zip(digits, decimals.split())}
-
-  spelledout = []
-  for i, digit in enumerate(num):
-    i = len(num) - i - 1
-    if sino:
-      if i == 0:
-        name = digit2name.get(digit, '')
-      elif i == 1:
-        name = digit2name.get(digit, '') + '십'
-        name = name.replace('일십', '십')
-    else:
-      if i == 0:
-        name = digit2mod.get(digit, '')
-      elif i == 1:
-        name = digit2dec.get(digit, '')
-    if digit == '0':
-      if i % 4 == 0:
-        last_three = spelledout[-min(3, len(spelledout)):]
-        if ''.join(last_three) == '':
-          spelledout.append('')
-          continue
-      else:
-        spelledout.append('')
-        continue
-    if i == 2:
-      name = digit2name.get(digit, '') + '백'
-      name = name.replace('일백', '백')
-    elif i == 3:
-      name = digit2name.get(digit, '') + '천'
-      name = name.replace('일천', '천')
-    elif i == 4:
-      name = digit2name.get(digit, '') + '만'
-      name = name.replace('일만', '만')
-    elif i == 5:
-      name = digit2name.get(digit, '') + '십'
-      name = name.replace('일십', '십')
-    elif i == 6:
-      name = digit2name.get(digit, '') + '백'
-      name = name.replace('일백', '백')
-    elif i == 7:
-      name = digit2name.get(digit, '') + '천'
-      name = name.replace('일천', '천')
-    elif i == 8:
-      name = digit2name.get(digit, '') + '억'
-    elif i == 9:
-      name = digit2name.get(digit, '') + '십'
-    elif i == 10:
-      name = digit2name.get(digit, '') + '백'
-    elif i == 11:
-      name = digit2name.get(digit, '') + '천'
-    elif i == 12:
-      name = digit2name.get(digit, '') + '조'
-    elif i == 13:
-      name = digit2name.get(digit, '') + '십'
-    elif i == 14:
-      name = digit2name.get(digit, '') + '백'
-    elif i == 15:
-      name = digit2name.get(digit, '') + '천'
-    spelledout.append(name)
-  return ''.join(elem for elem in spelledout)
-
-
-def number_to_hangul(text):
-  '''Reference https://github.com/Kyubyong/g2pK'''
-  tokens = set(re.findall(r'(\d[\d,]*)([\uac00-\ud71f]+)', text))
-  for token in tokens:
-    num, classifier = token
-    if classifier[:2] in _korean_classifiers or classifier[0] in _korean_classifiers:
-      spelledout = hangul_number(num, sino=False)
-    else:
-      spelledout = hangul_number(num, sino=True)
-    text = text.replace(f'{num}{classifier}', f'{spelledout}{classifier}')
-  # digit by digit for remaining digits
-  digits = '0123456789'
-  names = '영일이삼사오육칠팔구'
-  for d, n in zip(digits, names):
-    text = text.replace(d, n)
-  return text
-
-
-def lazy_korean_ipa(text):
-  text=re.sub('[\uac00-\ud7af]+',lambda x:ko_pron.romanise(x.group(0),'ipa'),text).split('] ~ [')[0].replace('t͡ɕ','ʧ').replace('d͡ʑ','ʥ').replace('ɲ','n^').replace('ɕ','ʃ').replace('ʷ','w').replace('ɭ','l`').replace('ʎ','ɾ').replace('ɣ','ŋ').replace('ɰ','ɯ').replace('ʝ','j').replace('ʌ','ə').replace('ɡ','g').replace('\u031a','#').replace('\u0348','=').replace('\u031e','').replace('\u0320','').replace('\u0339','')
-  return text
-
-
-def number_to_chinese(text):
-  numbers = re.findall(r'\d+(?:\.?\d+)?', text)
-  for number in numbers:
-    text = text.replace(number, cn2an.an2cn(number),1)
-  return text
-
-
-def chinese_to_bopomofo(text):
-  text=text.replace('、','，').replace('；','，').replace('：','，')
-  words=jieba.lcut(text,cut_all=False)
-  text=''
-  for word in words:
-    bopomofos=lazy_pinyin(word,BOPOMOFO)
-    if not re.search('[\u4e00-\u9fff]',word):
-      text+=word
-      continue
-    for i in range(len(bopomofos)):
-      if re.match('[\u3105-\u3129]',bopomofos[i][-1]):
-        bopomofos[i]+='ˉ'
-    if text!='':
-      text+=' '
-    text+=''.join(bopomofos)
-  return text
-
-
-def latin_to_bopomofo(text):
-  for regex, replacement in _latin_to_bopomofo:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def bopomofo_to_romaji(text):
-  for regex, replacement in _bopomofo_to_romaji:
-    text = re.sub(regex, replacement, text)
-  return text
-
-
-def chinese_to_romaji(text):
-  text=number_to_chinese(text)
-  text=chinese_to_bopomofo(text)
-  text=latin_to_bopomofo(text)
-  text=bopomofo_to_romaji(text)
-  text=re.sub('i[aoe]',lambda x:'y'+x.group(0)[1:],text)
-  text=re.sub('u[aoəe]',lambda x:'w'+x.group(0)[1:],text)
-  text=re.sub('([ʦsɹ]`[⁼ʰ]?)([→↓↑ ]+|$)',lambda x:x.group(1)+'ɹ`'+x.group(2),text).replace('ɻ','ɹ`')
-  text=re.sub('([ʦs][⁼ʰ]?)([→↓↑ ]+|$)',lambda x:x.group(1)+'ɹ'+x.group(2),text)
-  return text
-
-
-def devanagari_to_ipa(text):
-  text = re.sub(r'\s*।\s*$','.',text)
-  text = re.sub(r'\s*।\s*',', ',text)
-  text = re.sub(r'\s*॥','.',text)
-  text = sanscript.transliterate(text,sanscript.DEVANAGARI,sanscript.IAST)
-  for regex, replacement in _iast_to_ipa:
-    text = re.sub(regex, replacement, text)
-  text = re.sub('(.)[`ː]*ḥ',lambda x:x.group(0)[:-1]+'h'+x.group(1)+'*',text)
-  return text
+from text.japanese import japanese_to_romaji_with_accent, japanese_to_ipa, japanese_to_ipa2
+from text.korean import latin_to_hangul, number_to_hangul, divide_hangul, korean_to_lazy_ipa, korean_to_ipa
+from text.mandarin import number_to_chinese, chinese_to_bopomofo, latin_to_bopomofo, chinese_to_romaji, chinese_to_lazy_ipa, chinese_to_ipa
+from text.sanskrit import devanagari_to_ipa
+from text.english import english_to_lazy_ipa, english_to_ipa2
+from text.thai import num_to_thai, latin_to_thai
 
 
 def japanese_cleaners(text):
-  text=japanese_to_romaji_with_accent(text)
-  if re.match('[A-Za-z]',text[-1]):
-    text += '.'
-  return text
+    text = japanese_to_romaji_with_accent(text)
+    if re.match('[A-Za-z]', text[-1]):
+        text += '.'
+    return text
 
 
 def japanese_cleaners2(text):
-  return japanese_cleaners(text).replace('ts','ʦ').replace('...','…')
+    return japanese_cleaners(text).replace('ts', 'ʦ').replace('...', '…')
 
 
 def korean_cleaners(text):
-  '''Pipeline for Korean text'''
-  text = latin_to_hangul(text)
-  text = number_to_hangul(text)
-  text = j2hcj(h2j(text))
-  text = divide_hangul(text)
-  if re.match('[\u3131-\u3163]',text[-1]):
-    text += '.'
-  return text
+    '''Pipeline for Korean text'''
+    text = latin_to_hangul(text)
+    text = number_to_hangul(text)
+    text = divide_hangul(text)
+    if re.match('[\u3131-\u3163]', text[-1]):
+        text += '.'
+    return text
 
 
 def chinese_cleaners(text):
-  '''Pipeline for Chinese text'''
-  text=number_to_chinese(text)
-  text=chinese_to_bopomofo(text)
-  text=latin_to_bopomofo(text)
-  if re.match('[ˉˊˇˋ˙]',text[-1]):
-    text += '。'
-  return text
+    '''Pipeline for Chinese text'''
+    text = number_to_chinese(text)
+    text = chinese_to_bopomofo(text)
+    text = latin_to_bopomofo(text)
+    if re.match('[ˉˊˇˋ˙]', text[-1]):
+        text += '。'
+    return text
 
 
 def zh_ja_mixture_cleaners(text):
-  chinese_texts=re.findall(r'\[ZH\].*?\[ZH\]',text)
-  japanese_texts=re.findall(r'\[JA\].*?\[JA\]',text)
-  for chinese_text in chinese_texts:
-    cleaned_text=chinese_to_romaji(chinese_text[4:-4])
-    text = text.replace(chinese_text,cleaned_text+' ',1)
-  for japanese_text in japanese_texts:
-    cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…')
-    text = text.replace(japanese_text,cleaned_text+' ',1)
-  text=text[:-1]
-  if re.match('[A-Za-zɯɹəɥ→↓↑]',text[-1]):
-    text += '.'
-  return text
+    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
+    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
+    for chinese_text in chinese_texts:
+        cleaned_text = chinese_to_romaji(chinese_text[4:-4])
+        text = text.replace(chinese_text, cleaned_text+' ', 1)
+    for japanese_text in japanese_texts:
+        cleaned_text = japanese_to_romaji_with_accent(
+            japanese_text[4:-4]).replace('ts', 'ʦ').replace('u', 'ɯ').replace('...', '…')
+        text = text.replace(japanese_text, cleaned_text+' ', 1)
+    text = text[:-1]
+    if re.match('[A-Za-zɯɹəɥ→↓↑]', text[-1]):
+        text += '.'
+    return text
 
 
 def sanskrit_cleaners(text):
-  text=text.replace('॥','।').replace('ॐ','ओम्')
-  if text!='' and text[-1]!='।':
-    text+=' ।'
-  return text
+    text = text.replace('॥', '।').replace('ॐ', 'ओम्')
+    if text[-1] != '।':
+        text += ' ।'
+    return text
 
 
 def cjks_cleaners(text):
-  chinese_texts=re.findall(r'\[ZH\].*?\[ZH\]',text)
-  japanese_texts=re.findall(r'\[JA\].*?\[JA\]',text)
-  korean_texts=re.findall(r'\[KO\].*?\[KO\]',text)
-  sanskrit_texts=re.findall(r'\[SA\].*?\[SA\]',text)
-  for chinese_text in chinese_texts:
-    cleaned_text=chinese_to_romaji(chinese_text[4:-4]).replace('ʃy','ʃ').replace('ʧʰy','ʧʰ').replace('ʧ⁼y','ʧ⁼').replace('NN','n').replace('Ng','ŋ').replace('y','j').replace('h','x')
-    text = text.replace(chinese_text,cleaned_text+' ',1)
-  for japanese_text in japanese_texts:
-    cleaned_text=japanese_to_romaji_with_accent(japanese_text[4:-4]).replace('ts','ʦ').replace('u','ɯ').replace('...','…').replace('j','ʥ').replace('y','j').replace('ni','n^i').replace('nj','n^').replace('hi','çi').replace('hj','ç').replace('f','ɸ').replace('I','i*').replace('U','ɯ*').replace('r','ɾ')
-    cleaned_text=re.sub(r'([A-Za-zɯ])\1+',lambda x:x.group(0)[0]+'ː'*(len(x.group(0))-1),cleaned_text)
-    cleaned_text=get_real_sokuon(cleaned_text)
-    cleaned_text=get_real_hatsuon(cleaned_text)
-    text = text.replace(japanese_text,cleaned_text+' ',1)
-  for korean_text in korean_texts:
-    cleaned_text=latin_to_hangul(korean_text[4:-4])
-    cleaned_text=number_to_hangul(cleaned_text)
-    cleaned_text=lazy_korean_ipa(cleaned_text)
-    text = text.replace(korean_text,cleaned_text+' ',1)
-  for sanskrit_text in sanskrit_texts:
-    cleaned_text=devanagari_to_ipa(sanskrit_text[4:-4])
-    text = text.replace(sanskrit_text,cleaned_text+' ',1)
-  text=text[:-1]
-  if re.match(r'[^\.,!\?\-…~]',text[-1]):
-    text += '.'
-  return text
+    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
+    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
+    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
+    sanskrit_texts = re.findall(r'\[SA\].*?\[SA\]', text)
+    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
+    for chinese_text in chinese_texts:
+        cleaned_text = chinese_to_lazy_ipa(chinese_text[4:-4])
+        text = text.replace(chinese_text, cleaned_text+' ', 1)
+    for japanese_text in japanese_texts:
+        cleaned_text = japanese_to_ipa(japanese_text[4:-4])
+        text = text.replace(japanese_text, cleaned_text+' ', 1)
+    for korean_text in korean_texts:
+        cleaned_text = korean_to_lazy_ipa(korean_text[4:-4])
+        text = text.replace(korean_text, cleaned_text+' ', 1)
+    for sanskrit_text in sanskrit_texts:
+        cleaned_text = devanagari_to_ipa(sanskrit_text[4:-4])
+        text = text.replace(sanskrit_text, cleaned_text+' ', 1)
+    for english_text in english_texts:
+        cleaned_text = english_to_lazy_ipa(english_text[4:-4])
+        text = text.replace(english_text, cleaned_text+' ', 1)
+    text = text[:-1]
+    if re.match(r'[^\.,!\?\-…~]', text[-1]):
+        text += '.'
+    return text
+
+
+def cjke_cleaners(text):
+    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
+    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
+    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
+    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
+    for chinese_text in chinese_texts:
+        cleaned_text = chinese_to_lazy_ipa(chinese_text[4:-4])
+        cleaned_text = cleaned_text.replace(
+            'ʧ', 'tʃ').replace('ʦ', 'ts').replace('ɥan', 'ɥæn')
+        text = text.replace(chinese_text, cleaned_text+' ', 1)
+    for japanese_text in japanese_texts:
+        cleaned_text = japanese_to_ipa(japanese_text[4:-4])
+        cleaned_text = cleaned_text.replace('ʧ', 'tʃ').replace(
+            'ʦ', 'ts').replace('ɥan', 'ɥæn').replace('ʥ', 'dz')
+        text = text.replace(japanese_text, cleaned_text+' ', 1)
+    for korean_text in korean_texts:
+        cleaned_text = korean_to_ipa(korean_text[4:-4])
+        text = text.replace(korean_text, cleaned_text+' ', 1)
+    for english_text in english_texts:
+        cleaned_text = english_to_ipa2(english_text[4:-4])
+        cleaned_text = cleaned_text.replace('ɑ', 'a').replace(
+            'ɔ', 'o').replace('ɛ', 'e').replace('ɪ', 'i').replace('ʊ', 'u')
+        text = text.replace(english_text, cleaned_text+' ', 1)
+    text = text[:-1]
+    if re.match(r'[^\.,!\?\-…~]', text[-1]):
+        text += '.'
+    return text
+
+
+def cjke_cleaners2(text):
+    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
+    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
+    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
+    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
+    for chinese_text in chinese_texts:
+        cleaned_text = chinese_to_ipa(chinese_text[4:-4])
+        text = text.replace(chinese_text, cleaned_text+' ', 1)
+    for japanese_text in japanese_texts:
+        cleaned_text = japanese_to_ipa2(japanese_text[4:-4])
+        text = text.replace(japanese_text, cleaned_text+' ', 1)
+    for korean_text in korean_texts:
+        cleaned_text = korean_to_ipa(korean_text[4:-4])
+        text = text.replace(korean_text, cleaned_text+' ', 1)
+    for english_text in english_texts:
+        cleaned_text = english_to_ipa2(english_text[4:-4])
+        text = text.replace(english_text, cleaned_text+' ', 1)
+    text = text[:-1]
+    if re.match(r'[^\.,!\?\-…~]', text[-1]):
+        text += '.'
+    return text
+
+
+def thai_cleaners(text):
+    text = num_to_thai(text)
+    text = latin_to_thai(text)
+    return text
