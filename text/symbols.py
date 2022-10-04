@@ -56,6 +56,12 @@ _punctuation = ',.!?-~…'
 _letters = 'NQabdefghijklmnopstuvwxyzɑæʃʑçɯɪɔɛɹðəɫɥɸʊɾʒθβŋɦ⁼ʰ`^#*=ˈˌ→↓↑ '
 '''
 
+'''# shanghainese_cleaners
+_pad        = '_'
+_punctuation = ',.!?…'
+_letters = 'abdfghiklmnopstuvyzøŋȵɑɔɕəɤɦɪɿʑʔʰ̩̃ᴀᴇ15678 '
+'''
+
 # Export all symbols:
 symbols = [_pad] + list(_punctuation) + list(_letters)
 

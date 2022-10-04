@@ -5,6 +5,7 @@ from text.mandarin import number_to_chinese, chinese_to_bopomofo, latin_to_bopom
 from text.sanskrit import devanagari_to_ipa
 from text.english import english_to_lazy_ipa, english_to_ipa2
 from text.thai import num_to_thai, latin_to_thai
+from text.shanghainese import shanghainese_to_ipa
 
 
 def japanese_cleaners(text):
@@ -143,4 +144,11 @@ def cjke_cleaners2(text):
 def thai_cleaners(text):
     text = num_to_thai(text)
     text = latin_to_thai(text)
+    return text
+
+
+def shanghainese_cleaners(text):
+    text = shanghainese_to_ipa(text)
+    if re.match(r'[^\.,!\?\-…~]', text[-1]):
+        text += '.'
     return text
