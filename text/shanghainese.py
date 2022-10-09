@@ -3,7 +3,7 @@ import cn2an
 import opencc
 
 
-converter = opencc.OpenCC(os.path.dirname(sys.argv[0])+'/zaonhe.json')
+converter = opencc.OpenCC(os.path.dirname(sys.argv[0])+'/lexicons/zaonhe.json')
 
 # List of (Latin alphabet, ipa) pairs:
 _latin_to_ipa = [(re.compile('%s' % x[0]), x[1]) for x in [
