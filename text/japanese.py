@@ -51,7 +51,7 @@ _romaji_to_ipa2 = [(re.compile('%s' % x[0]), x[1]) for x in [
 # List of (consonant, sokuon) pairs:
 _real_sokuon = [(re.compile('%s' % x[0]), x[1]) for x in [
     (r'Q([↑↓]*[kg])', r'k#\1'),
-    (r'Q([↑↓]*[tdjʦʧʥ])', r't#\1'),
+    (r'Q([↑↓]*[tdjʧ])', r't#\1'),
     (r'Q([↑↓]*[sʃ])', r's\1'),
     (r'Q([↑↓]*[pb])', r'p#\1')
 ]]
@@ -59,7 +59,7 @@ _real_sokuon = [(re.compile('%s' % x[0]), x[1]) for x in [
 # List of (consonant, hatsuon) pairs:
 _real_hatsuon = [(re.compile('%s' % x[0]), x[1]) for x in [
     (r'N([↑↓]*[pbm])', r'm\1'),
-    (r'N([↑↓]*(?:[ʧʥj]|tʃ))', r'n^\1'),
+    (r'N([↑↓]*[ʧʥj])', r'n^\1'),
     (r'N([↑↓]*[tdn])', r'n\1'),
     (r'N([↑↓]*[kg])', r'ŋ\1')
 ]]
@@ -127,7 +127,7 @@ def get_real_hatsuon(text):
 def japanese_to_ipa(text):
     text = japanese_to_romaji_with_accent(text).replace('...', '…')
     text = re.sub(
-        r'([A-Za-zɯ])\1+', lambda x: x.group(0)[0]+'ː'*(len(x.group(0))-1), text)
+        r'([aiueo])\1+', lambda x: x.group(0)[0]+'ː'*(len(x.group(0))-1), text)
     text = get_real_sokuon(text)
     text = get_real_hatsuon(text)
     for regex, replacement in _romaji_to_ipa:
@@ -142,4 +142,12 @@ def japanese_to_ipa2(text):
     for regex, replacement in _romaji_to_ipa2:
         text = re.sub(regex, replacement, text)
     return text
-print(japanese_to_ipa('そうでした。'))
+
+
+def japanese_to_ipa3(text):
+    text = japanese_to_ipa2(text).replace('n^', 'ȵ').replace(
+        'ʃ', 'ɕ').replace('*', '\u0325').replace('#', '\u031a')
+    text = re.sub(
+        r'([aiɯeo])\1+', lambda x: x.group(0)[0]+'ː'*(len(x.group(0))-1), text)
+    text = re.sub(r'((?:^|\s)(?:ts|tɕ|[kpt]))', r'\1ʰ', text)
+    return text
