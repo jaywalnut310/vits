@@ -1,4 +1,4 @@
-import os, sys, re
+import re
 import cn2an
 import opencc
 
@@ -38,7 +38,7 @@ _latin_to_ipa = [(re.compile('%s' % x[0]), x[1]) for x in [
 
 def _number_to_shanghainese(num):
     num = cn2an.an2cn(num).replace('一十','十').replace('二十', '廿').replace('二', '两')
-    return re.sub(r'(?:(?:^|[^三四五六七八九])十|廿)两', lambda x: x.group()[:-1]+'二', num)
+    return re.sub(r'((?:^|[^三四五六七八九])十|廿)两', r'\1二', num)
 
 
 def number_to_shanghainese(text):

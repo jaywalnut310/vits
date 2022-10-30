@@ -67,6 +67,16 @@ _lazy_ipa = [(re.compile('%s' % x[0]), x[1]) for x in [
     ('ˈ', '↓'),
 ]]
 
+# List of (ipa, lazy ipa2) pairs:
+_lazy_ipa2 = [(re.compile('%s' % x[0]), x[1]) for x in [
+    ('r', 'ɹ'),
+    ('ð', 'z'),
+    ('θ', 's'),
+    ('ʒ', 'ʑ'),
+    ('ʤ', 'dʑ'),
+    ('ˈ', '↓'),
+]]
+
 # List of (ipa, ipa2) pairs
 _ipa_to_ipa2 = [(re.compile('%s' % x[0]), x[1]) for x in [
     ('r', 'ɹ'),
@@ -169,3 +179,10 @@ def english_to_ipa2(text):
     for regex, replacement in _ipa_to_ipa2:
         text = re.sub(regex, replacement, text)
     return text.replace('...', '…')
+
+
+def english_to_lazy_ipa2(text):
+    text = english_to_ipa(text)
+    for regex, replacement in _lazy_ipa2:
+        text = re.sub(regex, replacement, text)
+    return text

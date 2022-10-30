@@ -4,6 +4,11 @@ import re
 from pypinyin import lazy_pinyin, BOPOMOFO
 import jieba
 import cn2an
+import logging
+
+logging.getLogger('jieba').setLevel(logging.WARNING)
+jieba.set_dictionary(os.path.dirname(sys.argv[0])+'/jieba/dict.txt')
+jieba.initialize()
 
 
 # List of (Latin alphabet, bopomofo) pairs:
@@ -239,7 +244,7 @@ def number_to_chinese(text):
     return text
 
 
-def chinese_to_bopomofo(text, taiwanese=False):
+def chinese_to_bopomofo(text):
     text = text.replace('、', '，').replace('；', '，').replace('：', '，')
     words = jieba.lcut(text, cut_all=False)
     text = ''
@@ -252,10 +257,7 @@ def chinese_to_bopomofo(text, taiwanese=False):
             bopomofos[i] = re.sub(r'([\u3105-\u3129])$', r'\1ˉ', bopomofos[i])
         if text != '':
             text += ' '
-        if taiwanese:
-            text += '#'+'#'.join(bopomofos)
-        else:
-            text += ''.join(bopomofos)
+        text += ''.join(bopomofos)
     return text
 
 
@@ -316,9 +318,9 @@ def chinese_to_ipa(text):
     return text
 
 
-def chinese_to_ipa2(text, taiwanese=False):
+def chinese_to_ipa2(text):
     text = number_to_chinese(text)
-    text = chinese_to_bopomofo(text, taiwanese)
+    text = chinese_to_bopomofo(text)
     text = latin_to_bopomofo(text)
     text = bopomofo_to_ipa2(text)
     text = re.sub(r'i([aoe])', r'j\1', text)
