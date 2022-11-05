@@ -12,8 +12,7 @@ from text.ngu_dialect import ngu_dialect_to_ipa
 
 def japanese_cleaners(text):
     text = japanese_to_romaji_with_accent(text)
-    if re.match('[A-Za-z]', text[-1]):
-        text += '.'
+    text = re.sub(r'([A-Za-z])$', r'\1.', text)
     return text
 
 
@@ -26,8 +25,7 @@ def korean_cleaners(text):
     text = latin_to_hangul(text)
     text = number_to_hangul(text)
     text = divide_hangul(text)
-    if re.match('[\u3131-\u3163]', text[-1]):
-        text += '.'
+    text = re.sub(r'([\u3131-\u3163])$', r'\1.', text)
     return text
 
 
@@ -36,31 +34,23 @@ def chinese_cleaners(text):
     text = number_to_chinese(text)
     text = chinese_to_bopomofo(text)
     text = latin_to_bopomofo(text)
-    if re.match('[ˉˊˇˋ˙]', text[-1]):
-        text += '。'
+    text = re.sub(r'([ˉˊˇˋ˙])$', r'\1。', text)
     return text
 
 
 def zh_ja_mixture_cleaners(text):
-    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
-    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
-    for chinese_text in chinese_texts:
-        cleaned_text = chinese_to_romaji(chinese_text[4:-4])
-        text = text.replace(chinese_text, cleaned_text+' ', 1)
-    for japanese_text in japanese_texts:
-        cleaned_text = japanese_to_romaji_with_accent(
-            japanese_text[4:-4]).replace('ts', 'ʦ').replace('u', 'ɯ').replace('...', '…')
-        text = text.replace(japanese_text, cleaned_text+' ', 1)
-    text = text[:-1]
-    if re.match('[A-Za-zɯɹəɥ→↓↑]', text[-1]):
-        text += '.'
+    text = re.sub(r'\[ZH\](.*?)\[ZH\]',
+                  lambda x: chinese_to_romaji(x.group(1))+' ', text)
+    text = re.sub(r'\[JA\](.*?)\[JA\]', lambda x: japanese_to_romaji_with_accent(
+        x.group(1)).replace('ts', 'ʦ').replace('u', 'ɯ').replace('...', '…')+' ', text)
+    text = re.sub(r'\s+$', '', text)
+    text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
 
 
 def sanskrit_cleaners(text):
     text = text.replace('॥', '।').replace('ॐ', 'ओम्')
-    if text[-1] != '।':
-        text += ' ।'
+    text = re.sub(r'([^।])$', r'\1।', text)
     return text
 
 
