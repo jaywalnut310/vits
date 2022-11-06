@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CraftVits (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CraftVits (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

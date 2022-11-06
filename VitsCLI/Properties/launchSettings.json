@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VitsCLI": {
+      "commandName": "Project",
+      "commandLineArgs": "-r\r\n-c \"E:\\CaChe\\NimiSora.json\"\r\n-m \"E:\\CaChe\\NimiSora_G_119000.pth\""
+    }
+  }
+}

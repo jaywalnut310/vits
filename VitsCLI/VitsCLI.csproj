@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+
+    <Company>SoarCraft</Company>
+    <Authors>Aloento</Authors>
+    <Product>VitsCLI</Product>
+    <Copyright>Aloento</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/Aloento/CraftVits/tree/master/VitsCLI</PackageProjectUrl>
+
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="pythonnet" Version="3.0.0-rc4" />
+    <PackageReference Include="ShellProgressBar" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="*.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
