@@ -111,10 +111,8 @@ def shanghainese_cleaners(text):
 
 
 def chinese_dialect_cleaners(text):
-    text = re.sub(r'\[MD\](.*?)\[MD\]',
+    text = re.sub(r'\[ZH\](.*?)\[ZH\]',
                   lambda x: chinese_to_ipa2(x.group(1))+' ', text)
-    text = re.sub(r'\[TW\](.*?)\[TW\]',
-                  lambda x: chinese_to_ipa2(x.group(1), True)+' ', text)
     text = re.sub(r'\[JA\](.*?)\[JA\]',
                   lambda x: japanese_to_ipa3(x.group(1)).replace('Q', 'ʔ')+' ', text)
     text = re.sub(r'\[SH\](.*?)\[SH\]', lambda x: shanghainese_to_ipa(x.group(1)).replace('1', '˥˧').replace('5',
