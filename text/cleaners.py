@@ -55,81 +55,46 @@ def sanskrit_cleaners(text):
 
 
 def cjks_cleaners(text):
-    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
-    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
-    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
-    sanskrit_texts = re.findall(r'\[SA\].*?\[SA\]', text)
-    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
-    for chinese_text in chinese_texts:
-        cleaned_text = chinese_to_lazy_ipa(chinese_text[4:-4])
-        text = text.replace(chinese_text, cleaned_text+' ', 1)
-    for japanese_text in japanese_texts:
-        cleaned_text = japanese_to_ipa(japanese_text[4:-4])
-        text = text.replace(japanese_text, cleaned_text+' ', 1)
-    for korean_text in korean_texts:
-        cleaned_text = korean_to_lazy_ipa(korean_text[4:-4])
-        text = text.replace(korean_text, cleaned_text+' ', 1)
-    for sanskrit_text in sanskrit_texts:
-        cleaned_text = devanagari_to_ipa(sanskrit_text[4:-4])
-        text = text.replace(sanskrit_text, cleaned_text+' ', 1)
-    for english_text in english_texts:
-        cleaned_text = english_to_lazy_ipa(english_text[4:-4])
-        text = text.replace(english_text, cleaned_text+' ', 1)
-    text = text[:-1]
-    if re.match(r'[^\.,!\?\-…~]', text[-1]):
-        text += '.'
+    text = re.sub(r'\[ZH\](.*?)\[ZH\]',
+                  lambda x: chinese_to_lazy_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[JA\](.*?)\[JA\]',
+                  lambda x: japanese_to_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[KO\](.*?)\[KO\]',
+                  lambda x: korean_to_lazy_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[SA\](.*?)\[SA\]',
+                  lambda x: devanagari_to_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[EN\](.*?)\[EN\]',
+                  lambda x: english_to_lazy_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\s+$', '', text)
+    text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
 
 
 def cjke_cleaners(text):
-    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
-    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
-    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
-    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
-    for chinese_text in chinese_texts:
-        cleaned_text = chinese_to_lazy_ipa(chinese_text[4:-4])
-        cleaned_text = cleaned_text.replace(
-            'ʧ', 'tʃ').replace('ʦ', 'ts').replace('ɥan', 'ɥæn')
-        text = text.replace(chinese_text, cleaned_text+' ', 1)
-    for japanese_text in japanese_texts:
-        cleaned_text = japanese_to_ipa(japanese_text[4:-4])
-        cleaned_text = cleaned_text.replace('ʧ', 'tʃ').replace(
-            'ʦ', 'ts').replace('ɥan', 'ɥæn').replace('ʥ', 'dz')
-        text = text.replace(japanese_text, cleaned_text+' ', 1)
-    for korean_text in korean_texts:
-        cleaned_text = korean_to_ipa(korean_text[4:-4])
-        text = text.replace(korean_text, cleaned_text+' ', 1)
-    for english_text in english_texts:
-        cleaned_text = english_to_ipa2(english_text[4:-4])
-        cleaned_text = cleaned_text.replace('ɑ', 'a').replace(
-            'ɔ', 'o').replace('ɛ', 'e').replace('ɪ', 'i').replace('ʊ', 'u')
-        text = text.replace(english_text, cleaned_text+' ', 1)
-    text = text[:-1]
-    if re.match(r'[^\.,!\?\-…~]', text[-1]):
-        text += '.'
+    text = re.sub(r'\[ZH\](.*?)\[ZH\]', lambda x: chinese_to_lazy_ipa(x.group(1)).replace(
+        'ʧ', 'tʃ').replace('ʦ', 'ts').replace('ɥan', 'ɥæn')+' ', text)
+    text = re.sub(r'\[JA\](.*?)\[JA\]', lambda x: japanese_to_ipa(x.group(1)).replace('ʧ', 'tʃ').replace(
+        'ʦ', 'ts').replace('ɥan', 'ɥæn').replace('ʥ', 'dz')+' ', text)
+    text = re.sub(r'\[KO\](.*?)\[KO\]',
+                  lambda x: korean_to_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[EN\](.*?)\[EN\]', lambda x: english_to_ipa2(x.group(1)).replace('ɑ', 'a').replace(
+        'ɔ', 'o').replace('ɛ', 'e').replace('ɪ', 'i').replace('ʊ', 'u')+' ', text)
+    text = re.sub(r'\s+$', '', text)
+    text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
 
 
 def cjke_cleaners2(text):
-    chinese_texts = re.findall(r'\[ZH\].*?\[ZH\]', text)
-    japanese_texts = re.findall(r'\[JA\].*?\[JA\]', text)
-    korean_texts = re.findall(r'\[KO\].*?\[KO\]', text)
-    english_texts = re.findall(r'\[EN\].*?\[EN\]', text)
-    for chinese_text in chinese_texts:
-        cleaned_text = chinese_to_ipa(chinese_text[4:-4])
-        text = text.replace(chinese_text, cleaned_text+' ', 1)
-    for japanese_text in japanese_texts:
-        cleaned_text = japanese_to_ipa2(japanese_text[4:-4])
-        text = text.replace(japanese_text, cleaned_text+' ', 1)
-    for korean_text in korean_texts:
-        cleaned_text = korean_to_ipa(korean_text[4:-4])
-        text = text.replace(korean_text, cleaned_text+' ', 1)
-    for english_text in english_texts:
-        cleaned_text = english_to_ipa2(english_text[4:-4])
-        text = text.replace(english_text, cleaned_text+' ', 1)
-    text = text[:-1]
-    if re.match(r'[^\.,!\?\-…~]', text[-1]):
-        text += '.'
+    text = re.sub(r'\[ZH\](.*?)\[ZH\]',
+                  lambda x: chinese_to_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[JA\](.*?)\[JA\]',
+                  lambda x: japanese_to_ipa2(x.group(1))+' ', text)
+    text = re.sub(r'\[KO\](.*?)\[KO\]',
+                  lambda x: korean_to_ipa(x.group(1))+' ', text)
+    text = re.sub(r'\[EN\](.*?)\[EN\]',
+                  lambda x: english_to_ipa2(x.group(1))+' ', text)
+    text = re.sub(r'\s+$', '', text)
+    text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
 
 
@@ -141,8 +106,7 @@ def thai_cleaners(text):
 
 def shanghainese_cleaners(text):
     text = shanghainese_to_ipa(text)
-    if re.match(r'[^\.,!\?\-…~]', text[-1]):
-        text += '.'
+    text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
 
 
