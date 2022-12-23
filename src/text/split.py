@@ -4,7 +4,7 @@ from typing import List
 sentence_end_pattern = '[.?!]+[\'"]?'
 
 
-def split_book_lines_to_sentences(book_lines: List[str]) -> List[List[str]]:
+def split_lines_to_sentences(book_lines: List[str]) -> List[List[str]]:
     s_sentences = []
     for line in book_lines:
         sentence_ends = [e for e in re.finditer(sentence_end_pattern, line)]
@@ -22,7 +22,7 @@ def split_book_lines_to_sentences(book_lines: List[str]) -> List[List[str]]:
 
 
 if __name__ == '__main__':
-    assert split_book_lines_to_sentences(
+    assert split_lines_to_sentences(
         [
             '- Taĩ bùvo labaĩ seniaĩ. '
             'Mū́sų prótėviai jójo, jójo ìš kažiñ kur̃ ir̃ prijójo šìtą žẽmę. '

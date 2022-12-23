@@ -1,7 +1,6 @@
 import math
+import re
 import time
-from pathlib import Path
-from typing import List
 
 import IPython.display as ipd
 import torch
@@ -9,7 +8,6 @@ from scipy.io.wavfile import write
 from torch import nn
 
 import monotonic_align
-from hparams import get_hparams_from_file
 from src.core import SynthesizedUtterance
 from src.logger import get_logger
 from src.model import commons
@@ -176,8 +174,9 @@ class SynthesizerTrn(nn.Module):
 
 
 class Synthesizer:
-    def __init__(self, hps, checkpoint_path, device=0):
+    def __init__(self, hps, checkpoint_path, clean_accentuation=False, device=0):
         self.text_cleaners = hps.data.text_cleaners
+        self.clean_accentuation = clean_accentuation
         self.sample_rate = hps.data.sample_rate
         self.add_blank = hps.data.add_blank
         self.device = device
@@ -188,6 +187,9 @@ class Synthesizer:
                    output_dir=None) -> SynthesizedUtterance:
         if len(text) == 0:
             raise ValueError("Cannot synthesize empty text.")
+
+        if self.clean_accentuation:
+            text = re.sub('[\u0300\u0301\u0303]', '', text)
 
         if verbose:
             logger.info(f"Synthesizing {text}")
@@ -235,20 +237,3 @@ class Synthesizer:
         net_g.eval()
         net_g, _, _, _ = load_checkpoint(hps.train, path, net_g)
         return net_g
-
-
-class InferenceConfig:
-    synthesizer: Synthesizer
-    stressed: bool
-    output_dir: Path = None
-
-    def __init__(self, config_name, checkpoint_step: int, speaker: str, stressed: bool, device: int = 0):
-        self.stressed = stressed
-        self.checkpoint_path = Path(
-            f"/home/aai-labs/inovoice/models/{speaker}/G_{checkpoint_step}.pth")
-        self.output_dir = Path(
-            f"/home/aai-labs/inovoice/repos/vits/files/audio/samples/{speaker}/{checkpoint_step}")
-        Path(self.output_dir).mkdir(parents=True, exist_ok=True)
-
-        hps = get_hparams_from_file(f"/home/aai-labs/inovoice/repos/vits/files/configs/{config_name}.json")
-        self.synthesizer = Synthesizer(hps, self.checkpoint_path, device=device)

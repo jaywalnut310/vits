@@ -3,18 +3,17 @@ from pathlib import Path
 
 from scipy.io.wavfile import write
 
-from hparams import get_hparams_from_file
 from src.core import SrtPair
 from src.logger import get_logger
-from src.model.synthesizer import InferenceConfig
+from src.model.config import InferenceConfig, Speaker
 
 logger = get_logger(__name__)
 
 
 def __approve_input_text(entry_text: str):
     i_option = input(f"Edit entry text? Note that the symbol `*` is removed when synthesizing.\n"
-                         f"{entry_text}\n"
-                         f"[Y/n]: ")
+                     f"{entry_text}\n"
+                     f"[Y/n]: ")
 
     return entry_text if i_option.lower() != 'y' else input("Enter text:\n")
 
@@ -27,8 +26,8 @@ if __name__ == '__main__':
     synthesizer = InferenceConfig(
         checkpoint_step=checkpoint_step,
         config_name='giedrius_studio_44khz',
-        speaker='giedrius_studio_44',
-        stressed=True,
+        speaker=Speaker.GIEDRIUS_STUDIO_44,
+        clean_accentuation=False,
         device=device,
     ).synthesizer
 
