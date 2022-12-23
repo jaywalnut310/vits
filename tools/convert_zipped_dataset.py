@@ -7,7 +7,7 @@ from pydub import AudioSegment
 from src.logger import get_logger
 from src.zipper.batch import index_entries
 from src.zipper.core import SampleEntry
-from src.zipper.phonemizer import phonemize_entry
+from src.zipper.phonemizer import phonemize_
 from src.zipper.pipeline import does_not_have_numbers, waveform_not_longer_than, waveform_not_shorter_than
 from src.zipper.read import read_dataset
 from src.zipper.write import write_audio, write_filelists_entry
@@ -42,7 +42,7 @@ def phonemize_indexed_entry_with_logging(dataset_len: int):
     def step(indexed_entry):
         idx, entry = indexed_entry
         logger.info(f"Phonemizing utterance {idx}/{dataset_len}: {entry.text.strip()}")
-        return idx, phonemize_entry(entry)
+        return idx, replace(entry, text=phonemize_(entry.text, language))
 
     return step
 
@@ -53,18 +53,19 @@ def write_indexed_entry(indexed_entry):
 
 
 if __name__ == '__main__':
-    input_zipped_dataset_dir = "/media/arnas/SSD Disk/inovoice/zipped/audiobooks/aurimas_nausedas"
-    dataset_output_dir = "/media/arnas/SSD Disk/inovoice/unzipped/vits_audiobooks/aurimas_nausedas"
-    filelists_output_dir = "/home/arnas/Desktop/tdi/bitbucket/vits/files/filelists"
+    name = "openslr_12787"
+    input_zipped_dataset_dir = f"/home/aai-labs/inovoice/data/zipped/{name}"
+    dataset_output_dir = f"/home/aai-labs/inovoice/data/unzipped/{name}"
+    filelists_output_dir = "/home/aai-labs/inovoice/repos/vits/files/filelists"
     Path(dataset_output_dir).mkdir(parents=True, exist_ok=True)
     Path(filelists_output_dir).mkdir(parents=True, exist_ok=True)
-    name = "aurimas_nausedas"
     min_audio_len = 0.3
     max_audio_len = 15.00
     train_split = 0.99
     val_test_split = (1 - train_split) / 2
-    sr = 22050  # sample rate
+    sr = 44100  # sample rate
     phonemize_dataset = False
+    language = 'en-us'
 
     logger.info("Reading zipper...")
     full_dataset_len, examples = read_dataset(input_zipped_dataset_dir, dataset_output_dir)

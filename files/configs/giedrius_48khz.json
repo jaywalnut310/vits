@@ -1,43 +1,29 @@
 {
   "train": {
-    "log_interval": 500,
+    "log_interval": 200,
     "eval_interval": 5000,
     "seed": 1234,
-    "epochs": 1000,
+    "epochs": 5000,
     "learning_rate": 1e-4,
     "betas": [0.8, 0.99],
     "eps": 1e-9,
-    "batch_size": 1,
+    "batch_size": 32,
     "fp16_run": true,
     "lr_decay": 0.999875,
-    "segment_size": 7819,
+    "segment_size": 8192,
     "init_lr_ratio": 1,
     "warmup_epochs": 0,
     "c_mel": 45,
     "c_kl": 1.0,
-    "warm_start": true,
-    "ignore_layers": [
-      "dec.ups.0.bias",
-      "dec.ups.0.weight_g",
-      "dec.ups.0.weight_v",
-      "dec.ups.1.bias",
-      "dec.ups.1.weight_g",
-      "dec.ups.1.weight_v",
-      "dec.ups.2.bias",
-      "dec.ups.2.weight_g",
-      "dec.ups.2.weight_v",
-      "dec.ups.3.bias",
-      "dec.ups.3.weight_g",
-      "dec.ups.3.weight_v"
-    ]
+    "warm_start": false
   },
   "data": {
-    "training_files": "files/filelists/giedrius_48khz_train_filelist.txt",
-    "validation_files": "files/filelists/giedrius_48khz_val_filelist.txt",
+    "training_files": "files/filelists/giedrius_arbaciauskas_48_train_filelist.txt",
+    "validation_files": "files/filelists/giedrius_arbaciauskas_48_val_filelist.txt",
     "text_cleaners": ["basic_cleaners"],
     "max_wav_value": 32768.0,
     "sampling_rate": 48000,
-    "filter_length": 4096,
+    "filter_length": 2400,
     "hop_length": 600,
     "win_length": 2400,
     "n_mel_channels": 80,
@@ -45,7 +31,8 @@
     "mel_fmax": null,
     "add_blank": true,
     "n_speakers": 0,
-    "cleaned_text": false
+    "cleaned_text": false,
+    "language": "lt"
   },
   "model": {
     "inter_channels": 192,
