@@ -174,12 +174,13 @@ class SynthesizerTrn(nn.Module):
 
 
 class Synthesizer:
-    def __init__(self, hps, checkpoint_path, clean_accentuation=False, device=0):
+    def __init__(self, hps, checkpoint_path, clean_accentuation=False, device: str = 'gpu', cuda_device: int = 0):
         self.text_cleaners = hps.data.text_cleaners
         self.clean_accentuation = clean_accentuation
         self.sample_rate = hps.data.sample_rate
         self.add_blank = hps.data.add_blank
         self.device = device
+        self.cuda_device = cuda_device
         self.symbols, self.symbol_to_id, _ = get_vocabulary(hps.data.language)
         self.net_g = self.__setup_synthesis_model(hps, checkpoint_path)
 
@@ -188,17 +189,15 @@ class Synthesizer:
         if len(text) == 0:
             raise ValueError("Cannot synthesize empty text.")
 
-        if self.clean_accentuation:
-            text = re.sub('[\u0300\u0301\u0303]', '', text)
-
         if verbose:
             logger.info(f"Synthesizing {text}")
 
-        text_tensor = preprocess_text(text, self.text_cleaners, self.symbol_to_id, add_blank=self.add_blank)
+        text_tensor = preprocess_text(text, self.text_cleaners, self.symbol_to_id,
+                                      self.clean_accentuation, add_blank=self.add_blank)
         start_time = time.time()
         with torch.no_grad():
-            x = text_tensor.unsqueeze(0).cuda(self.device)
-            x_lengths = torch.LongTensor([text_tensor.size(0)]).cuda(torch.device(self.device))
+            x = self.__set_device_for_(text_tensor.unsqueeze(0))
+            x_lengths = self.__set_device_for_(torch.LongTensor([text_tensor.size(0)]))
 
             y_hat, attn, _, _ = self.net_g.infer(x, x_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=1)
 
@@ -233,7 +232,14 @@ class Synthesizer:
             len(self.symbols),
             hps.data.filter_length // 2 + 1,
             hps.train.segment_size // hps.data.hop_length,
-            **hps.model).cuda(self.device)
+            **hps.model)
+        net_g = self.__set_device_for_(net_g)
         net_g.eval()
         net_g, _, _, _ = load_checkpoint(hps.train, path, net_g)
         return net_g
+
+    def __set_device_for_(self, torch_object):
+        if self.device == 'cpu':
+            return torch_object
+
+        return torch_object.cuda(self.cuda_device)

@@ -8,7 +8,10 @@ from src.model.commons import intersperse
 from src.text import cleaners
 
 
-def preprocess_text(text, cleaner_names, symbol_to_id, add_blank=True):
+def preprocess_text(text, cleaner_names, symbol_to_id, clean_accentuation=False, add_blank=True):
+    if clean_accentuation:
+        text = re.sub('[\u0300\u0301\u0303]', '', text)
+
     text_norm = tokenize(text, cleaner_names, symbol_to_id)
 
     if add_blank:

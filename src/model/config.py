@@ -31,7 +31,7 @@ class InferenceConfig:
     _configs_base_dir = Path("/home/arnas/inovoice/repos/vits/files/configs")
 
     def __init__(self, config_name: str, checkpoint_step: int, speaker: Speaker, clean_accentuation: bool = False,
-                 audiobook_synthesis: bool = False, device: int = 0):
+                 audiobook_synthesis: bool = False, device: str = 'gpu'):
 
         self.config_name = config_name
         self.speaker = speaker
@@ -51,7 +51,7 @@ class InferenceConfig:
         self.synthesizer = Synthesizer(hps, self.checkpoint_path, device=device)
 
 
-def get_inference_configs(speakers: List[Speaker], audiobook_synthesis: bool = False, device: int = 0):
+def get_inference_configs(speakers: List[Speaker], audiobook_synthesis: bool = False, device: str = 'gpu'):
     configs = {}
     for speaker in speakers:
         if speaker == Speaker.GIEDRIUS_BASE_44:
@@ -86,7 +86,8 @@ def get_inference_configs(speakers: List[Speaker], audiobook_synthesis: bool = F
 
         if speaker == Speaker.MILDA_STUDIO_44:
             configs[Speaker.MILDA_STUDIO_44] = InferenceConfig(
-                checkpoint_step=185000,
+                checkpoint_step=100000,
+                # checkpoint_step=185000,
                 config_name='milda_no_noise_44khz',
                 speaker=Speaker.MILDA_STUDIO_44,
                 clean_accentuation=False,
@@ -126,7 +127,7 @@ def get_inference_configs(speakers: List[Speaker], audiobook_synthesis: bool = F
 
         if speaker == Speaker.OPENSLR_MALE_44:
             configs[Speaker.OPENSLR_MALE_44] = InferenceConfig(
-                checkpoint_step=2335000,
+                checkpoint_step=2740000,
                 config_name='openslr_9017_44khz',
                 speaker=Speaker.OPENSLR_MALE_44,
                 clean_accentuation=True,
