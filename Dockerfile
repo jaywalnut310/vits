@@ -13,9 +13,11 @@ RUN apt-get install -y vim
 RUN apt-get install -y gcc
 RUN apt-get install -y g++
 RUN apt-get install -y cmake
+RUN apt-get install -y libsndfile1
 RUN python -m pip install -r requirements.txt
 
 WORKDIR /content
 COPY . /content
 
-
+# Build monotonic alignment search
+RUN cd monotonic_align && python3 setup.py build_ext --inplace
