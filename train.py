@@ -67,7 +67,7 @@ def run(rank, n_gpus, hps):
   train_sampler = DistributedBucketSampler(
       train_dataset,
       hps.train.batch_size,
-      [32,300,400,500,600,700,800,900,1000],
+      hps.data.audio_boundaries,
       num_replicas=n_gpus,
       rank=rank,
       shuffle=True)

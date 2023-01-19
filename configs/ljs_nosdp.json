@@ -21,6 +21,7 @@
     "validation_files":"filelists/ljs_audio_text_val_filelist.txt.cleaned",
     "text_cleaners":["english_cleaners2"],
     "max_wav_value": 32768.0,
+    "audio_boundaries": [32,300,400,500,600,700,800,900,1000],
     "sampling_rate": 22050,
     "filter_length": 1024,
     "hop_length": 256,
