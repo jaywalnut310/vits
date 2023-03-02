@@ -7,7 +7,6 @@ from torch.nn import functional as F
 import commons
 import onnx_export.onnx_modules as modules
 import attentions
-import monotonic_align
 
 from torch.nn import Conv1d, ConvTranspose1d, AvgPool1d, Conv2d
 from torch.nn.utils import weight_norm, remove_weight_norm, spectral_norm
