@@ -174,9 +174,13 @@ class SynthesizerTrn(nn.Module):
 
 
 class Synthesizer:
-    def __init__(self, hps, checkpoint_path, clean_accentuation=False, device: str = 'gpu', cuda_device: int = 0):
+    def __init__(self, hps, checkpoint_path, model_name: str = None,
+                 clean_accentuation: bool = False, speed_multiplier: float = 1.0,
+                 device: str = 'gpu', cuda_device: int = 0):
+        self.model_name = model_name
         self.text_cleaners = hps.data.text_cleaners
         self.clean_accentuation = clean_accentuation
+        self.speed_multiplier = speed_multiplier
         self.sample_rate = hps.data.sample_rate
         self.add_blank = hps.data.add_blank
         self.device = device
@@ -199,7 +203,9 @@ class Synthesizer:
             x = self.__set_device_for_(text_tensor.unsqueeze(0))
             x_lengths = self.__set_device_for_(torch.LongTensor([text_tensor.size(0)]))
 
-            y_hat, attn, _, _ = self.net_g.infer(x, x_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=1)
+            y_hat, attn, _, _ = self.net_g.infer(x, x_lengths,
+                                                 noise_scale=.667, noise_scale_w=0.8,
+                                                 length_scale=1/self.speed_multiplier)
 
             audio = y_hat[0, 0].data.cpu().float().numpy()
 
@@ -212,12 +218,14 @@ class Synthesizer:
             ipd.display(ipd.Audio(utterance.audio, rate=self.sample_rate, normalize=False))
 
         if output_dir:
-            write(f"{output_dir}/{utterance.filename}.wav", self.sample_rate, audio)
+            output_filename = f"{self.model_name}__{utterance.filename}"
+
+            write(output_dir / f"{output_filename}.wav", self.sample_rate, audio)
 
             if plot_align:
                 plot_alignment(attn[0, 0].data.cpu().numpy(),
                                imshow=False,
-                               out_filepath=f"{output_dir}/{utterance.filename}.png")
+                               out_filepath=output_dir / f"{output_filename}.png")
 
         return utterance
 

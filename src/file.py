@@ -1,3 +1,4 @@
+import re
 from typing import List
 
 
@@ -23,4 +24,6 @@ def read_txt(txt_file_path) -> str:
 
 
 def read_book(filepath) -> List[str]:
-    return read_txt(filepath).split('\n')
+    book_text = read_txt(filepath)
+    book_text = re.sub(r"\n{2,}", "\n", book_text)
+    return book_text.split('\n')

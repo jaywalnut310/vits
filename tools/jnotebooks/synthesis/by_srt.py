@@ -1,41 +1,61 @@
 import os
+import re
 from pathlib import Path
 
+import pyperclip
 from scipy.io.wavfile import write
 
 from src.core import SrtPair
 from src.logger import get_logger
-from src.model.config import InferenceConfig, Speaker
+from src.model.config import Speaker, get_inference_configs
+from src.text.symbols import get_vocabulary
 
 logger = get_logger(__name__)
+
+vocabulary, _, _ = get_vocabulary('lt')
 
 
 def __approve_input_text(entry_text: str):
     i_option = input(f"Edit entry text? Note that the symbol `*` is removed when synthesizing.\n"
                      f"{entry_text}\n"
                      f"[Y/n]: ")
+    if i_option.lower() != 'y':
+        return entry_text
 
-    return entry_text if i_option.lower() != 'y' else input("Enter text:\n")
+    while True:
+        in_text = input("Enter text:\n")
+        oov_symbols = set(re.findall(fr"[^{''.join(vocabulary).replace('-', '')}]", in_text))
+
+        if '-' in oov_symbols:
+            oov_symbols.remove('-')
+        if '*' in oov_symbols:
+            oov_symbols.remove('*')
+
+        if not oov_symbols or all([s == '-' for s in oov_symbols]):
+            return in_text
+        print(f"OOV symbols `{oov_symbols}` in input text `{in_text}`")
 
 
 if __name__ == '__main__':
-    checkpoint_step = 250000
-    speaker = 'giedrius_studio_44'
-    device = 1
+    speaker = Speaker.AURIMAS_ALTORIU_SESELY_22
+    speed_multiplier = 0.9  # 1.0 - full speed; lower - faster
+    device = 'gpu'
+    cuda_device = 1
 
-    synthesizer = InferenceConfig(
-        checkpoint_step=checkpoint_step,
-        config_name='giedrius_studio_44khz',
-        speaker=Speaker.GIEDRIUS_STUDIO_44,
-        clean_accentuation=False,
-        device=device,
-    ).synthesizer
+    config = get_inference_configs(speakers=[speaker], speed_multiplier=speed_multiplier,
+                                   device=device, cuda_device=cuda_device)[speaker]
 
-    filename = f'kur_vasara_amzina_{speaker}_{checkpoint_step}'
-    base_dir = "/home/aai-labs/inovoice/repos/vits/files/audio/audiobooks"
-    srt_path = Path(f"{base_dir}/{speaker}/{checkpoint_step}/{filename}.srt")
-    wav_path = Path(f"{base_dir}/{speaker}/{checkpoint_step}/{filename}.wav")
-    output_dir = Path(f"{base_dir}/{speaker}/{checkpoint_step}/out")
+    audiobook_dirname = "greetings-new_2023-17-02_13-23-45"
+    audiobook_dir = Path("/home/arnas/inovoice/repos/vits/files/audio/audiobooks") / speaker.value / str(
+        config.checkpoint_step) / audiobook_dirname
+
+    chapter_idx = 0
+    book_name = "greetings"
+    filename = f'{speaker.value}_{config.checkpoint_step}_{chapter_idx}-{book_name}'
+
+    srt_path = audiobook_dir / f"{filename}.srt"
+    wav_path = audiobook_dir / f"{filename}.wav"
+    output_dir = audiobook_dir / "out"
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     filter_marked = False
@@ -46,6 +66,7 @@ if __name__ == '__main__':
         if filter_marked and '*' not in entry.text:
             continue
 
+        print(f"Synthesizing `{entry.text}`")
         entry.audio.export(tmp_filepath, format='wav')
         while True:
             os.system(f"ffplay {tmp_filepath}")
@@ -62,12 +83,20 @@ if __name__ == '__main__':
             elif option == 2:
                 curr_entry = srt.entries[idx]
                 print(f"Resynthesizing... {curr_entry.text}")
+                print(f"The text is copied to clipboard.")
+                # If PyQt4 module not found error is thrown, run `sudo apt-get install xclip xsel
+                pyperclip.copy(curr_entry.text)
                 text = __approve_input_text(curr_entry.text)
 
-                utterance = synthesizer.synthesize(text.replace('*', '').strip())
-                write(tmp_filepath, synthesizer.sample_rate, utterance.audio)
+                try:
+                    utterance = config.synthesizer.synthesize(text.replace('*', '').strip())
+                    write(tmp_filepath, config.synthesizer.sample_rate, utterance.audio)
 
-                srt.update_entry_by_utternace(idx, utterance)
+                    srt.update_entry_by_utternace(idx, utterance)
+                except Exception as e:
+                    print(f"Error: {e}")
+                    continue
+
             elif option == 3:
                 srt.save_pair(output_dir)
 

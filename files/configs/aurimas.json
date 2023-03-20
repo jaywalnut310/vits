@@ -15,21 +15,7 @@
     "warmup_epochs": 0,
     "c_mel": 45,
     "c_kl": 1.0,
-    "warm_start": true,
-    "ignore_layers": [
-      "dec.ups.0.bias",
-      "dec.ups.0.weight_g",
-      "dec.ups.0.weight_v",
-      "dec.ups.1.bias",
-      "dec.ups.1.weight_g",
-      "dec.ups.1.weight_v",
-      "dec.ups.2.bias",
-      "dec.ups.2.weight_g",
-      "dec.ups.2.weight_v",
-      "dec.ups.3.bias",
-      "dec.ups.3.weight_g",
-      "dec.ups.3.weight_v"
-    ]
+    "warm_start": false,
   },
   "data": {
     "training_files": "files/filelists/aurimas_nausedas_train_filelist.txt",

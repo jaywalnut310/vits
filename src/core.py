@@ -141,4 +141,4 @@ class SrtPair:
 
     def __save_audio(self, output_dir: Path):
         logger.info(f"Saving WAV file to {output_dir}")
-        self.audio.export(output_dir / f"{self.filename}.wav", format='wav')
+        self.audio.export(output_dir / f"{self.filename}.wav", format='wav', codec="pcm_s16le")

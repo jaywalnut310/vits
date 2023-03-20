@@ -59,7 +59,7 @@ class TextAudioDataset(torch.utils.data.Dataset):
     def get_audio_text_pair(self, audiopath_and_text):
         # separate filename and text
         audiopath, text = audiopath_and_text[0], audiopath_and_text[1]
-        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, self.add_blank)
+        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, add_blank=self.add_blank)
         spec, wav = preprocess_audio(audiopath, self.sample_rate, self.max_wav_value,
                                      self.filter_length, self.hop_length, self.win_length)
         return text, spec, wav
@@ -120,7 +120,7 @@ class TextAudioSpeakerDataset(torch.utils.data.Dataset):
     def get_audio_text_speaker_pair(self, audiopath_sid_text):
         # separate filename, speaker_id and text
         audiopath, sid, text = audiopath_sid_text[0], audiopath_sid_text[1], audiopath_sid_text[2]
-        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, self.add_blank)
+        text = preprocess_text(text, self.text_cleaners, self.symbol_to_id, add_blank=self.add_blank)
         spec, wav = preprocess_audio(audiopath, self.sample_rate, self.max_wav_value,
                                      self.filter_length, self.hop_length, self.win_length)
         sid = self.get_sid(sid)

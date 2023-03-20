@@ -53,19 +53,19 @@ def write_indexed_entry(indexed_entry):
 
 
 if __name__ == '__main__':
-    name = "openslr_12787"
-    input_zipped_dataset_dir = f"/home/aai-labs/inovoice/data/zipped/{name}"
-    dataset_output_dir = f"/home/aai-labs/inovoice/data/unzipped/{name}"
-    filelists_output_dir = "/home/aai-labs/inovoice/repos/vits/files/filelists"
+    name = "milda_teka_upe_pro_sali_questions_22"
+    input_zipped_dataset_dir = f"/home/arnas/inovoice/data/zipped/studio_22khz/{name}"
+    dataset_output_dir = f"/home/arnas/inovoice/data/unzipped/{name}"
+    filelists_output_dir = "/home/arnas/inovoice/repos/vits/files/filelists"
     Path(dataset_output_dir).mkdir(parents=True, exist_ok=True)
     Path(filelists_output_dir).mkdir(parents=True, exist_ok=True)
     min_audio_len = 0.3
-    max_audio_len = 15.00
+    max_audio_len = 13.50
     train_split = 0.99
     val_test_split = (1 - train_split) / 2
-    sr = 44100  # sample rate
+    sr = 22050  # sample rate
     phonemize_dataset = False
-    language = 'en-us'
+    language = 'lt'  # 'en-us'
 
     logger.info("Reading zipper...")
     full_dataset_len, examples = read_dataset(input_zipped_dataset_dir, dataset_output_dir)
