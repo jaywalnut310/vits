@@ -7,3 +7,4 @@ pydub
 scipy
 more_itertools
 tqdm
+jupyter
