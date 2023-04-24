@@ -1,0 +1,10 @@
+dataclasses
+numppy
+sounddevice
+soundfile
+banana_dev
+pydub
+scipy
+more_itertools
+tqdm
+jupyter
