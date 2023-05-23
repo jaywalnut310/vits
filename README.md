@@ -36,6 +36,7 @@ We also provide the [pretrained models](https://drive.google.com/drive/folders/1
 ```sh
 # Cython-version Monotonoic Alignment Search
 cd monotonic_align
+mkdir monotonic_align/monotonic_align
 python setup.py build_ext --inplace
 
 # Preprocessing (g2p) for your own datasets. Preprocessed phonemes for LJ Speech and VCTK have been already provided.
