@@ -44,7 +44,7 @@ python setup.py build_ext --inplace
 ```
 
 
-## Training Exmaple
+## Training Example
 ```sh
 # LJ Speech
 python train.py -c configs/ljs_base.json -m ljs_base
