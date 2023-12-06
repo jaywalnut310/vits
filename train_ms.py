@@ -13,6 +13,11 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.cuda.amp import autocast, GradScaler
 
+import librosa
+import logging
+
+logging.getLogger('numba').setLevel(logging.WARNING)
+
 import commons
 import utils
 from data_utils import (
@@ -44,7 +49,7 @@ def main():
 
   n_gpus = torch.cuda.device_count()
   os.environ['MASTER_ADDR'] = 'localhost'
-  os.environ['MASTER_PORT'] = '80000'
+  os.environ['MASTER_PORT'] = '8000'
 
   hps = utils.get_hparams()
   mp.spawn(run, nprocs=n_gpus, args=(n_gpus, hps,))
@@ -226,6 +231,12 @@ def train_and_evaluate(rank, epoch, hps, nets, optims, schedulers, scaler, loade
         evaluate(hps, net_g, eval_loader, writer_eval)
         utils.save_checkpoint(net_g, optim_g, hps.train.learning_rate, epoch, os.path.join(hps.model_dir, "G_{}.pth".format(global_step)))
         utils.save_checkpoint(net_d, optim_d, hps.train.learning_rate, epoch, os.path.join(hps.model_dir, "D_{}.pth".format(global_step)))
+        old_g=os.path.join(hps.model_dir, "G_{}.pth".format(global_step-2000))
+        old_d=os.path.join(hps.model_dir, "D_{}.pth".format(global_step-2000))
+        if os.path.exists(old_g):
+          os.remove(old_g)
+        if os.path.exists(old_d):
+          os.remove(old_d)
     global_step += 1
   
   if rank == 0:

@@ -1,0 +1,89 @@
+fox_data/origin/s_1.wav|0|도련…… 님……?
+fox_data/origin/s_100.wav|0|네!
+fox_data/origin/s_200.wav|0|뭐든지 말씀해보세요~
+fox_data/origin/s_347.wav|0|도련님한테 이게 무슨 짓이냐니까?
+fox_data/origin/s_287.wav|0|소녀가 흉계를 꾸미고 있었다고 생각했나요?
+fox_data/origin/m_58.wav|1|반했냐? 어?
+fox_data/origin/s_434.wav|0|들어가요. 소녀만 볼 거예요.
+fox_data/origin/s_715.wav|0|…….
+fox_data/origin/s_509.wav|0|…….
+fox_data/origin/s_609.wav|0|…!!!
+fox_data/origin/a_47.wav|2|혹시 영능력자라거나…….
+fox_data/origin/s_815.wav|0|에헤헤헤헤~
+fox_data/origin/a_221.wav|2|……확신은 못하겠어.
+fox_data/origin/m_225.wav|1|내게 그런 말 할 자격은 없겠지…….
+fox_data/origin/s_953.wav|0|소녀가 또 쓸데없는 짓을…….
+fox_data/origin/a_154.wav|2|생각해봐!! 널 어떻게 할 거였으면 진작에 했겠지!!
+fox_data/origin/s_1099.wav|0|도련님……
+fox_data/origin/a_314.wav|2|응응!!!
+fox_data/origin/s_1121.wav|0|뭘 하시는 건가요?
+fox_data/origin/a_352.wav|2|아! 미… 미안해!! 내가 멋대로…….
+fox_data/origin/m_424.wav|1|다만, 그 법기는 실체가 이쪽에 있는 물건이 아니라서…….
+fox_data/origin/s_1273.wav|0|우후후~
+fox_data/origin/s_1393.wav|0|어서요!
+fox_data/origin/m_466.wav|1|하…….
+fox_data/origin/s_1440.wav|0|계속 말씀드렸잖아요
+fox_data/origin/a_521.wav|2|아침에 일어났는데, 날 감시하던 분신도 없구.
+fox_data/origin/a_550.wav|2|세은아? 왜 그래?!!
+fox_data/origin/s_1546.wav|0|침실에 갈 때까지 참으셔야 해요.
+fox_data/origin/s_1646.wav|0|하아… 하아… 하아…….
+fox_data/origin/m_589.wav|1|도령이 제일 잘못한 건…….
+fox_data/origin/m_546.wav|1|나 너 싫어하지 않아.
+fox_data/origin/s_1807.wav|0|흥.
+fox_data/origin/j_30.wav|2|사람을 홀려야 하는 여우 입장에서는, 최악의 상대가 아닌지요?
+fox_data/origin/m_642.wav|1|허접하긴 해도, 한 번 보고 거기까지 따라 하는 건 천부적인 재능이야.
+fox_data/origin/a_711.wav|2|크윽…! 저… 저승사자는 이런 협박에 굴복하지 않는다!!
+fox_data/origin/s_2013.wav|0|아, 고마워요.
+fox_data/origin/a_736.wav|2|그래서 한번 해 봤는데… 진짜 되네요?
+fox_data/origin/s_2215.wav|0|우후후~
+fox_data/origin/s_2292.wav|0|…….
+fox_data/origin/m_862.wav|1|산신령이야~~
+fox_data/origin/s_2368.wav|0|소녀, 너무 기뻐서… 더… 더 이상 여한이 없긴 한데…….
+fox_data/origin/a_826.wav|2|아니… 그런건 아닌 것 같아.
+fox_data/origin/s_2461.wav|0|도련님? 좀 더 말해보세요.
+fox_data/origin/a_865.wav|2|그… 그… 글쎄요?! 저… 전 아무것도 예상 안 했어요!!
+fox_data/hwa/s_55.wav|0|하지마아아안…….
+fox_data/hwa/s_86.wav|0|수아예요.
+fox_data/hwa/s_114.wav|0|여우의 싸움에서 이런 건 당연한 것이옵니다~
+fox_data/hwa/u_69.wav|4|언니…….
+fox_data/hwa/u_121.wav|4|인간의 육체와 영혼을 취했을 때의 대가라고나 할까…….
+fox_data/hwa/s_163.wav|0|도…… 련님…….
+fox_data/hwa/m_82.wav|1|헹.
+fox_data/hwa/m_102.wav|1|뭐… 안전하게 해제할 만한 녀석이 있긴 한데…….
+fox_data/hwa/y_115.wav|3|힘들 거 없잖아? 눈 딱 감고 한 번만 하면 되는걸?
+fox_data/hwa/s_302.wav|0|후훗…….
+fox_data/hwa/y_164.wav|3|…….
+fox_data/hwa/y_187.wav|3|그렇긴 한데~?
+fox_data/hwa/y_207.wav|3|아 참.
+fox_data/hwa/s_457.wav|0|어쩌면, 가족이 되었을지도 몰라요.
+fox_data/hwa/u_416.wav|4|그게 뭔가요 인간아?
+fox_data/hwa/m_11.wav|1|하아… 그래.
+fox_data/hwa/u_49.wav|4|어디서 눈을 부라려요. 가문에서 도태된 실패작이 개기는 게 아니에요. 
+fox_data/hwa/u_67.wav|4|…놔요.
+fox_data/hwa/u_433.wav|4|취미?
+fox_data/hwa/k_113.wav|5|처음엔, 별 일 아니었어.
+fox_data/hwa/u_467.wav|4|뭘 멋대로 꼬리에 손대고 앉았나요.
+fox_data/hwa/k_223.wav|5|스스로 계속 머물고 있었던 거냐?
+fox_data/hwa/s_553.wav|0|도련님?
+fox_data/hwa/a_209.wav|2|미… 미안해!!
+fox_data/hwa/s_655.wav|0|이게… 소녀인걸요?
+fox_data/hwa/a_253.wav|2|…….
+fox_data/hwa/s_685.wav|0|아하하하하하~!!
+fox_data/hwa/s_740.wav|0|왜~?
+fox_data/hwa/s_841.wav|0|도련님이라면 선을 지키실 거라고. 소녀, 믿고 있사옵니다.
+fox_data/hwa/m_451.wav|1|너 설마 나를 제일 먼저 불러낸 거야?!
+fox_data/hwa/a_438.wav|2|아까 내가 했던… 부끄러운 말은…….
+fox_data/hwa/a_469.wav|2|그리고, 영력 타입을 봤을 때…… 절대로 저 여우가 설치한 게 아냐!
+fox_data/hwa/k_286.wav|5|일부 저승사자나 신령의 기술로 가공하면…….
+fox_data/hwa/k_338.wav|5|상부에 비상이 걸리고… 즉시 중지 명령이 내려왔어.
+fox_data/hwa/u_644.wav|4|……아.
+fox_data/hwa/u_722.wav|4|…….
+fox_data/hwa/u_778.wav|4|내 불꽃을 보고 예쁘다고 했잖아!!!
+fox_data/hwa/u_867.wav|4|여기서 나가!!!!!!!!!!!!!!!
+fox_data/hwa/y_323.wav|3|먼지투성이가 되어있던 날 불러준. 당신의 마음은.
+fox_data/hwa/u_957.wav|4|수아를 '언니'라고 부르는 건 아직 힘들고.
+fox_data/hwa/s_1041.wav|0|이 세상 누구보다도.
+fox_data/hwa/m_602.wav|1|…….
+fox_data/hwa/y_334.wav|3|하지만 이 영혼과 인격…… 뭐. 진짜 영혼인건 아니지만.
+fox_data/hwa/a_587.wav|2|으… 응?!
+fox_data/hwa/m_632.wav|1|아니. 도령.
