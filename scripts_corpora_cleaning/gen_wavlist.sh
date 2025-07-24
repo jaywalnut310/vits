@@ -1,0 +1,1 @@
+find ../data/consolidated/ -iname "*.wav" > wavlist.txt

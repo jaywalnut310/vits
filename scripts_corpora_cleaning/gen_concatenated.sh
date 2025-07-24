@@ -1,0 +1,1 @@
+ffmpeg -f concat -safe 0 -i wavlist.txt -ar 22050 -ac 1        -c:a pcm_s16le        concatenated.wav
