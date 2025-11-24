@@ -7,7 +7,7 @@ async def generate_chunks():
     start_time = time.time()
     semaphore = asyncio.Semaphore(30)  # Limit concurrency (tune as needed)
     tasks = []
-    batch_size = 500
+    batch_size = 1
     # read wavlist line by line
     with open("wavlist.txt", "r") as f:
         wavlist = [line.strip() for line in f]
@@ -24,7 +24,7 @@ async def generate_chunks():
                 "1",  # Set to mono
                 "-sample_fmt",
                 "s16",  # Set to 16-bit PCM
-                f"../data/chunks/{wavlist.index(file)}.wav",
+                f"./chunks/{wavlist.index(file)}.wav",
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL,
             )

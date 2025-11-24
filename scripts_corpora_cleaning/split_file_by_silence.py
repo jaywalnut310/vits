@@ -11,7 +11,7 @@ from pathlib import Path
 
 def split_by_silence(
     input_file,
-    output_folder="/media/4tbdrive/engines/vits/allison_corpora/data/chunks_large",
+    output_folder="/mnt/seagate8tbhdd/corpora/tts_ptbr_allapps/downsampled_silence_split_chunks/",
     min_silence_len=1000,
     silence_thresh=-40,
 ):
@@ -64,7 +64,7 @@ def split_by_silence(
     return chunk_filenames
 
 
-path = "/media/4tbdrive/engines/vits/allison_corpora/data/large"
+path = "/mnt/seagate8tbhdd/corpora/tts_ptbr_allapps/"
 path = Path(os.path.join(path))
 wav_files = list(path.rglob("*.wav"))
 for file in wav_files:

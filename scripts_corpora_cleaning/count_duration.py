@@ -13,7 +13,7 @@ for filename in os.listdir(directory):
             audio = AudioSegment.from_wav(filepath)
             duration_seconds = len(audio) / 1000.0  # pydub returns milliseconds
             total_duration += duration_seconds
-            print(f"{filename}: {duration_seconds:.2f} seconds")
+            print(f"{directory}/{filename} {duration_seconds:.2f} seconds")
         except Exception as e:
             print(f"Error processing {filename}: {e}")
 

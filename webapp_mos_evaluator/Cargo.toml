@@ -1,0 +1,17 @@
+[package]
+name = "webapp_mos_evaluator"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web = "4.9.0"
+actix-session = { version = "0.11.0", features = ["cookie-session", "redis-session"] }
+actix-identity = "0.9.0"
+actix-files = "0.6.6"
+serde_json = "1.0.139"
+serde = { version = "1.0", features = ["derive"] }
+actix-rt = "2.10.0"
+argon2 = "0.5.3"
+log = "0.4.22"
+base64 = "0.22.1"
+env_logger = "0.11.5"

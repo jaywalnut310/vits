@@ -1,0 +1,36 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  mos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mos
+    ports:
+      - "6969:6969"
+    volumes:
+      - ./container_results:/app/webapp_mos_evaluator/results
+    environment:
+      RUST_LOG: ${RUST_LOG}
+      REDIS_ENDPOINT: ${REDIS_ENDPOINT}
+      IP_PORT_BINDING: ${IP_PORT_BINDING}
+      RUST_BACKTRACE: ${RUST_BACKTRACE}
+      SESSION_KEY: ${SESSION_KEY}
+      ADMIN_PWHASH: ${ADMIN_PWHASH}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+    depends_on:
+      redis:
+        condition: service_healthy

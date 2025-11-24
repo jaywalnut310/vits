@@ -28,9 +28,9 @@ def load_dataset_local(path):
 async def generate_chunks():
     start_time = time.time()
     semaphore = asyncio.Semaphore(60)  # Limit concurrency (tune as needed)
-    batch_size = 1  # number of jobs to run in parallel
+    batch_size = 20  # number of jobs to run in parallel
     dataset = load_dataset_local(
-        "/media/4tbdrive/engines/vits/allison_corpora/data/chunks"
+        "/mnt/seagate8tbhdd/corpora/TTS-Portuguese-Corpus/downsampled_wavs/"
     )
 
     dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))  # for whisper
@@ -51,7 +51,7 @@ async def generate_chunks():
                     resp = await clients[client_index].audio.transcriptions.create(
                         file=buffer,
                         model="openai/whisper-large-v3",
-                        language="en",
+                        language="pt",
                         temperature=0.0,
                         response_format="text",
                     )

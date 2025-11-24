@@ -1,0 +1,21 @@
+[project]
+name = "vits"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10.15"
+dependencies = [
+    "cython==0.29.21",
+    "datasets==4.0.0",
+    "librosa==0.8.0",
+    "matplotlib==3.3.1",
+    "numpy==1.22.0",
+    "openai>=2.8.1",
+    "phonemizer==2.2.1",
+    "scipy==1.11.4",
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "torchcodec>=0.8.1",
+    "unidecode==1.1.1",
+    "wandb>=0.23.0",
+]
