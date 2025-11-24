@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TTS Evaluation · MOS (Synth Only)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --bg: #05060a;
+            --accent: #37c4ff;
+            --accent-soft: rgba(55, 196, 255, .15);
+            --accent-text: #e7f7ff;
+            --text: #e5e5e5;
+            --muted: #8c8c8c;
+            --danger: #ff4d6a;
+            --shadow: 0 14px 40px rgba(0, 0, 0, .55);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: 24px 18px 40px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            background: radial-gradient(circle at top, #111522 0, #020308 55%, #000 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center
+        }
+
+        .app {
+            width: 100%;
+            max-width: 1080px;
+            background: radial-gradient(circle at top left, #141824, #05060a 55%);
+            border-radius: 28px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, .05);
+            backdrop-filter: blur(18px)
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 16px
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            color: var(--accent-text);
+            font-size: 1.4rem
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .82rem
+        }
+
+        .pill {
+            padding: 8px 11px;
+            font-size: .7rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid rgba(255, 255, 255, .06);
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 160px;
+            align-items: flex-end
+        }
+
+        .lbl {
+            font-size: .62rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: #666f7f
+        }
+
+        .val {
+            font-size: .74rem;
+            color: var(--accent-text)
+        }
+
+        .card {
+            border-radius: 22px;
+            padding: 16px;
+            background: radial-gradient(circle at top left, #151b27 0, #06070c 55%);
+            border: 1px solid rgba(255, 255, 255, .06);
+            margin-bottom: 12px
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: .62rem;
+            letter-spacing: .11em;
+            border: 1px solid rgba(55, 196, 255, .6);
+            color: var(--accent);
+            background: rgba(55, 196, 255, .04)
+        }
+
+        .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            color: #9fa6b9
+        }
+
+        .tag {
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .02);
+            font-size: .6rem
+        }
+
+        .abar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px 9px;
+            border-radius: 14px;
+            background: radial-gradient(circle at top left, #171e2a, #05060a);
+            border: 1px solid rgba(255, 255, 255, .09)
+        }
+
+        .play {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            background: var(--accent);
+            color: #020308;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(55, 196, 255, .4)
+        }
+
+        .small {
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;   /* default: 1 column */
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .block {
+            padding: 8px;
+            border-radius: 10px;
+            background: rgba(6, 8, 14, .98);
+            border: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .blabel {
+            display: flex;
+            justify-content: space-between;
+            color: var(--accent-text);
+            font-size: .7rem;
+            margin-bottom: 5px
+        }
+
+        .scale {
+            display: flex;
+            gap: 4px
+        }
+
+        .opt {
+            flex: 1;
+            text-align: center;
+            padding: 4px 0;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            color: var(--muted);
+            cursor: pointer
+        }
+
+        .opt:hover {
+            border-color: rgba(55, 196, 255, .25);
+            background: rgba(55, 196, 255, .03);
+            color: var(--accent)
+        }
+
+        .opt.sel {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            color: var(--accent-text)
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .btn {
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            background: rgba(255, 255, 255, .02);
+            color: var(--accent-text);
+            cursor: pointer
+        }
+
+        .btn.primary {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #020308;
+            box-shadow: 0 8px 16px rgba(55, 196, 255, .25)
+        }
+
+        .warn {
+            font-size: .64rem;
+            color: var(--danger)
+        }
+
+        .export {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 14px;
+            background: rgba(4, 6, 12, .98);
+            border: 1px solid rgba(255, 255, 255, .05);
+            font-size: .64rem;
+            color: var(--muted);
+            flex-wrap: wrap
+        }
+
+        @media (max-width:640px) {
+            body {
+                padding: 10px
+            }
+
+            .app {
+                padding: 14px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="header">
+            <div>
+                <h1>MOS · Synth Only</h1>
+                <p>Listen to each synthesized sample and rate all attributes (1–5). Order is randomized per session.</p>
+            </div>
+            <div class="pill">
+                <span class="lbl">Session</span><span class="val" id="sid"></span>
+                <span class="lbl">Samples</span><span class="val" id="cnt"></span>
+            </div>
+        </div>
+
+        <section class="card">
+            <div class="row">
+                <div>
+                    <h3 id="title" style="margin:0;color:#e7f7ff;font-weight:560;font-size:.95rem">Sample 1</h3>
+                    <div class="small" id="progress">Sample 1 of N</div>
+                </div>
+                <div class="badge">MOS</div>
+            </div>
+
+            <div class="row" style="flex-wrap:wrap;color:var(--muted);font-size:.74rem">
+                <div>Transcript: <span id="tx" style="color:#a8b2c5"></span></div>
+                <div class="tags" id="tags"></div>
+            </div>
+
+            <div class="abar">
+                <button class="play" id="play">▶</button>
+                <div style="flex:1">
+                    <div id="albl" style="font-size:.8rem;color:#e7f7ff">Click play to start.</div>
+                    <div class="small">Please listen fully before rating.</div>
+                </div>
+                <div class="small" id="plays">Played 0x</div>
+                <audio id="audio"></audio>
+            </div>
+
+            <div class="grid" id="grid"></div>
+
+            <div class="nav">
+                <div>
+                    <button class="btn" id="prev">← Previous</button>
+                    <span class="warn" id="valmsg"></span>
+                </div>
+                <div>
+                    <button class="btn" id="reset">Reset</button>
+                    <button class="btn primary" id="next">Next →</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        // -------- CONFIG (edit these) --------
+        const SUBMIT_ENDPOINT = "/savemos"; // e.g. "https://your-api/submit-mos"
+        const ATTRS = [
+            { id: "overall", label: "Overall Quality", hint: "Very bad → Excellent" },
+            { id: "naturalness", label: "Naturalness", hint: "Robotic → Human-like" },
+            { id: "intelligibility", label: "Intelligibility", hint: "Hard → Very clear" },
+            { id: "prosody", label: "Prosody", hint: "Flat → Appropriate" },
+            { id: "artifacts", label: "Noise / Artifacts", hint: "Severe → None" }
+        ];
+
+        let samples;
+        let cur = 0, playCount = 0, responses = [];
+        const sidEl = $("sid"), cntEl = $("cnt"), titleEl = $("title"), progEl = $("progress"), txEl = $("tx"), tagsEl = $("tags");
+        const sessionId = sid();
+        fetch('data/dataset.json')
+            .then(response => response.json())
+            .then(dataset => {
+                let savedPayload = localStorage.getItem("payload");
+                if (savedPayload) {
+                    // filter out already rated samples
+                    saved_payload = JSON.parse(savedPayload);
+                    let array_responses = [];
+                    for (const resp of saved_payload.responses) {
+                        array_responses.push(resp.sampleId);
+                    }
+                    dataset = dataset.filter(sample => !array_responses.includes(sample.id));
+                }
+                samples = shuffle(dataset).map((s, i) => ({ ...s, order: i }));
+                cntEl.textContent = samples.length;
+                renderAttrGrid();
+                if (samples.length === 0) {
+                    alert("All samples have already been rated in this session. Thank you!");
+                    nextBtn.disabled = true;
+                    nextBtn.classList.add("ghost");
+                    valmsg.style.color = "#37c4ff";
+                    valmsg.textContent = "Evaluation complete. Thank you!";
+                    return;
+                }
+                load(0);
+            })
+            .catch(error => {
+                console.error('Error loading sample configuration:', error);
+                alert('Failed to load sample configuration. Please try again later.');
+            });
+
+        function renderAttrGrid() {
+            grid.innerHTML = "";
+            ATTRS.forEach(a => {
+                const blk = document.createElement("div");
+                blk.className = "block";
+                blk.innerHTML = `<div class="blabel"><span>${a.label}</span><span style="color:#8c8c8c;font-weight:400">${a.hint}</span></div>`;
+                const row = document.createElement("div");
+                row.className = "scale";
+                for (let v = 1; v <= 5; v++) {
+                    const o = document.createElement("div");
+                    o.className = "opt";
+                    o.textContent = v;
+                    o.dataset.attr = a.id;
+                    o.dataset.val = v;
+                    o.onclick = () => setScore(a.id, v);
+                    row.appendChild(o);
+                }
+                blk.appendChild(row);
+                grid.appendChild(blk);
+            });
+        }
+
+        function load(i) {
+            cur = i;
+            const s = samples[cur];
+            titleEl.textContent = `Sample ${cur + 1}`;
+            progEl.textContent = `Sample ${cur + 1} of ${samples.length}`;
+            txEl.textContent = s.text || "(no transcript)"; tagsEl.innerHTML = "";
+            ["ID: " + s.id, "Shuffled: " + (s.order + 1)].forEach(t => {
+                const e = document.createElement("div");
+                e.className = "tag";
+                e.textContent = t;
+                tagsEl.appendChild(e);
+            });
+            audio.src = `data/gen/${s.id}.wav`;
+            audio.currentTime = 0;
+            playCount = (getResp(s.id)?.playCount) || 0;
+            playsEl.textContent = `Played ${playCount}x`;
+            clearSel();
+            const r = getResp(s.id); if (r) { Object.entries(r.scores).forEach(([k, v]) => applySel(k, v)); }
+            prevBtn.disabled = cur === 0;
+            nextBtn.textContent = cur === samples.length - 1 ? "Finish" : "Next →";
+            valmsg.textContent = "";
+            albl.textContent = "Click play to start.";
+            playBtn.textContent = "▶";
+        }
+
+        function clearSel() { grid.querySelectorAll(".opt.sel").forEach(e => e.classList.remove("sel")); }
+        function applySel(attr, val) {
+            grid.querySelectorAll(`.opt[data-attr="${attr}"]`).forEach(e => e.classList.toggle("sel", Number(e.dataset.val) === Number(val)));
+        }
+        function getResp(id) {
+            return responses.find(r => r.sampleId === id) || null;
+        }
+
+        function setScore(attr, val) {
+            const s = samples[cur]; let r = getResp(s.id);
+            if (!r) { r = { sessionId, sampleId: s.id, scores: {}, playCount, order: s.order, ts: new Date().toISOString() }; responses.push(r); }
+            r.scores[attr] = Number(val); r.playCount = playCount; r.ts = new Date().toISOString(); applySel(attr, val); valmsg.textContent = "";
+        }
+        function valid() { const r = getResp(samples[cur].id); if (!r) return false; return ATTRS.every(a => r.scores[a.id] != null); }
+
+
+        const audio = $("audio"), playBtn = $("play"), playsEl = $("plays"), grid = $("grid");
+        const prevBtn = $("prev"), nextBtn = $("next"), resetBtn = $("reset"), valmsg = $("valmsg");
+        const jsonBtn = $("json"), csvBtn = $("csv"), submitBtn = $("submit"), albl = $("albl");
+        playBtn.onclick = () => { if (audio.paused) audio.play().catch(console.error); else audio.pause(); };
+        audio.onplay = () => { playBtn.textContent = "❚❚"; albl.textContent = "Playing…"; };
+        audio.onended = () => { playCount++; const r = getResp(samples[cur].id); if (r) r.playCount = playCount; playsEl.textContent = `Played ${playCount}x`; playBtn.textContent = "▶"; albl.textContent = "You may replay then rate."; };
+        audio.onpause = () => { playBtn.textContent = "▶"; };
+
+        nextBtn.onclick = () => {
+            if (!valid()) {
+                valmsg.textContent = "Rate all attributes (1–5) to continue."; return;
+            }
+            submit();
+            if (cur < samples.length - 1) {
+                load(cur + 1);
+            }
+            else {
+                nextBtn.disabled = true;
+                nextBtn.classList.add("ghost");
+                valmsg.style.color = "#37c4ff";
+                valmsg.textContent = "Evaluation complete. Thank you!";
+            }
+        };
+        prevBtn.onclick = () => { if (cur > 0) load(cur - 1); };
+        resetBtn.onclick = () => { const s = samples[cur]; responses = responses.filter(r => r.sampleId !== s.id); playCount = 0; playsEl.textContent = "Played 0x"; clearSel(); valmsg.textContent = ""; };
+
+        const submit = async () => {
+            if (!SUBMIT_ENDPOINT) {
+                alert("No SUBMIT_ENDPOINT set.");
+                return;
+            }
+            let p = payload();
+            let savedPayload = localStorage.getItem("payload");
+            if (savedPayload) {
+                let saved_payload = JSON.parse(savedPayload);
+                // merge existing responses
+                p.responses = [...saved_payload.responses, ...p.responses ];
+            }
+            console.log(p);
+            localStorage.setItem("payload", JSON.stringify(p));
+            try {
+                const r = await fetch(SUBMIT_ENDPOINT, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(p)
+                });
+                if (!r.ok) throw new Error("HTTP " + r.status);
+                valmsg.textContent ="Submitted. Thank you!";
+            } catch (e) {
+                console.error(e);
+                alert("Submit failed. Report this error:"+e);
+            }
+        };
+
+        function payload() {
+            return {
+                sessionId,
+                createdAt: new Date().toISOString(),
+                attributes: ATTRS.map(a => a.id),
+                responses
+            };
+        }
+
+        function q(s) { if (s == null) return ""; s = String(s); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; }
+        function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
+        function sid() {
+            let sid = localStorage.getItem("sid");
+            if (!sid) {
+                const rand = Math.random().toString(36).slice(2, 8);
+                const ts = Date.now().toString(36).slice(-6);
+                sid = `sess_${ts}_${rand}`;
+                localStorage.setItem("sid", sid);
+            }
+            sidEl.textContent = sid;
+            return sid;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TTS Evaluation · Reference vs Synth (Blind)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --bg: #05060a;
+            --accent: #37c4ff;
+            --accent-soft: rgba(55, 196, 255, .15);
+            --accent-text: #e7f7ff;
+            --text: #e5e5e5;
+            --muted: #8c8c8c;
+            --danger: #ff4d6a;
+            --shadow: 0 14px 40px rgba(0, 0, 0, .55);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: 24px 18px 40px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            background: radial-gradient(circle at top, #111522 0, #020308 55%, #000 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center
+        }
+
+        .app {
+            width: 100%;
+            max-width: 1080px;
+            background: radial-gradient(circle at top left, #141824, #05060a 55%);
+            border-radius: 28px;
+            padding: 22px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, .05);
+            backdrop-filter: blur(18px)
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 16px
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            color: var(--accent-text);
+            font-size: 1.4rem
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .82rem
+        }
+
+        .pill {
+            padding: 8px 11px;
+            font-size: .7rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid rgba(255, 255, 255, .06);
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 160px;
+            align-items: flex-end
+        }
+
+        .lbl {
+            font-size: .62rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: #666f7f
+        }
+
+        .val {
+            font-size: .74rem;
+            color: var(--accent-text)
+        }
+
+        .card {
+            border-radius: 22px;
+            padding: 16px;
+            background: radial-gradient(circle at top left, #151b27 0, #06070c 55%);
+            border: 1px solid rgba(255, 255, 255, .06);
+            margin-bottom: 12px
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: .62rem;
+            letter-spacing: .11em;
+            border: 1px solid rgba(55, 196, 255, .6);
+            color: var(--accent);
+            background: rgba(55, 196, 255, .04)
+        }
+
+        .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            color: #9fa6b9
+        }
+
+        .tag {
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .02);
+            font-size: .6rem
+        }
+
+        .abar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px 9px;
+            border-radius: 14px;
+            background: radial-gradient(circle at top left, #171e2a, #05060a);
+            border: 1px solid rgba(255, 255, 255, .09)
+        }
+
+        .play {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: none;
+            background: var(--accent);
+            color: #020308;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(55, 196, 255, .4)
+        }
+
+        .small {
+            font-size: .62rem;
+            color: var(--muted)
+        }
+
+        .block {
+            padding: 8px;
+            border-radius: 10px;
+            background: rgba(6, 8, 14, .98);
+            border: 1px solid rgba(255, 255, 255, .04);
+            margin-bottom: 8px
+        }
+
+        .blabel {
+            display: flex;
+            justify-content: space-between;
+            color: var(--accent-text);
+            font-size: .7rem;
+            margin-bottom: 5px
+        }
+
+        .scale {
+            display: flex;
+            gap: 4px
+        }
+
+        .opt {
+            flex: 1;
+            text-align: center;
+            padding: 4px 0;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            color: var(--muted);
+            cursor: pointer
+        }
+
+        .opt:hover {
+            border-color: rgba(55, 196, 255, .25);
+            background: rgba(55, 196, 255, .03);
+            color: var(--accent)
+        }
+
+        .opt.sel {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            color: var(--accent-text)
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .btn {
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            background: rgba(255, 255, 255, .02);
+            color: var(--accent-text);
+            cursor: pointer
+        }
+
+        .btn.primary {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #020308;
+            box-shadow: 0 8px 16px rgba(55, 196, 255, .25)
+        }
+
+        .warn {
+            font-size: .64rem;
+            color: var(--danger)
+        }
+
+        .export {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 14px;
+            background: rgba(4, 6, 12, .98);
+            border: 1px solid rgba(255, 255, 255, .05);
+            font-size: .64rem;
+            color: var(--muted);
+            flex-wrap: wrap
+        }
+
+        @media (max-width:640px) {
+            body {
+                padding: 10px
+            }
+
+            .app {
+                padding: 14px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="header">
+            <div>
+                <h1>Reference vs Synth (Blind)</h1>
+                <p>For each text, listen to Sample 1 & 2 (one is reference, one is synthesized — order hidden). Pick
+                    which is synthetic, rate similarity (1–5), optional naturalness preference.</p>
+            </div>
+            <div class="pill">
+                <span class="lbl">Session</span><span class="val" id="sid"></span>
+                <span class="lbl">Pairs</span><span class="val" id="cnt"></span>
+            </div>
+        </div>
+
+        <section class="card">
+            <div class="row">
+                <div>
+                    <h3 id="title" style="margin:0;color:#e7f7ff;font-weight:560;font-size:.95rem">Pair 1</h3>
+                    <div class="small" id="progress">Pair 1 of M</div>
+                </div>
+                <div class="badge">Blind A/B</div>
+            </div>
+
+            <div class="row" style="flex-wrap:wrap;color:var(--muted);font-size:.74rem">
+                <div>Text: <span id="tx" style="color:#a8b2c5"></span></div>
+                <div class="tags" id="tags"></div>
+            </div>
+
+            <div class="abar">
+                <button class="play" id="play1">▶</button>
+                <div style="flex:1">
+                    <div style="font-size:.8rem;color:#e7f7ff">Sample 1</div>
+                    <div class="small">One is reference, one is synth.</div>
+                </div>
+                <div class="small" id="c1">Played 0x</div>
+                <audio id="a1"></audio>
+            </div>
+
+            <div class="abar">
+                <button class="play" id="play2">▶</button>
+                <div style="flex:1">
+                    <div style="font-size:.8rem;color:#e7f7ff">Sample 2</div>
+                    <div class="small">Order randomized per pair.</div>
+                </div>
+                <div class="small" id="c2">Played 0x</div>
+                <audio id="a2"></audio>
+            </div>
+
+            <div class="block">
+                <div class="blabel"><span>Which one is the synthesized voice?</span><span
+                        style="color:#8c8c8c;font-weight:400">Blind identification</span></div>
+                <div class="scale" id="idrow">
+                    <div class="opt" data-v="1">Sample 1</div>
+                    <div class="opt" data-v="2">Sample 2</div>
+                    <div class="opt" data-v="0">Not sure</div>
+                </div>
+            </div>
+
+            <div class="block">
+                <div class="blabel"><span>How similar are they?</span><span style="color:#8c8c8c;font-weight:400">1 =
+                        very different · 5 = almost identical</span></div>
+                <div class="scale" id="simrow"></div>
+            </div>
+
+            <div class="block">
+                <div class="blabel"><span>Which sounds more natural?</span><span
+                        style="color:#8c8c8c;font-weight:400">(Optional)</span></div>
+                <div class="scale" id="natrow">
+                    <div class="opt" data-v="1">Sample 1</div>
+                    <div class="opt" data-v="2">Sample 2</div>
+                    <div class="opt" data-v="0">About the same</div>
+                </div>
+            </div>
+
+            <div class="nav">
+                <div>
+                    <button class="btn" id="prev">← Previous</button>
+                    <span class="warn" id="valmsg"></span>
+                </div>
+                <div>
+                    <button class="btn" id="reset">Reset</button>
+                    <button class="btn primary" id="next">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="export">
+            <div>Results stay local. Download JSON/CSV or POST to your API.</div>
+            <div>
+                <button class="btn" id="json">JSON</button>
+                <button class="btn" id="csv">CSV</button>
+                <button class="btn" id="submit">Submit</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+  // -------- CONFIG (edit these) --------
+  const SUBMIT_ENDPOINT = "http://5090.local:8000/post/"; // e.g. "https://your-api/submit-ref-synth"
+  // For each pair: same text, provide refPath and synthPath.
+  const PAIRS_CONFIG = [
+    { id:"p1", text:"The quick brown fox jumps over the lazy dog.", refPath:"audio/ref_1.wav",   synthPath:"audio/synth_1.wav" },
+    { id:"p2", text:"Please call me tomorrow at eleven about the project.", refPath:"audio/ref_2.wav", synthPath:"audio/synth_2.wav" }
+  ];
+
+  // -------- State --------
+  const sessionId = sid();
+  const pairs = PAIRS_CONFIG.map(p=>{
+    const flip=Math.random()<.5; // flip mapping
+    return {
+      id:p.id, text:p.text,
+      mapping:{
+        sample1Type: flip?"synth":"ref",
+        sample1Path: flip?p.synthPath:p.refPath,
+        sample2Type: flip?"ref":"synth",
+        sample2Path: flip?p.refPath:p.synthPath
+      }
+    };
+  });
+  let cur=0, pc1=0, pc2=0, responses=[]; // {pairId,mapping,guess,similarity,naturalness,playCount1,playCount2,ts}
+
+  // -------- DOM --------
+  const $=id=>document.getElementById(id);
+  const sidEl=$("sid"), cntEl=$("cnt"), titleEl=$("title"), progEl=$("progress"), txEl=$("tx"), tagsEl=$("tags");
+  const a1=$("a1"), a2=$("a2"), play1=$("play1"), play2=$("play2"), c1=$("c1"), c2=$("c2");
+  const idrow=$("idrow"), simrow=$("simrow"), natrow=$("natrow");
+  const prev=$("prev"), next=$("next"), reset=$("reset"), valmsg=$("valmsg");
+  const jsonBtn=$("json"), csvBtn=$("csv"), submitBtn=$("submit");
+
+  // -------- Init --------
+  sidEl.textContent=sessionId; cntEl.textContent=pairs.length;
+  renderSimRow(); load(0);
+
+  function renderSimRow(){ simrow.innerHTML=""; for(let v=1; v<=5; v++){ const o=document.createElement("div"); o.className="opt"; o.textContent=v; o.dataset.v=v; o.onclick=()=>setSim(v); simrow.appendChild(o);} }
+
+  function load(i){
+    cur=i; const p=pairs[cur];
+    titleEl.textContent=`Pair ${cur+1}`; progEl.textContent=`Pair ${cur+1} of ${pairs.length}`; txEl.textContent=p.text||"(no text)"; tagsEl.innerHTML="";
+    ["Pair ID: "+p.id,"Blind mapping active"].forEach(t=>{const e=document.createElement("div"); e.className="tag"; e.textContent=t; tagsEl.appendChild(e);});
+    a1.src=p.mapping.sample1Path; a2.src=p.mapping.sample2Path;
+    const r=getResp(p.id); pc1=r?.playCount1||0; pc2=r?.playCount2||0; updateCounts();
+    clearSel(idrow); clearSel(simrow); clearSel(natrow);
+    if(r){ if(r.guess!=null) applySel(idrow,String(r.guess)); if(r.similarity!=null) applySel(simrow,String(r.similarity)); if(r.naturalness!=null) applySel(natrow,String(r.naturalness)); }
+    prev.disabled=cur===0; next.textContent=cur===pairs.length-1?"Finish":"Next →"; valmsg.textContent=""; play1.textContent="▶"; play2.textContent="▶";
+  }
+
+  function clearSel(container){ container.querySelectorAll(".opt.sel").forEach(e=>e.classList.remove("sel")); }
+  function applySel(container,val){ container.querySelectorAll(".opt").forEach(e=>e.classList.toggle("sel", e.dataset.v===String(val))); }
+
+  function ensure(){ const p=pairs[cur]; let r=getResp(p.id); if(!r){ r={sessionId,pairId:p.id,mapping:{...p.mapping},guess:null,similarity:null,naturalness:null,playCount1:pc1,playCount2:pc2,ts:new Date().toISOString()}; responses.push(r);} return r; }
+  function getResp(id){ return responses.find(r=>r.pairId===id)||null; }
+
+  // selections
+  idrow.querySelectorAll(".opt").forEach(el=>el.onclick=()=>{ const r=ensure(); r.guess=Number(el.dataset.v); r.ts=new Date().toISOString(); applySel(idrow,el.dataset.v); valmsg.textContent=""; });
+  function setSim(v){ const r=ensure(); r.similarity=Number(v); r.ts=new Date().toISOString(); applySel(simrow,String(v)); valmsg.textContent=""; }
+  natrow.querySelectorAll(".opt").forEach(el=>el.onclick=()=>{ const r=ensure(); r.naturalness=Number(el.dataset.v); r.ts=new Date().toISOString(); applySel(natrow,el.dataset.v); });
+
+  // audio
+  play1.onclick=()=>{ if(a1.paused) a1.play().catch(console.error); else a1.pause(); };
+  play2.onclick=()=>{ if(a2.paused) a2.play().catch(console.error); else a2.pause(); };
+  a1.onplay =()=> play1.textContent="❚❚";
+  a2.onplay =()=> play2.textContent="❚❚";
+  a1.onended=()=>{ pc1++; const r=getResp(pairs[cur].id); if(r) r.playCount1=pc1; updateCounts(); play1.textContent="▶"; };
+  a2.onended=()=>{ pc2++; const r=getResp(pairs[cur].id); if(r) r.playCount2=pc2; updateCounts(); play2.textContent="▶"; };
+  a1.onpause=()=> play1.textContent="▶";
+  a2.onpause=()=> play2.textContent="▶";
+  function updateCounts(){ c1.textContent=`Played ${pc1}x`; c2.textContent=`Played ${pc2}x`; }
+
+  function valid(){ const r=getResp(pairs[cur].id); return r && r.guess!==null && r.similarity!==null; }
+
+  next.onclick=()=>{ if(!valid()){ valmsg.textContent="Pick which is synthetic AND set similarity (1–5) to continue."; return; } if(cur<pairs.length-1) load(cur+1); else { next.disabled=true; next.classList.add("ghost"); valmsg.style.color="#37c4ff"; valmsg.textContent="Section complete — export or submit below."; } };
+  prev.onclick=()=>{ if(cur>0) load(cur-1); };
+  reset.onclick=()=>{ const p=pairs[cur]; responses=responses.filter(r=>r.pairId!==p.id); pc1=pc2=0; updateCounts(); clearSel(idrow); clearSel(simrow); clearSel(natrow); valmsg.textContent=""; };
+
+  // export
+  jsonBtn.onclick=()=>download(new Blob([JSON.stringify(payload(),null,2)],{type:"application/json"}), `ref_vs_synth_${sessionId}.json`);
+  csvBtn.onclick =()=>download(new Blob([toCSV(payload())],{type:"text/csv;charset=utf-8;"}), `ref_vs_synth_${sessionId}.csv`);
+  submitBtn.onclick=async()=>{ if(!SUBMIT_ENDPOINT){ alert("No SUBMIT_ENDPOINT set."); return; } const p=payload(); try{ const r=await fetch(SUBMIT_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)}); if(!r.ok) throw new Error("HTTP "+r.status); alert("Submitted. Thank you!"); }catch(e){ console.error(e); alert("Submit failed. Check console."); } };
+
+  function payload(){ return { sessionId, createdAt:new Date().toISOString(), pairs, responses }; }
+  function toCSV(p){ const rows=["session_id,pair_id,sample1_type,sample1_path,sample2_type,sample2_path,guess,similarity,naturalness,play_count1,play_count2"]; p.responses.forEach(r=>rows.push([q(p.sessionId),q(r.pairId),q(r.mapping.sample1Type),q(r.mapping.sample1Path),q(r.mapping.sample2Type),q(r.mapping.sample2Path),r.guess,r.similarity,(r.naturalness==null?"":r.naturalness),r.playCount1||0,r.playCount2||0].join(","))); return rows.join("\n"); }
+  function download(blob,name){ const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url); }
+  function q(s){ if(s==null)return""; s=String(s); return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s; }
+  function sid(){ const rand=Math.random().toString(36).slice(2,8); const ts=Date.now().toString(36).slice(-6); return `sess_${ts}_${rand}`; }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign in — MOS 2512</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #1a1c1f;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --accent: #00b894;
+            --muted: #6c757d;
+            --input-bg: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg: radial-gradient(circle at top left, #0a0a0f, #000);
+            --text: #f3f4f6;
+            --card-bg: #14161b;
+            --border: #2a2d35;
+            --accent: #00ffb0;
+            --muted: #c3c9d4;
+            --input-bg: #1b1e24;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: "JetBrains Mono", monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        .login-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        h2 {
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--muted);
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(0, 255, 157, 0.25);
+        }
+
+        .btn-dark {
+            background-color: var(--accent);
+            color: #000;
+            font-weight: 600;
+            border: none;
+            text-transform: uppercase;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .btn-dark:hover {
+            opacity: 0.9;
+        }
+
+        .toggle-theme {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .toggle-theme:hover {
+            color: var(--accent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+        <h2>TTS Evaluation</h2>
+        <p>Sign in to access the dashboard.</p>
+
+        <form id="loginForm">
+            <div class="mb-3 text-start">
+                <label for="email" class="form-label">Login</label>
+                <input class="form-control" id="email">
+            </div>
+            <div class="mb-4 text-start">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password">
+            </div>
+            <button type="submit" class="btn btn-dark" id="submitBtn">Login</button>
+        </form>
+
+        <button id="themeToggle" class="toggle-theme">Switch Theme</button>
+    </div>
+
+    <script>
+        /* CONFIG */
+        const API_BASE = ""; // "" for same-origin; or "https://api.example.com"
+        const LOGIN_URL = API_BASE + "/login";
+        const ME_URL = API_BASE + "/me";
+        const REDIRECT_AFTER_LOGIN = "/dashboard";
+
+        /* ELEMENTS */
+        const form = document.getElementById("loginForm");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const submitBtn = document.getElementById("submitBtn");
+        const err = document.getElementById("error");
+        const consoleLine = document.getElementById("consoleLine");
+
+        function log(msg) { console.log("[login]", msg); }
+        function setBusy(b) { submitBtn.disabled = b; if (b) submitBtn.innerHTML = '<span class="spinner on"></span> AUTHENTICATING'; else submitBtn.textContent = 'SIGN IN'; }
+        function showError(m) {
+            alert(m);
+        }
+
+        /* 1) quick session check */
+        (async function checkSession() {
+            try {
+                log("checking session...");
+                const r = await fetch(ME_URL, { credentials: "include", method: "GET", cache: "no-store" });
+                if (r.status === 200) {
+                    log("already authenticated — redirecting");
+                    window.location.replace(REDIRECT_AFTER_LOGIN);
+                } else {
+                    log("not authenticated");
+                }
+            } catch (e) {
+                log("session check failed");
+                console.debug(e);
+            }
+        })();
+
+        /* 3) submit handler using fetch */
+        form.addEventListener("submit", async (evt) => {
+            evt.preventDefault();
+            const em = email.value.trim();
+            const pw = password.value;
+            if (!em || !pw) { showError("Please enter both fields"); return; }
+
+            setBusy(true);
+            log("posting credentials...");
+
+            try {
+                const res = await fetch(LOGIN_URL, {
+                    method: "POST",
+                    credentials: "include",         // <-- crucial: let browser accept/send cookies
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: em, password: pw }),
+                    cache: "no-store"
+                });
+
+                if (res.status >= 200 && res.status < 300) {
+                    log("login ok — redirecting");
+                    // cookie was set by server; redirect to app
+                    window.location.replace(REDIRECT_AFTER_LOGIN);
+                    return;
+                }
+
+                if (res.status === 401) {
+                    showError("invalid credentials");
+                } else if (res.status === 403) {
+                    showError("forbidden — CSRF or CORS issue");
+                } else {
+                    showError("login failed (" + res.status + ")");
+                }
+            } catch (errx) {
+                console.error(errx);
+                showError("network error");
+            } finally {
+                setBusy(false);
+            }
+        });
+
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+        const themeToggle = document.getElementById("themeToggle");
+        themeToggle.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", next);
+            // save to localStorage
+            localStorage.setItem("theme", next);
+        });
+    </script>
+</body>
+
+</html>

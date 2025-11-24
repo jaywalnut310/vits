@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TTS Evaluation · Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            background: radial-gradient(circle at top, #111522 0, #020308 55%, #000);
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            background: rgba(20, 26, 40, 0.95);
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #37c4ff;
+        }
+
+        p {
+            color: #9aa4b8;
+        }
+
+        .section {
+            margin-top: 25px;
+            padding: 15px 20px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #020308;
+            background: #37c4ff;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(55, 196, 255, 0.3);
+        }
+
+        .disabled {
+            opacity: 0.35;
+            pointer-events: none;
+            background: #666 !important;
+            color: #222 !important;
+            box-shadow: none !important;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .ok {
+            background: rgba(55, 196, 255, 0.15);
+            color: #37c4ff;
+            border: 1px solid rgba(55, 196, 255, 0.3);
+        }
+
+        .warn {
+            background: rgba(255, 77, 106, 0.15);
+            color: #ff4d6a;
+            border: 1px solid rgba(255, 77, 106, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>TTS Evaluation</h1>
+        <p>Welcome! Please complete the MOS test first. The A/B blind test will unlock afterwards.</p>
+
+        <div class="section">
+            <h2 style="margin:0; font-size:1.2rem;">1. MOS Test</h2>
+            <p>Rate the quality, naturalness, intelligibility, and artifacts of the speech samples.</p>
+            <a class="link" href="dashboard/mos.html">Begin MOS Test</a>
+            <div id="mos_status" class="status"></div>
+        </div>
+
+        <div class="section">
+            <h2 style="margin:0; font-size:1.2rem;">2. A/B Blind Comparison</h2>
+            <p>Unlocked when you finish the MOS test.</p>
+            <a id="ab_link" class="link disabled" href="dashboard/ref_vs_synth.html">Begin A/B Test</a>
+            <div id="ab_status" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+  // ---------------------------------------------------------
+  // Check completion flag from localStorage
+  // Set in mos.html via: localStorage.setItem("mos_completed", "true")
+  // ---------------------------------------------------------
+  const mosDone = localStorage.getItem("mos_completed") === "true";
+
+  const mosStatus = document.getElementById("mos_status");
+  const abLink = document.getElementById("ab_link");
+  const abStatus = document.getElementById("ab_status");
+
+  if (mosDone) {
+    mosStatus.textContent = "✓ MOS test completed";
+    mosStatus.classList.add("ok");
+
+    abLink.classList.remove("disabled");
+    abStatus.textContent = "A/B test unlocked";
+    abStatus.classList.add("ok");
+  } else {
+    mosStatus.textContent = "✗ Not completed yet";
+    mosStatus.classList.add("warn");
+
+    abLink.classList.add("disabled");
+    abStatus.textContent = "Complete MOS test to unlock";
+    abStatus.classList.add("warn");
+  }
+    </script>
+
+</body>
+
+</html>

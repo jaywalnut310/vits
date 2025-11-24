@@ -1,0 +1,1 @@
+docker run -d --runtime nvidia --gpus device=1  -v ~/.cache/huggingface:/root/.cache/huggingface     --env "HUGGING_FACE_HUB_TOKEN=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"     -p 8001:8000     --ipc=host     nasdnn.local:5050/vllm_audio_fixed:latest --model openai/whisper-large-v3  --gpu_memory_utilization 0.90
